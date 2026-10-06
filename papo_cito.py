@@ -3,9 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
-
 app.secret_key = "kill-fuck-marry"
-
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///users.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
@@ -18,6 +16,12 @@ class User(db.Model):
 
 with app.app_context():
     db.create_all()
+
+@app.route("/view_users", methods=["GET","POST"])
+def view_users():
+    if request.method == "GET":
+        cunt_monkeys = User.query.all()
+        return render_template("info.html", users=cunt_monkeys)
 
 @app.route("/")
 def home():
@@ -51,22 +55,32 @@ def register():
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
+        
         username = request.form["username"]
         password = request.form["password"]
+       
+        existing_user = User.query.filter_by(username=username).first()
+    
+        if existing_user:
+            #valid_login = User.    
+            return "username is valid"
+        else:
+            return "username doesn't exist"
+    
+    if request.method == "GET":
+        return render_template("login.html")
 
-        session["username"] = username
-
-        return "You are logged in"
-    return render_template("login.html")
 @app.route("/logout")
 def logout():
     session.pop("username", None)
     return redirect(url_for("home"))
-@app.route("/profile")
+@app.route("/profile", methods = ["GET", "POST"])
 def profile():
-    if "username" not in session:
-        return "You are not logged in"
-    return f"Welcome, {session['username']}!"
+    if request.method == "GET":
+        return render_template("profile.html")
+    #if "username" not in session:
+    #    return "You are not logged in"
+    #return f"Welcome, {session['username']}!"
 
 if __name__ == '__main__':
     app.run(debug=True)

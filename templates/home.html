@@ -1,36 +1,24 @@
 {% extends "base.html" %}
 
-{% block title %}Home{% endblock %}
+{% block title %}Base 101{% endblock %}
 
 {% block content %}
 
 <section class="hero">
 
-	<h1>Welcome to FlaskApp</h1>
-
-	<p>
-		A website built with Python, Flask, HTML, CSS, and JavaScript.
-	</p>
-
 	{% if session.get("username") %}
-
-		<p>Welcome back, {{ session["username"] }}!</p>
-
-		<a class="button" href="/profile">
-			Go to Profile
-		</a>
+		<h1> Welcome to VideoApp, {{ session["username"] }}! </h1>
+		<p>Extract. Transfer. Load.</p>
+		<p>Greetings, {{ session["username"] }}!</p>
+		<a class="button" href="/profile">Go to Profile</a>
 
 	{% else %}
-
+		<h1> VideoApp Reimagined </h1>
+		<p> Extract. Transfer. Load </p>
 		<div class="hero-buttons">
-		<a class="button" href="/register">
-			Create Account
-		</a>
-
-		<a class="button secondary" href="/login">
-			Login
-		</a>
-	</div>
+			<a class="button" href="/register">Create Account</a>
+			<a class="button secondary" href="/login">  Login</a>
+		</div>
 
 	{% endif %}
 

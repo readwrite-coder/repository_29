@@ -1,22 +1,23 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Login Louche</title>
-</head>
+{% extends "base_2.html" %}
 
-<body>
+{% block title %}login page 101{% endblock %}
+
+{% block content %}
+	
 	<h1>Login</h1>
 	
 	<form method="POST" action="/login">
 		<label>Username:</label>
-		<input type="text" name="username">
-		<br>
+		<input type="text" name="username" required>
+		<br><br>
 		<label>Password:</label>
-		<input type="password" name="password">
+		<input type="password" name="password" required>
 		<br><br>
 		<button type="submit">Login</button>
 	</form>
 
+	<br>
+
 	<a href="/"> Home </a>
-</body>
-</html>
+
+{% endblock %}

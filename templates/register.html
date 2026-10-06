@@ -1,10 +1,10 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Register</title>
-</head>
+{% extends "base_2.html" %}
 
-<body>
+{% block title %}register page 100{% endblock %}
+
+{% block content %}
+
+
 	<h1>Create Account</h1>
 	
 	<form method="POST" action="/register">
@@ -20,12 +20,11 @@
 		<br><br>
 
 		<button type="submit">Register</button>
-	
 	</form>
 
 	<br>
 
 	<a href="/login">Already have an account? Login</a>
-	
-</body>
-</html>
+
+{% endblock %}
+

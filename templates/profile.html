@@ -1,0 +1,21 @@
+{% extends "base_2.html" %}
+
+{% block title %}Profile Page 75{% endblock %}
+
+{% block content %}
+
+		{% if session.get("username") %}
+
+			<h1> Greetings, {{ session["username"] }}!!</h1>
+		
+		{% else %}
+
+			<h1> </h1>
+			<a class="button" href="/view_users">
+				view users
+			</a>
+
+		{% endif %}
+
+{% endblock %}
+
