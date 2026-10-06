@@ -2,6 +2,9 @@
 
 
 
-echo Welcome, ghost in the shell
-echo this is the new word
+echo Welcome, Andrew Trinh
+echo Its time to run Bugsino
+
+echo | python3 app/papo_cito.py
+
 
