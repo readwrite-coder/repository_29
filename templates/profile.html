@@ -1,12 +1,11 @@
-{% extends "base_2.html" %}
-
+{% extends "base.html" %}
 {% block title %}Profile Page 75{% endblock %}
 
 {% block content %}
 
-		{% if session.get("username") %}
+		{% if session.get("user") %}
 
-			<h1> Greetings, {{ session["username"] }}!!</h1>
+			<h1> Greetings, {{ session["user"] }}!!</h1>
 		
 		{% else %}
 

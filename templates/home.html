@@ -1,20 +1,21 @@
+
 {% extends "base.html" %}
 
-{% block title %}Base 101{% endblock %}
+	{% block title %}Base 101{% endblock %}
 
-{% block content %}
+	{% block content %}
 
-<section class="hero">
+	<section class="hero">
 
-	{% if session.get("username") %}
-		<h1> Welcome to VideoApp, {{ session["username"] }}! </h1>
-		<p>Extract. Transfer. Load.</p>
-		<p>Greetings, {{ session["username"] }}!</p>
-		<a class="button" href="/profile">Go to Profile</a>
+	{% if session.get("user") %}
+		
+		<h1> Welcome to VideoApp, {{ session["user"] }}! </h1>
+		
+		<a class="button" href="/profile">Open Dashboard</a>
 
 	{% else %}
-		<h1> VideoApp Reimagined </h1>
-		<p> Extract. Transfer. Load </p>
+		<h1> VideoApp Ready set Go </h1>
+		<br><br>
 		<div class="hero-buttons">
 			<a class="button" href="/register">Create Account</a>
 			<a class="button secondary" href="/login">  Login</a>
@@ -23,5 +24,7 @@
 	{% endif %}
 
 </section>
+
+	<button id="test-button">Test JS</button>
 
 {% endblock %}
