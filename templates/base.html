@@ -30,6 +30,9 @@
 	</nav>
 
 <main class="container">
+	{% if session.get("user") %}
+		<h1>Greetings {{ session["user"] }}</h1>
+	{% endif %}
 	{% block content %}
 
 	

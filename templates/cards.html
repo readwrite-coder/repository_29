@@ -4,10 +4,11 @@
 
 <h1>My Flashcards</h1>
 
-{% for card in cards %}
+{% for poo in cards %}
 	<div class="card">
-		<h2>{{ card.question }}</h2>
-		<p>{{ card.answer }}</p>
+		
+		<h2>{{ poo.id}}. {{ poo.question }}</h2>
+		<p>{{ poo.answer }}</p>
 	</div>
 {% endfor %}
 

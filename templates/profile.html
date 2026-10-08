@@ -4,9 +4,14 @@
 {% block content %}
 
 		{% if session.get("user") %}
-
-			<h1> Greetings, {{ session["user"] }}!!</h1>
 		
+			<a class="button" href="/cards">
+				/cards
+			</a>
+			<a class="button" href="/cards">
+				/cards2
+			</a>
+
 		{% else %}
 
 			<h1> </h1>
