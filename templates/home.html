@@ -1,16 +1,17 @@
 
 {% extends "base.html" %}
 
-	{% block title %}Base 101{% endblock %}
 
-	{% block content %}
+{% block title %}Base 101{% endblock %}
+
+
+{% block content %}
 
 	<section class="hero">
 
 	{% if session.get("user") %}
 		
 		<h1> Welcome to VideoApp, {{ session["user"] }}! </h1>
-		
 		<a class="button" href="/profile">Go to /profile</a>
 
 	{% else %}
@@ -20,11 +21,10 @@
 			<a class="button" href="/register">Create Account</a>
 			<a class="button secondary" href="/login">  Login</a>
 		</div>
-
 	{% endif %}
 
-</section>
+	</section>
 
-	<button id="test-button">Test JS</button>
+<!--<button id="test-button">Test JS</button>-->
 
 {% endblock %}
