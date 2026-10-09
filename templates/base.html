@@ -8,38 +8,27 @@
 
 	<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
-
-<body>
+<!--------------------########################################----------------------->
+	<body>
 
 	<nav class="navbar">
 		<div class="nav-container">
-			<a class="logo" href="/">Jehovah</a>
-
+			<a class="logo" href="/" > LUV    </a>
 			<div class="nav-links">
-				<a href="/">Home</a>
-				<a href="/profile">Profile</a>
-
-				{% if session.get("user") %}
-					<a href=  "/logout">   Logout</a>
+				<a 	   href= "/        " > HOME      </a>
+				<a         href= "/profile " > PROFILE   </a>
+				{% if session.get("user_id") %}
+				<a         href= "/logout  " > LOGOUT    </a>
 				{% else %}
-					<a href=   "/login"> Login   </a>
-					<a href="/register"> Register</a>
+				<a         href= "/login   " > LOGIN     </a>
+				<a         href= "/register" > REGISTER  </a>
 				{% endif %}
-			</div>
-		</div>
-	</nav>
+			</div></div></nav>
+	<main class="thic-breast">
+		{% block content %}
+		{% endblock %}
+	</div>
 
-<main class="container">
-	{% if session.get("user") %}
-		<h1>Greetings {{ session["user"] }}</h1>
-	{% endif %}
-	{% block content %}
-
-	
-	{% endblock %}
-</main>
-
-<!-- <script src="{{ url_for('static', filename='js/app.js') }}"></script> -->
-
-</body>
+	</body>	
+<!-------------------------###########################--------------------------->
 </html>
