@@ -120,9 +120,20 @@ opacity: 0.85;
 background: #374151;
 }
 
-/* log-in box */
+/* log-in and register box */
+.register-box{
+	
+	text-align:center;
+	
+	padding: 35px;
+	border-radius: 20px;
+	border: 10px solid #9f7511;
 
+	background: #ddd6fe;
+	
+}
 .login-box {
+	
 	width: 100%;
 	max-width = 400px;
 	text-align: center;
@@ -132,8 +143,7 @@ background: #374151;
 	border-radius: 20px;
 	border: 1px solid #ddd6fe;
 	
-	background: #ffffff;
-
+	background: #9f7511;
 	box-shadow: 0 12px 35px rgba(79, 70, 229, 0.15);
 }
 .login-box label {
