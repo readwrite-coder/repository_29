@@ -16,38 +16,66 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False                            
 db = SQLAlchemy(app)                                                            ###    
                                                                                 ###
 ###################################################################################
-class User(db.Model):                                                           ###
-    __tablename__ = "pot_users"                                                 ###
-    id = db.Column(db.Integer, primary_key=True)                                ###
-    username = db.Column(db.String(80), unique=True, nullable=False)            ###
-    password_hash = db.Column(db.String(255), nullable=False)                   ###  
-class Card(db.Model):                                                           ###
-    id = db.Column(db.Integer, primary_key=True)                                ###
-    question = db.Column(db.String(200))                                        ###
-    answer = db.Column(db.Text)                                                 ###
+class User(db.Model):                                                           
+    __tablename__ = "pot_users"                                                 
+    id = db.Column(db.Integer, primary_key=True)                                
+    username = db.Column(db.String(80), unique=True, nullable=False)            
+    password_hash = db.Column(db.String(255), nullable=False)                   
+    cards = db.relationship("Card", backref="owner")
+
+class Card(db.Model):                                                           
+    __tablename__ = "cards"
+    id = db.Column(db.Integer, primary_key=True)                                
+    question = db.Column(db.String(200))                                        
+    answer = db.Column(db.Text)                                                 
+    user_id = db.Column(
+            db.Integer,
+            db.ForeignKey("pot_users.id"),
+            nullable=False
+            )
 ###################################################################################
 with app.app_context():                                                         ###        
     db.create_all()                                                             ###    
 ###################################################################################
                                                                                 ###
-def import_cards():                                                             ###
-    with open("data/cards.json", "r") as file:                                  ###
-        data_ingested = json.load(file)                                         ###
-    for items in data_ingested:                                                 ###
-        new_card = Card(                                                        ###
-                question=items["question"],                                     ###
-                answer=items["answer"],                                         ###
-                user_id = session["user_id"]                                    ###
-        )                                                                       ###
-        db.session.add(new_card)                                                ###
-    db.session.commit()                                                         ###
+#def import_cards():                                                            ###
+#    with open("data/cards.json", "r") as file:                                 ###
+#        data_ingested = json.load(file)                                        ###
+#    for items in data_ingested:                                                ###
+#        new_card = Card(                                                       ###
+#                question=items["question"],                                    ###
+#                answer=items["answer"],                                        ###
+#                user_id = int(session["user_id"])                              ###
+#        )                                                                      ###
+#        db.session.add(new_card)                                               ###
+#    db.session.commit()                                                        ###
 ###################################################################################
-@app.route("/cards", methods=["GET","POST"])                                    ###
-def cards():                                                                    ###
-    if request.method == "GET":                                                 ###
-        import_cards()                                                          ###
-        card_s = cards.query.all()                                              ###
-        return render_template("cards.html", cards=card_s) ###   ###   ###   ## ###
+@app.route("/cards", methods=["GET","POST"])                                    
+def cards():                                                                    
+    if request.method == "GET":                                                   
+        user_id = session["user_id"]
+        cards = Card.query.filter_by(
+                user_id=user_id
+                ).all()
+        return render_template("cards.html", cards=cards)
+@app.route("/create-card", methods=["GET", "POST"])
+def create_card():
+    if request.method == "POST":
+        question = request.form.get("question", "").strip()
+        answer = request.form.get("answer", "").strip()
+
+        if question and answer:
+            card = Card(
+                    question=question,
+                    answer=answer,
+                    user_id=session["user_id"]
+                    )
+            db.session.add(card)
+            db.session.commit()
+            return redirect(url_for("cards"))
+    return render_template("create_card.html")
+
+
 ###################################################################################
 @app.route("/view_users", methods=["GET","POST"])                               ###
 def view_users():                                                               ###
@@ -59,7 +87,7 @@ def view_users():                                                               
 @app.route("/")                                                                 ###
 def home():                                                                     ###  
     print("Wanna go HOME with me, dear?")                                       ###
-    return render_template("home.html") ###   ###   ###   ###   ###   ###   ### ###
+    return render_template("home.html")                                         ###
 ###################################################################################
 @app.route("/register", methods=["GET", "POST"])                                ###
 def register():                                                                 ###
@@ -68,12 +96,12 @@ def register():                                                                 
         ulman_word = request.form.get("password", "")                           ###
                                                                                 ###
         if not ulman_word or not ulman_name:                                    ###
-            return render_template("register.html")   ###   ###   ###   ###   # ###
+            return render_template("register.html") 
                                                                                 ###
         existing_user = User.query.filter_by(username=ulman_name).first()       ###
                                                                                 ###
         if existing_user:                                                       ###
-            return render_template("register.html")   ###   ###   ###   ###   # ###
+            return render_template("register.html")   
                                                                                 ###
         ulman_word_hash = generate_password_hash(ulman_word)                    ###
                                                                                 ###
@@ -81,11 +109,10 @@ def register():                                                                 
                 username = ulman_name,                                          ###
                 password_hash = ulman_word_hash                                 ###
         )                                                                       ###
-                                                                                ###
         db.session.add(pappi)                                                   ###
         db.session.commit()                                                     ###
-        return redirect(url_for("login")) ###   ###   ###   ###   ###   ###   # ###
-    return render_template("register.html") ###   ###   ###   ###   ###   ###   ###                
+        return redirect(url_for("login")) 
+    return render_template("register.html")                 
 ###################################################################################
 @app.route("/login", methods=["GET", "POST"])                                   ###
 def login():                                                                    ###

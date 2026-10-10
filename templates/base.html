@@ -9,7 +9,7 @@
 	<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <!--------------------########################################----------------------->
-	<body>
+<body>
 
 	<nav class="navbar">
 		<div class="nav-container">
@@ -17,18 +17,26 @@
 			<div class="nav-links">
 				{% if session.get("user_id") %} 
 				<a 	   href= "/        " > HOME      </a>
-				<a         href= "/profile " > PROFILE   </a>
+				<a         href= "/cards   " > CARDS     </a>
 				<a         href= "/logout  " > LOGOUT    </a>
 				{% else %}
 				<a         href= "/login   " > LOGIN     </a>
 				<a         href= "/register" > REGISTER  </a>
 				{% endif %}
-			</div></div></nav>
-	<main class="thic-breast">
-		{% block content %}
-		{% endblock %}
-	</div>
+			</div>
+		</div>
+	</nav>
 
-	</body>	
+	<main class="thic-breast">
+
+		{% block content %}
+
+
+
+		{% endblock %}
+	
+	</main>
+
+</body>	
 <!-------------------------###########################--------------------------->
 </html>
