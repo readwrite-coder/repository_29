@@ -1,30 +1,26 @@
-{% extends "base.html" %}
-
-{% block title %}register page 100{% endblock %}
-
-{% block content %}
-
-
-	<h1>Create Account</h1>
 	
-	<form method="POST" action="/register">
+	{% extends "base.html" %}
 
-		<label>Username:</label>
-		<input type="text" name="username" required>
+	{% block content %}
+	
+	<div class="register-box">
 
-		<br><br>
+		<h1>Create Account</h1>
+	
+		<form method="POST" action="/register">
 
-		<label>Password:</label>
-		<input type="password" name="password" required>
+			<label>Username:</label>
+			<input type="text" name="username" required>
+			<br><br>
+			<label>Password:</label>
+			<input type="password" name="password" required>
+			<br><br>
 
-		<br><br>
+			<button type="submit">Register</button>
+		</form>
+		<br>
+		<a href="/login">Already have an account? Login</a>
+	</div>
 
-		<button type="submit">Register</button>
-	</form>
-
-	<br>
-
-	<a href="/login">Already have an account? Login</a>
-
-{% endblock %}
+	{% endblock %}
 
