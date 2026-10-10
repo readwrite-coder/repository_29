@@ -5,31 +5,32 @@
 <div class="cards-page">
 	<h1>My Flashcards</h1>
 
-<a href= "{{ url_for('create_card') }}">
-	+ Create a Flashcard
-</a>
+	<a href= "{{ url_for('create_card') }}"	>
+		+ Create a Flashcard
+						</a>
 
 
-<div class = "cards-grid">
-	{% for card in cards %}
-	<div class="flashcard" onclick=flipCard(this)">
-		<div class="flashcard-inner">
-			<div class="flashcard-front">
-				<h3>Question</h3>
-				<p>{{ card.question }}</p>
-				<small>Click to reveal answer</small>
-			</div>
+	<div class = "cards-grid">	
+		{% for card in cards %}
+		<div class="flashcard" onclick="flipCard(this)">
+			<div class="flashcard-inner">
+				<div class="flashcard-front">
+					<h3>Question</h3>
+					<p>{{ card.question }}</p>
+					<small>Click to reveal answer</small>
+				</div>
 
-			<div class="flashcard-back">
-				<h3>Answer</h3>
-				<p>{{ card.answer }}</p>
-				<small>Click to return</small>
+				<div class="flashcard-back">
+					<h3>Answer</h3>
+					<p>{{ card.answer }}</p>
+					<small>Click to return</small>
+				</div>
 			</div>
 		</div>
+		{% else %}
+		<p>You haven't created any flashcards yet.</p>
+		{% endfor %}
 	</div>
-	{% else %}
-	<p>You haven't created any flashcards yet.</p>
-	{% endfor %}
 	<script src="{{ url_for('static', filename='js/cards.js') }}" defer></script>
 </div>
 {% endblock %}
