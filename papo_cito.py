@@ -130,9 +130,14 @@ def create_card():
             return redirect(url_for("cards"))
     return render_template("create_card.html")
 
+@app.route("/select_option", methods=["GET", "POST"])
+def select_option():
+    if request.method == "POST":
+
+        return redirect(url_for("cards"))
 
 ###################################################################################
-@app.route("/view_users", methods=["GET","POST"])                               ###
+@app.route("/view_users", methods=["GET", "POST"])                              ###
 def view_users():                                                               ###
     if request.method == "GET":                                                 ###
                                                                                 ###      

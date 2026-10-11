@@ -151,11 +151,12 @@ background: #374151;
 	color: #5b21b6;
 	margin-bottom: 24px;
 }
+
 .cards-grid{
 	display: grid;
 	grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
 	gap: 24px;
-	margin-top: 30px;
+	margin-top: 24px;
 }
 .flashcard{
 	height: 220px;

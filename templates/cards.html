@@ -3,84 +3,100 @@
 {% block content %}
 
 <div class="cards-page">
-
 	<h1>My Flashcards</h1>
-
 	<a href= "{{ url_for('create_card') }}"	>
 		+ Create a Flashcard
 	</a>
 
-	<div class = "cards-grid">	
-		{% for card in cards %}
-		<div class="flashcard" onclick="flipCard(this)">
-			<div class="flashcard-inner">
-				<div class="flashcard-front">
-					<h3>Question</h3>
-					<p>{{ card.question }}</p>
-					<small>Click to reveal answer</small>
-				</div>
+	<form id="card-selection-form">
+		<label for="selection-mode">Select an action:</label>
+		<select id="selection-mode" name="selection_mode">
+			<option value="NONE"   >None      </option>
+			<option value="SELECT" >Select    </option>
+			<option value="ALL"    >Select ALL</option>
+		</select>
 
-				<div class="flashcard-back">
-					<h3>Answer</h3>
-					<p>{{ card.answer }}</p>
-					<small>Click to return</small>
-				</div>
+		<p id="selection-message" hidden>
+			chooose the cards you want to add to a set.
+		</p>
 
-				<form action="{{ url_for('delete_card', card_id=card.id) }}"
-					method="POST"
-					onsubmit="return confirm('Are you sure?');">
-					<button>
-						Delete Card
-					</button>
-				</form>
-			</div>
-		</div>
-		{% else %}
-		<p>You haven't created any flashcards yet.</p>
-		{% endfor %}
-
-	</div>
-	<script src="{{ url_for('static', filename='js/cards.js') }}" defer></script>
-</div>
-
-<div class=cards-pages>
-
-	<h2>My flashcards</h2>
-
-	<form method="POST" action="{{ url_for('bulk_action') }}">
-
-		<label>
-			<input type="checkbox" id="select-all">
-			Select ALL
-		</label>
-
-		<div class="flashcard-list">
-			{% for card in cards %}
-			
-			<div class="flashcard">
-				<label>
-					<input type="checkbox" name="card_ids" value="{{card.id}}">
-						Select
-				</label>
-
-				<h3>{{ card.question }}</h3>
-				<p>{{card.answer }}</p>
-			</div>
-
-			{% endfor %}
-		</div>
-		
-		<button type="submit" name="action" value="delete">Delete Selected</button>
-		<button type="submit" name="action" value="add_to_set">Add to Set</button>
-
+		<button type="button" id="confirm-selection">
+			Continue with selected cards
+		</button>
 	</form>
-<script>
-	document.getElementById("select-all").addEventListener("change", function(){
-		document.querySelectorAll('input[name="card_ids"]).forEach(function (checkbox) {
-			checkbox.checked = document.getElementById("select-all").checked;
-		});
-	});
-</script>
 
+	<div class = "cards-grid">
+	{% for card in cards %}
+		<div class="card-item">
+			<input
+				type="checkbox"
+				class="card-checkbox"
+				value="{ card.id }}"
+				hidden
+			>
+			<div class="flashcard" onclick="flipCard(this)">
+				<div class="flashcard-inner">
+					<div class="flashcard-front">
+						<h3>Question</h3>
+						<input type="checkbox">
+						<p>{{ card.question }}</p>
+						<small>Click to reveal answer</small>
+					</div>
+					<div class="flashcard-back">
+						<h3>Answer</h3>
+						<p> {{ card.answer }} </p>
+						<small>Click to return</small>
+					</div>
+				</div>
+
+			</div>
+	{% else %}
+			<p>You haven't created any flashcards yet.</p>
+		</div>
+	{% endfor %}
+	</div>
+</div>
+	<!--script src="{{ url_for('static', filename='js/cards.js') }}" defer></script-->
+	<script>
+		function flipCard(card) {
+			card.classList.toggle("flipped");
+		}
+	
+		document.addEventListener("DOMContentLoaded", function () {
+		
+			const mode = document.getElementById("selection-mode");
+			const message = document.getElementById("selection-message");
+			const continueButton = document.getElementById("confirm-selection");	
+
+			function updateSelectionMode() {
+				const selectionMode = mode.value;
+
+				if ( selectionMode === "NONE" ) { 
+
+					message.hidden = true;
+					
+				};
+				else if( selectionMode === "SELECT" ){
+					
+					message.hidden = false;
+
+				}
+				else if ( selectionMode === "ALL" ) {
+					
+					message.hidden =false;
+				}
+			}
+
+			mode.addEventListener("change", updateSelectionMode);
+
+			continueButton.addEventListener("click", function() {
+				
+				console.log("Selected card IDs:");
+			});
+
+			updateSelectionMode();
+
+		});
+	</script>
 
 {% endblock %}
