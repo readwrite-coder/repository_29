@@ -1,20 +1,26 @@
 ##################################################################################
-from flask import Flask, request, render_template, session, redirect, url_for   ###
-from flask_sqlalchemy import SQLAlchemy                                         ###
-from werkzeug.security import generate_password_hash, check_password_hash       ###
-import json                                                                     ###
-###################################################################################
-app = Flask(__name__)                                                           ###    
-app.secret_key = "my-secret-key"                                                ###
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///users.db"                    ###
-app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False                            ###
-db = SQLAlchemy(app)                                                            ###    
-###################################################################################
-card_set_cards = db.Table(
+
+from flask import Flask, request, render_template, session, redirect, url_for   ##
+from flask_sqlalchemy import SQLAlchemy                                         ##
+from werkzeug.security import generate_password_hash, check_password_hash       ##
+import json                                                                     ##
+
+##################################################################################
+
+app = Flask(__name__)                                                           ##    
+app.secret_key = "my-secret-key"                                                ##
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///users.db"                    ##
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False                            ##
+db = SQLAlchemy(app)                                                            ##    
+
+##################################################################################
+
+card_set_cards = db.Table (
     "card_set_cards",
     db.Column("card_id", db.Integer, db.ForeignKey("cards.id"), primary_key=True),
     db.Column("set_id", db.Integer, db.ForeignKey("card_sets.id"), primary_key=True)
 )
+
 class User(db.Model):                                                           
     __tablename__ = "pot_users"                                                 
     id = db.Column(db.Integer, primary_key=True)                                
@@ -38,8 +44,10 @@ class CardSet(db.Model):
     cards = db.relationship("Card", secondary=card_set_cards, backref=db.backref("sets", lazy="select"))
 
 ###################################################################################
-with app.app_context():                                                         ###        
-    db.create_all()                                                             ###    
+
+with app.app_context():                                                                 
+    db.create_all()                                                                 
+
 ###################################################################################
 
 @app.route("/cards")                                    
@@ -71,13 +79,14 @@ def create_card():
                     )
             db.session.add(card)
             db.session.commit()
-            return redirect(url_for("all_cards"))
+
+        return redirect(url_for("all_cards"))
+    
     return render_template("create_card.html")
 
 @app.route("/select_option", methods=["GET", "POST"])
 def select_option():
     if request.method == "POST":
-
         return redirect(url_for("cards"))
 
 @app.route("/") 
@@ -89,67 +98,62 @@ def home():
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
+
     if request.method == "POST":
+    
         ulman_name = request.form.get("username", "").strip()
         ulman_word = request.form.get("password", "")               
+        
         if not ulman_word or not ulman_name:
             return render_template("register.html") 
-                                                                                ###
-        existing_user = User.query.filter_by(username=ulman_name).first()       ###
-                                                                                ###
-        if existing_user:                                                       ###
+                                                                                
+        existing_user = User.query.filter_by(username=ulman_name).first()       
+                                                                                
+        if existing_user:                                                       
             return render_template("register.html")   
-                                                                                ###
-        ulman_word_hash = generate_password_hash(ulman_word)                    ###
-                                                                                ###
-        pappi = User(                                                           ###
-                username = ulman_name,                                          ###
-                password_hash = ulman_word_hash                                 ###
-        )                                                                       ###
-        db.session.add(pappi)                                                   ###
-        db.session.commit()                                                     ###
-        return redirect(url_for("login")) 
+
+        ulman_word_hash = generate_password_hash(ulman_word)    
+                                                                        
+        pappi = User(username = ulman_name, password_hash = ulman_word_hash)
+
+        db.session.add(pappi)                                                   
+        db.session.commit()                                                     
+        
+        return redirect(url_for("login"))
+
+
     return render_template("register.html")                 
 
-@app.route("/login", methods=["GET", "POST"])                                   ###
-def login():                                                                    ###
-    if request.method == "POST":                                                ###
-        ulma_name = request.form.get("username", "").strip()                    ###
-        ulma_word = request.form.get("password", "")                            ###
-        pussy_user = User.query.filter_by( username = ulma_name ).first()       ###
-        if pussy_user and check_password_hash(pussy_user.password_hash,         ###
-                                              ulma_word):                       ###
-            session.clear()                                                     ###
-            session["user"] = pussy_user.username                               ###
-            session["user_id"] = pussy_user.id                                  ###
-            return redirect(url_for("home")) ###   ###   ###   ###   ###   ###  ###
-        return render_template( ###   ###   ###   ###   ###   ###   ###   ###   ###
-                "login.html",                                                   ### 
-                error="Invalid username or password"                            ###
-        )                                                                       ###
-    print("GOT HERE") 
-    return render_template("login.html") ###   ###   ###   ###   ###   ###   ## ###
+@app.route("/login", methods=["GET", "POST"])                                   
+def login():                                                                    
+    if request.method == "POST":       
+
+        ulma_name = request.form.get("username", "").strip()                    
+        ulma_word = request.form.get("password", "")                            
+        
+        pussy_user = User.query.filter_by( username = ulma_name ).first()       
+        
+        if pussy_user and check_password_hash(pussy_user.password_hash, ulma_word): 
+            session.clear() 
+            session["user"] = pussy_user.username
+            session["user_id"] = pussy_user.id
+            return redirect(url_for("home"))
+
+        return render_template("login.html", error="Invalid username or password")                                                                       
+    
+    return render_template("login.html")
+
+@app.route("/logout")
+def logout():                                                                   
+    session.pop("user", None)    
+    session.pop("user_id", None)
+    session.clear()
+    return redirect(url_for("home"))
+
 ###################################################################################
-@app.route("/logout")                                                           ###
-def logout():                                                                   ###
-    session.pop("user", None)                                                   ###    
-    session.pop("user_id", None)                                                ###
-    session.clear()                                                             ###
-    return redirect(url_for("home")) ###   ###   ###   ###   ###   ###   ###    ###
-###################################################################################
-@app.route("/profile", methods = ["GET", "POST"])                               ###
-def profile():                                                                  ###
-    if request.method == "GET":                                                 ###
-        print("I hope Ellen's hairy pussy is soaking..wet #YUM")                ###
-        return render_template("profile.html") ###   ###   ###   ###   ###   ## ###
-###################################################################################
-###      ###      ###      ###     ###     ###      ###     ###     ###     ### ###
-      ###      ###      ###     ###     ###     ###     ###     ###     ###     ### 
-   ###      ###     ###     ###     ###     ###     ###     ###     ###     ### ###
-###     ###     ###     ###     ###     ###     ###     ###     ###     ###     ###
-###################################################################################
-if __name__ == '__main__':  ##   ###   ###   ###   ###   ###   ###   ###   ###  ###
-    app.run(debug=True)   ###   ###   ###   ###   ###   ###   ###   ###   ###   ###
-###################################################################################
+
+if __name__ == '__main__':  
+    app.run(debug=True)
+
 ###################################################################################
 
