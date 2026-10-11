@@ -16,23 +16,63 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False                            
 db = SQLAlchemy(app)                                                            ###    
                                                                                 ###
 ###################################################################################
+card_set_cards = db.Table(
+    "card_set_cards",
+    db.Column(
+            "card_id",
+            db.Integer,
+            db.ForeignKey("cards.id"),
+            primary_key=True
+        ),
+    db.Column(
+            "set_id",
+            db.Integer,
+            db.ForeignKey("card_sets.id"),
+            primary_key=True
+    )
+)
 class User(db.Model):                                                           
     __tablename__ = "pot_users"                                                 
+    
     id = db.Column(db.Integer, primary_key=True)                                
     username = db.Column(db.String(80), unique=True, nullable=False)            
     password_hash = db.Column(db.String(255), nullable=False)                   
+    
     cards = db.relationship("Card", backref="owner")
+    card_sets = db.relationship("CardSet", backref="owner")
 
 class Card(db.Model):                                                           
     __tablename__ = "cards"
+
     id = db.Column(db.Integer, primary_key=True)                                
+    
     question = db.Column(db.String(200))                                        
-    answer = db.Column(db.Text)                                                 
+    answer = db.Column(db.Text)
+
     user_id = db.Column(
             db.Integer,
             db.ForeignKey("pot_users.id"),
             nullable=False
-            )
+        )
+class CardSet(db.Model):
+    __tablename__ = "card_sets"
+
+    id = db.Column(db.Integer, primary_key=True)
+    
+    name = db.Column(db.String(100), nullable=False)
+
+    user_id = db.Column(
+            db.Integer,
+            db.ForeignKey("pot_users.id"),
+            nullable=False
+        )
+
+    cards = db.relationship(
+            "Card",
+            secondary=card_set_cards,
+            backref=db.backref("sets", lazy="select")
+        )
+
 ###################################################################################
 with app.app_context():                                                         ###        
     db.create_all()                                                             ###    
@@ -50,6 +90,17 @@ with app.app_context():                                                         
 #        db.session.add(new_card)                                               ###
 #    db.session.commit()                                                        ###
 ###################################################################################
+@app.route("/bulk_action", methods=["GET", "POST"])
+def bulk_action():
+    if request.method == "POST":
+        if "user_id" not in session:
+            return redirect(url_for("login"))
+        cards = Card.query.filter_by(
+                user_id=session["user_id"]
+                ).all()
+        return redirect(url_for("cards", cards=cards))
+    return render_template("cards.html")
+
 @app.route("/cards", methods=["GET","POST"])                                    
 def cards():                                                                    
     if request.method == "GET":                                                   
@@ -58,6 +109,10 @@ def cards():
                 user_id=user_id
                 ).all()
         return render_template("cards.html", cards=cards)
+@app.route("/delete_card", methods=["GET","POST"])
+def delete_card():
+    if request.method == "POST":
+        return render_template("cards.html")
 @app.route("/create-card", methods=["GET", "POST"])
 def create_card():
     if request.method == "POST":

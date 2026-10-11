@@ -3,12 +3,12 @@
 {% block content %}
 
 <div class="cards-page">
+
 	<h1>My Flashcards</h1>
 
 	<a href= "{{ url_for('create_card') }}"	>
 		+ Create a Flashcard
-						</a>
-
+	</a>
 
 	<div class = "cards-grid">	
 		{% for card in cards %}
@@ -25,12 +25,62 @@
 					<p>{{ card.answer }}</p>
 					<small>Click to return</small>
 				</div>
+
+				<form action="{{ url_for('delete_card', card_id=card.id) }}"
+					method="POST"
+					onsubmit="return confirm('Are you sure?');">
+					<button>
+						Delete Card
+					</button>
+				</form>
 			</div>
 		</div>
 		{% else %}
 		<p>You haven't created any flashcards yet.</p>
 		{% endfor %}
+
 	</div>
 	<script src="{{ url_for('static', filename='js/cards.js') }}" defer></script>
 </div>
+
+<div class=cards-pages>
+
+	<h2>My flashcards</h2>
+
+	<form method="POST" action="{{ url_for('bulk_action') }}">
+
+		<label>
+			<input type="checkbox" id="select-all">
+			Select ALL
+		</label>
+
+		<div class="flashcard-list">
+			{% for card in cards %}
+			
+			<div class="flashcard">
+				<label>
+					<input type="checkbox" name="card_ids" value="{{card.id}}">
+						Select
+				</label>
+
+				<h3>{{ card.question }}</h3>
+				<p>{{card.answer }}</p>
+			</div>
+
+			{% endfor %}
+		</div>
+		
+		<button type="submit" name="action" value="delete">Delete Selected</button>
+		<button type="submit" name="action" value="add_to_set">Add to Set</button>
+
+	</form>
+<script>
+	document.getElementById("select-all").addEventListener("change", function(){
+		document.querySelectorAll('input[name="card_ids"]).forEach(function (checkbox) {
+			checkbox.checked = document.getElementById("select-all").checked;
+		});
+	});
+</script>
+
+
 {% endblock %}
