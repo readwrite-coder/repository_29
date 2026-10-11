@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="cards-page">
+	
+	<h1>Whats on your mind today [ {{ session["user"]  }} ] .</h1>
+	<p>user id : [ {{ session["user_id"] }}]</p>
+
+	<div class="dashboard-actions">
+		<p>Go to
+		<a class="dashboard-button" href="{{ url_for('all_cards') }}">My_Flash_cards</a>
+		</p>
+	</div>
+	
+	<form >
+		<label>Search my cards</label>
+		<input
+			type="seach"
+			id="q"
+			name="q"
+			placeholder="Search questions and answers..."
+		>
+		<button type="submit">Search</button>
+	</form>
+</div>
+
+{% endblock %}
