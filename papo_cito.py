@@ -101,20 +101,20 @@ def register():
 
     if request.method == "POST":
     
-        ulman_name = request.form.get("username", "").strip()
-        ulman_word = request.form.get("password", "")               
+        _name = request.form.get("username", "").strip()
+        _word = request.form.get("password", "")               
         
-        if not ulman_word or not ulman_name:
+        if not _word or not _name:
             return render_template("register.html") 
                                                                                 
-        existing_user = User.query.filter_by(username=ulman_name).first()       
+        existing_user = User.query.filter_by(username=_name).first()       
                                                                                 
         if existing_user:                                                       
             return render_template("register.html")   
 
-        ulman_word_hash = generate_password_hash(ulman_word)    
+        _word_hash = generate_password_hash(_word)    
                                                                         
-        pappi = User(username = ulman_name, password_hash = ulman_word_hash)
+        pappi = User(username=_name, password_hash=_word_hash)
 
         db.session.add(pappi)                                                   
         db.session.commit()                                                     
@@ -128,15 +128,15 @@ def register():
 def login():                                                                    
     if request.method == "POST":       
 
-        ulma_name = request.form.get("username", "").strip()                    
-        ulma_word = request.form.get("password", "")                            
+        _name = request.form.get("username", "").strip()                    
+        _word = request.form.get("password", "")                            
         
-        pussy_user = User.query.filter_by( username = ulma_name ).first()       
+        _user = User.query.filter_by(username=_name).first()       
         
-        if pussy_user and check_password_hash(pussy_user.password_hash, ulma_word): 
+        if _user and check_password_hash(_user.password_hash, _word): 
             session.clear() 
-            session["user"] = pussy_user.username
-            session["user_id"] = pussy_user.id
+            session["user"] = _user.username
+            session["user_id"] = _user.id
             return redirect(url_for("home"))
 
         return render_template("login.html", error="Invalid username or password")                                                                       
