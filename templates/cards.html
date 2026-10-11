@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-
 {% block content %}
 
 <div class="cards-page">
@@ -7,7 +6,6 @@
 	<a href= "{{ url_for('create_card') }}"	>
 		+ Create a Flashcard
 	</a>
-
 	<form id="card-selection-form">
 		<label for="selection-mode">Select an action:</label>
 		<select id="selection-mode" name="selection_mode">
@@ -15,12 +13,10 @@
 			<option value="SELECT" >Select    </option>
 			<option value="ALL"    >Select ALL</option>
 		</select>
-
 		<p id="selection-message" hidden>
 			chooose the cards you want to add to a set.
 		</p>
-
-		<button type="button" id="confirm-selection">
+		<button type="button" id="confirm-selection" hidden>
 			Continue with selected cards
 		</button>
 	</form>
@@ -28,17 +24,19 @@
 	<div class = "cards-grid">
 	{% for card in cards %}
 		<div class="card-item">
-			<input
-				type="checkbox"
-				class="card-checkbox"
-				value="{ card.id }}"
-				hidden
-			>
+			<label class="card-select" >
+				<input
+					type="checkbox"
+					class="card-checkbox"
+					value="{{ card.id }}"
+				>
+				Select Card
+			</label>
+
 			<div class="flashcard" onclick="flipCard(this)">
 				<div class="flashcard-inner">
 					<div class="flashcard-front">
 						<h3>Question</h3>
-						<input type="checkbox">
 						<p>{{ card.question }}</p>
 						<small>Click to reveal answer</small>
 					</div>
@@ -48,11 +46,10 @@
 						<small>Click to return</small>
 					</div>
 				</div>
-
 			</div>
+		</div>
 	{% else %}
 			<p>You haven't created any flashcards yet.</p>
-		</div>
 	{% endfor %}
 	</div>
 </div>
@@ -67,31 +64,30 @@
 			const mode = document.getElementById("selection-mode");
 			const message = document.getElementById("selection-message");
 			const continueButton = document.getElementById("confirm-selection");	
+			const checkboxes = document.querySelectorAll(".card-checkbox");
+			const labels = document.querySelectorAll(".card-select");
 
 			function updateSelectionMode() {
 				const selectionMode = mode.value;
-
-				if ( selectionMode === "NONE" ) { 
-
-					message.hidden = true;
-					
-				};
-				else if( selectionMode === "SELECT" ){
-					
-					message.hidden = false;
-
+				checkboxes.forEach( function (checkbox,index) {
+					labels[index].hidden = selectionMode === "NONE";
+					checkbox.checked = selectionMode == "ALL";
+					});
+				message.hidden = selectionMode === "NONE";
+				continueButton.hidden = selectionMode === "NONE";
 				}
-				else if ( selectionMode === "ALL" ) {
-					
-					message.hidden =false;
-				}
-			}
 
 			mode.addEventListener("change", updateSelectionMode);
 
 			continueButton.addEventListener("click", function() {
+				const selectedCards = Array.from(checkboxes).filter(function (checkbox) {
+						return checkbox.checked;
+					})
+					.map(function (checkbox) {
+						return checkbox.value;
+					});
 				
-				console.log("Selected card IDs:");
+				console.log("Selected card IDs:", selectedcards);
 			});
 
 			updateSelectionMode();
