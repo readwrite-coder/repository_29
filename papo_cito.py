@@ -50,6 +50,31 @@ with app.app_context():
     db.create_all()                                                                 
 
 ###################################################################################
+@app.route("/sets/<int:set_id>/remove-card/<int:card_id>", methods=["POST"])
+def remove_card_from_set(set_id, card_id):
+    if "user_id" not in session:
+        return redirect(url_for("login"))
+
+    user_id = session["user_id"]
+
+    # Find a set belonging to the logged-in user
+    card_set = CardSet.query.filter_by(
+        id=set_id,
+        user_id=user_id
+    ).first_or_404()
+
+    # Find a flashcard belonging to the logged-in user
+    card = Card.query.filter_by(
+        id=card_id,
+        user_id=user_id
+    ).first_or_404()
+
+    # Remove the card from this set only
+    if card in card_set.cards:
+        card_set.cards.remove(card)
+        db.session.commit()
+
+    return redirect(url_for("view_set", set_id=set_id))
 
 @app.route("/add_cards_to_set", methods=["POST"])
 def add_cards_to_set():
@@ -74,7 +99,7 @@ def add_cards_to_set():
     card_ids = request.form.getlist("card_ids", type=int)
 
     if not card_ids:
-        return redirect(url_for("all_cards"))
+        return redirect(url_for("my_sets"))
 
     # 4. Retrieve only cards owned by this user
     selected_cards = Card.query.filter(
@@ -90,7 +115,7 @@ def add_cards_to_set():
     # 6. Save the relationship in the database
     db.session.commit()
 
-    return redirect(url_for("all_cards"))
+    return redirect(url_for("my_sets"))
 
 @app.route("/sets/create", methods=["GET", "POST"])
 def create_set():
@@ -99,14 +124,15 @@ def create_set():
 
     if request.method == "POST":
         name = request.form.get("name", "").strip()
-        if name:
+        
+        if name:    
             new_set = CardSet(
                     name=name,
                     user_id=session["user_id"]
-                    )
+                )
             db.session.add(new_set)
             db.session.commit()
-            
+
             return redirect(url_for("my_sets"))
 
     return render_template("create_set.html")
@@ -126,12 +152,17 @@ def my_sets():
 def view_set(set_id):
     if "user_id" not in session:
         return redirect(url_for("login"))
+    
     card_set = CardSet.query.filter_by(
-            id=set_id,
-            user_id=session["user_id"]
-            ).first_or_404()
+        id=set_id,
+        user_id=session["user_id"]
+    ).first_or_404()
 
-    return render_template("set_detail.html", card_set=card_set)
+    return render_template(
+        "set_detail.html", 
+        card_set=card_set,
+        cards=card_set.cards
+    )
 @app.route("/cards")                                    
 def cards():
     if "user_id" not in session:

@@ -84,27 +84,86 @@ margin: auto;
 
 /* this is a massive comment */
 
-.register-box{
-	
-	text-align:center;
-	
-	padding: 35px;
-	border-radius: 20px;
-	border: 10px solid #9f7511;
-
-	background: #ddd6fe;
-	
+.login-box,
+.register-box {
+	text-align: left;
+	max-width: 440px;
+	margin: 56px auto;	
+	padding: 36px;
+	border-radius: 18px;
+	border: 1px solid #e5e7eb;
+	box-shadow: 0 12px 35px rgba(31, 41, 55, 0.08);	
+	background: #ffffff;
 }
-.login-box {
-	
+.login-box h1,
+.login-box h2,
+.register-box h1,
+.register-box h2 {
+	margin: 0 0 10px;
+	letter-spacing: -0.7px;
 	text-align: center;
-	
-	padding: 35px;
-	border-radius: 20px;
-	border: 10px solid #9f7511;
-	
-	background: #ddd6fe;
+	color: #1e1b4b;
+	font-size: 28px;
+	font-weight: 750;
 }
+.login-box label,
+.register-box label {
+	display: block;
+	margin: 18px 0 7px;
+	color: #374151;
+	font-size: 14px;
+	font-weight: 600;
+}
+.login-box input,
+.login-box textarea,
+.register-box input {
+	display: block;
+	width: 100%;
+	padding: 12px 14px;
+	border: 1px solid #d1d5db;
+	border-radius: 19px;
+	background: #f9fafb;
+	color: #111827;
+	font: inherit;
+	outline: none;
+	transition: border-color 0.2s, box-shadow 0.2s;	
+}
+.login-box input:focus,
+.login-box textarea:focus,
+.register-box input:focus {
+	border-color: #635bff;
+	box-shadow: 0 0 0 3px rgba(99, 91, 255, 0.14);
+	background: #ffffff;
+}
+.login-box button,
+.register-box button {
+	width: 100%;
+	margin-top:24px;
+	cursor: pointer;
+	color: #ffffff;
+	background: #635bff;
+	font-size: 15px;
+	font-weight: 650;
+	transition: background 0.2s, transform 0.2s;	
+}
+.login-box button:hover,
+.register-box button:hover {
+	background: #4f46ef;
+	transform: translateY(-1px);
+}
+.login-box a,
+.register-box a {
+	color: #635bff;
+	font-weight:600;
+	text-decoration: none;
+}
+.login-box a:hover,
+.register-box a:hover {
+	text-decoration: underline;
+}
+/**** NICE ****/
+
+
 .cards-page{
 	max-width: 1100px;
 	margin:40px auto;
@@ -122,9 +181,12 @@ margin: auto;
 	margin-top: 24px;
 }
 .flashcard{
-	height: 220px;
+	height: 420px;
 	perspective: 1000px;
 	cursor: pointer;
+}
+.flashcard:hover{
+	background: #666dfe
 }
 .flashcard-inner{
 	position:relative;
@@ -219,4 +281,20 @@ margin: auto;
 	background: #ddd6fe;
 }
 
+.remove-set-button {
+	margin-top: 12px;
+	padding: 9px 14px;
+	border: 1px solid #dc2626;
+	border-radius: 8px;
+	background: white;
+	color: #dc2626;
+	font-weight: 600;
+	cursor: pointer;
+	transition: background 0.2s ease, color 0.2s ease;
 
+}
+.remove-set-button:hover{
+	background: #dc2626;
+	color: white;
+
+}

@@ -4,15 +4,15 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-	<title>{% block title %}My Flask App{% endblock %}</title>
+	<title>{% block title %}[ my_flash_card ]{% endblock %}</title>
 
 	<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
-<!--------------------########################################----------------------->
+<!--------------------->
 <body>
 	<nav class="navbar">
 		<div class="nav-container">
-			<a class="logo" href="{{ url_for('all_cards') }}" > My_Flash_Cards    </a>
+			<a class="logo" href="{{ url_for('all_cards') }}" >[ my_cards ]    </a>
 			<div class="nav-links">
 				{% if session.get("user_id") %} 
 					<a href= "{{ url_for('home') }}">HOME</a>

@@ -1,9 +1,15 @@
 {% extends "base.html" %}
 
+{% block title %}My Sets | My Flash Cards{% endblock %}
+
 {% block content %}
 
 <div class="cards-page">
 	<h1>My Sets</h1>
+	<a class="create-button"
+	   href="{{ url_for('create_set') }}">
+		+ Create a Set
+	</a>
 
 	{% for card_set in sets %}
 		<p>
@@ -16,7 +22,7 @@
 
 		</p>
 	{% else %}
-
+		<p>You haven't created any sets yet.</p>
 	{% endfor %}
 
 </div>
