@@ -1,0 +1,23 @@
+
+{% extends "base.html" %}
+{% block content %}
+
+<div class="cards-page">
+	<h1>{{ card_set.name }}</h1>
+	<ol>
+		{% for card in card_set.cards %}
+		<li>
+			<strong>{{ card.question }}</strong>
+			<p>{{ card.answer }}</p>
+		</li>
+		{% else %}
+		<p>	This set has no cards yet.</p>
+		{% endfor %}
+
+	</ol>
+
+	<a href="{{ url_for('my_sets') }}">Back to My Sets</a>
+
+</div>
+
+{% endblock %}

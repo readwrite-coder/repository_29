@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="cards-page">
+	<h1>My Sets</h1>
+
+	{% for card_set in sets %}
+		<p>
+
+		<a href="{{ url_for("view_set", set_id=card_set.id) }}">
+				{{ card_set.name }}
+			
+		</a>
+			-- [{{ card_set.cards|length }} cards]
+
+		</p>
+	{% else %}
+
+	{% endfor %}
+
+</div>
+
+{% endblock %}

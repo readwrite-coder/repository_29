@@ -4,13 +4,17 @@
 
 <div class="cards-page">
 	
-	<h1>Whats on your mind today [ {{ session["user"]  }} ] .</h1>
+	<h1>[ {{ session["user"] }} ]</h1>
 	<p>user id : [ {{ session["user_id"] }}]</p>
 
 	<div class="dashboard-actions">
-		<p>Go to
-		<a class="dashboard-button" href="{{ url_for('all_cards') }}">My_Flash_cards</a>
-		</p>
+		
+		<a class="dashboard-button" href="{{ url_for('all_cards') }}">Show All Cards</a>
+
+		<a class="dashboard-button" href="{{ url_for('create_set') }}">Create Set</a>
+
+		<a class="dashboard-button" href="{{ url_for('my_sets') }}">View My Sets</a>
+
 	</div>
 	
 	<form >

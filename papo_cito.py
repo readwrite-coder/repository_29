@@ -1,7 +1,8 @@
 ##################################################################################
 
 from flask import Flask, request, render_template, session, redirect, url_for   ##
-from flask_sqlalchemy import SQLAlchemy                                         ##
+from flask_sqlalchemy import SQLAlchemy 
+from sqlalchemy import or_                                         ##
 from werkzeug.security import generate_password_hash, check_password_hash       ##
 import json                                                                     ##
 
@@ -49,7 +50,46 @@ with app.app_context():
     db.create_all()                                                                 
 
 ###################################################################################
+@app.route("/sets/create", methods=["GET", "POST"])
+def create_set():
+    if "user_id" not in session:
+        return redirect(url_for("login"))
 
+    if request.method == "POST":
+        name = request.form.get("name", "").strip()
+        if name:
+            new_set = CardSet(
+                    name=name,
+                    user_id=session["user_id"]
+                    )
+            db.session.add(new_set)
+            db.session.commit()
+            
+            return redirect(url_for("my_sets"))
+
+    return render_template("create_set.html")
+
+@app.route("/sets")
+def my_sets():
+    if "user_id" not in session:
+        return redirect(url_for("login"))
+
+    sets = CardSet.query.filter_by(
+            user_id=session["user_id"]
+            ).order_by(CardSet.id.asc()).all()
+
+    return render_template("sets.html", sets=sets)
+
+@app.route("/sets/<int:set_id>")
+def view_set(set_id):
+    if "user_id" not in session:
+        return redirect(url_for("login"))
+    card_set = CardSet.query.filter_by(
+            id=set_id,
+            user_id=session["user_id"]
+            ).first_or_404()
+
+    return render_template("set_detail.html", card_set=card_set)
 @app.route("/cards")                                    
 def cards():
     if "user_id" not in session:
@@ -83,6 +123,19 @@ def create_card():
         return redirect(url_for("all_cards"))
     
     return render_template("create_card.html")
+@app.route("/delete_card/<int:card_id>", methods=["POST"])
+def delete_card(card_id):
+    if "user_id" not in session:
+        return redirect(url_for("login"))
+    card = Card.query.filter_by(
+            id=card_id,
+            user_id=session["user_id"]
+            ).first_or_404()
+    
+    db.session.delete(card)
+    db.session.commit()
+
+    return redirect(url_for("all_cards"))
 
 @app.route("/select_option", methods=["GET", "POST"])
 def select_option():

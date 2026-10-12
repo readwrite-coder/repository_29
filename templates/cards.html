@@ -2,35 +2,42 @@
 {% block content %}
 
 <div class="cards-page">
+
 	<h1>My Flashcards</h1>
 	<a href= "{{ url_for('create_card') }}"	>
 		+ Create a Flashcard
 	</a>
 	<form id="card-selection-form">
 		<label for="selection-mode">Select an action:</label>
+		
 		<select id="selection-mode" name="selection_mode">
 			<option value="NONE"   >None      </option>
 			<option value="SELECT" >Select    </option>
 			<option value="ALL"    >Select ALL</option>
+			<option value="DELETE" >Delete    </option>
 		</select>
+
 		<p id="selection-message" hidden>
-			chooose the cards you want to add to a set.
+			Choose the cards you want to add to a set.
 		</p>
+
 		<button type="button" id="confirm-selection" hidden>
 			Continue with selected cards
 		</button>
 	</form>
 
 	<div class = "cards-grid">
-	{% for card in cards %}
+		
+		{% for card in cards %}
+
 		<div class="card-item">
 			<label class="card-select" >
 				<input
 					type="checkbox"
 					class="card-checkbox"
 					value="{{ card.id }}"
-				>
-				Select Card
+					>
+					Select Card
 			</label>
 
 			<div class="flashcard" onclick="flipCard(this)">
@@ -47,52 +54,29 @@
 					</div>
 				</div>
 			</div>
+			
+			<form
+				
+				method="POST"
+				action="{{ url_for('delete_card', 
+				card_id=card.id) }}"
+				onsubmit="return confirm('Are you sure you want to delete this flashcard?');"
+				
+				>
+				<button type="submit" id="del-button" >
+					Delete Card
+				</button>
+			</form>
+				
 		</div>
-	{% else %}
-			<p>You haven't created any flashcards yet.</p>
-	{% endfor %}
+
+		{% else %}
+		
+		<p>You haven't created any flashcards yet.</p>
+	
+		{% endfor %}
 	</div>
 </div>
-	<!--script src="{{ url_for('static', filename='js/cards.js') }}" defer></script-->
-	<script>
-		function flipCard(card) {
-			card.classList.toggle("flipped");
-		}
-	
-		document.addEventListener("DOMContentLoaded", function () {
-		
-			const mode = document.getElementById("selection-mode");
-			const message = document.getElementById("selection-message");
-			const continueButton = document.getElementById("confirm-selection");	
-			const checkboxes = document.querySelectorAll(".card-checkbox");
-			const labels = document.querySelectorAll(".card-select");
 
-			function updateSelectionMode() {
-				const selectionMode = mode.value;
-				checkboxes.forEach( function (checkbox,index) {
-					labels[index].hidden = selectionMode === "NONE";
-					checkbox.checked = selectionMode == "ALL";
-					});
-				message.hidden = selectionMode === "NONE";
-				continueButton.hidden = selectionMode === "NONE";
-				}
-
-			mode.addEventListener("change", updateSelectionMode);
-
-			continueButton.addEventListener("click", function() {
-				const selectedCards = Array.from(checkboxes).filter(function (checkbox) {
-						return checkbox.checked;
-					})
-					.map(function (checkbox) {
-						return checkbox.value;
-					});
-				
-				console.log("Selected card IDs:", selectedcards);
-			});
-
-			updateSelectionMode();
-
-		});
-	</script>
-
+	<script src="{{ url_for('static', filename='js/cards.js') }}" ></script>
 {% endblock %}
