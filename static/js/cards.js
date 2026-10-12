@@ -1,50 +1,33 @@
-
 	function flipCard(card) {
 		card.classList.toggle("flipped");
 	}
 
 	document.addEventListener("DOMContentLoaded", function () {
+		
 		const mode = document.getElementById("selection-mode");
 		const message = document.getElementById("selection-message");
-		
-		const continueButton = document.getElementById("confirm-selection");    
-		const deleteOption = document.getElementById("del-button");
-
+		const controls = document.getElementById("add-to-set-controls");
 		const checkboxes = document.querySelectorAll(".card-checkbox");
 		const labels = document.querySelectorAll(".card-select");
-		
-		function updateSelectionMode() {
-			
-			const selectionMode = mode.value;
-			
-			checkboxes.forEach( function (checkbox,index) {
-				labels[index].hidden = selectionMode === "NONE";
-				checkbox.checked = selectionMode == "ALL";
-			});
-			
-			message.hidden = selectionMode === "NONE";
-			
-			continueButton.hidden = selectionMode === "NONE";
 
-			/*deleteOption.hidden = selectionMode === "NONE";*/
-			
-			
+		function updateSelectionMode() {
+			const selectionMode = mode.value;
+
+			checkboxes.forEach(function (checkbox, index) {
+				labels[index].hidden = selectionMode === "NONE";
+
+				if (selectionMode === "ALL") {
+					checkbox.checked = true;
+				} else if (selectionMode === "NONE") {
+					checkbox.checked = false;
+				}
+			});
+
+			message.hidden = selectionMode === "NONE";
+			controls.hidden = selectionMode === "NONE";
 		}
 
-			mode.addEventListener("change", updateSelectionMode);
+		mode.addEventListener("change", updateSelectionMode);
+		updateSelectionMode();
 
-			continueButton.addEventListener("click", function() {
-				const selectedCards = Array.from(checkboxes).filter(function (checkbox) {
-					return checkbox.checked;
-				})
-					.map(function (checkbox) {
-						return checkbox.value;
-					});
-				console.log("Selected card IDs:", selectedCards);
-			});
-
-                        updateSelectionMode();
-		});
-
-
-
+	});

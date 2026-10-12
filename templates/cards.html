@@ -1,43 +1,43 @@
 {% extends "base.html" %}
+
 {% block content %}
-
 <div class="cards-page">
-
+	
 	<h1>My Flashcards</h1>
-	<a href= "{{ url_for('create_card') }}"	>
-		+ Create a Flashcard
-	</a>
-	<form id="card-selection-form">
-		<label for="selection-mode">Select an action:</label>
-		
+
+	<p>
+		<a href="{{ url_for('create_card') }}">
+			+ Create a Flashcard
+		</a>
+	</p>
+
+	<form id="card-selection-form"
+		method="POST"
+		action="{{ url_for('add_cards_to_set') }}">
+
+		<label for="selection-mode">Select cards:</label>
+
 		<select id="selection-mode" name="selection_mode">
-			<option value="NONE"   >None      </option>
-			<option value="SELECT" >Select    </option>
-			<option value="ALL"    >Select ALL</option>
-			<option value="DELETE" >Delete    </option>
+			<option value="NONE">None</option>
+			<option value="SELECT">Select</option>
+			<option value="ALL">Select All</option>
 		</select>
 
 		<p id="selection-message" hidden>
 			Choose the cards you want to add to a set.
 		</p>
 
-		<button type="button" id="confirm-selection" hidden>
-			Continue with selected cards
-		</button>
-	</form>
-
-	<div class = "cards-grid">
-		
+	<div class="cards-grid">
 		{% for card in cards %}
-
 		<div class="card-item">
-			<label class="card-select" >
-				<input
-					type="checkbox"
-					class="card-checkbox"
-					value="{{ card.id }}"
-					>
-					Select Card
+			<label class="card-select" hidden>
+			<input
+				type="checkbox"
+				class="card-checkbox"
+				name="card_ids"
+				value="{{ card.id }}"
+			>
+				Select Card
 			</label>
 
 			<div class="flashcard" onclick="flipCard(this)">
@@ -47,36 +47,39 @@
 						<p>{{ card.question }}</p>
 						<small>Click to reveal answer</small>
 					</div>
+
 					<div class="flashcard-back">
 						<h3>Answer</h3>
-						<p> {{ card.answer }} </p>
+						<p>{{ card.answer }}</p>
 						<small>Click to return</small>
 					</div>
 				</div>
 			</div>
-			
-			<form
-				
-				method="POST"
-				action="{{ url_for('delete_card', 
-				card_id=card.id) }}"
-				onsubmit="return confirm('Are you sure you want to delete this flashcard?');"
-				
-				>
-				<button type="submit" id="del-button" >
-					Delete Card
-				</button>
-			</form>
-				
 		</div>
-
 		{% else %}
-		
-		<p>You haven't created any flashcards yet.</p>
-	
+			<p>You haven't created any flashcards yet.</p>
 		{% endfor %}
 	</div>
+
+	<div id="add-to-set-controls" hidden>
+		<label for="set-id">Choose a set:</label>
+		<select id="set-id" name="set_id" required>
+			<option value="">-- Choose a set --</option>
+			{% for card_set in card_sets %}
+			<option value="{{ card_set.id }}">
+				{{ card_set.name }}
+			</option>
+			{% endfor %}
+		</select>
+
+		<button type="submit" id="confirm-selection">
+			Add Selected Cards to Set
+		</button>
+	</div>
+	
+	</form>
+
 </div>
 
-	<script src="{{ url_for('static', filename='js/cards.js') }}" ></script>
+	<script src="{{ url_for('static', filename='js/cards.js') }}"></script>
 {% endblock %}

@@ -4,7 +4,7 @@ from flask import Flask, request, render_template, session, redirect, url_for   
 from flask_sqlalchemy import SQLAlchemy 
 from sqlalchemy import or_                                         ##
 from werkzeug.security import generate_password_hash, check_password_hash       ##
-import json                                                                     ##
+                                                                     ##
 
 ##################################################################################
 
@@ -50,6 +50,48 @@ with app.app_context():
     db.create_all()                                                                 
 
 ###################################################################################
+
+@app.route("/add_cards_to_set", methods=["POST"])
+def add_cards_to_set():
+    # 1. Require login
+    if "user_id" not in session:
+        return redirect(url_for("login"))
+
+    user_id = session["user_id"]
+
+    # 2. Get the selected set
+    set_id = request.form.get("set_id", type=int)
+
+    card_set = CardSet.query.filter_by(
+        id=set_id,
+        user_id=user_id
+    ).first()
+
+    if card_set is None:
+        return "Set not found", 404
+
+    # 3. Get the selected card IDs from the submitted form
+    card_ids = request.form.getlist("card_ids", type=int)
+
+    if not card_ids:
+        return redirect(url_for("all_cards"))
+
+    # 4. Retrieve only cards owned by this user
+    selected_cards = Card.query.filter(
+        Card.id.in_(card_ids),
+        Card.user_id == user_id
+    ).all()
+
+    # 5. Add cards to the set, avoiding duplicates
+    for card in selected_cards:
+        if card not in card_set.cards:
+            card_set.cards.append(card)
+
+    # 6. Save the relationship in the database
+    db.session.commit()
+
+    return redirect(url_for("all_cards"))
+
 @app.route("/sets/create", methods=["GET", "POST"])
 def create_set():
     if "user_id" not in session:
@@ -102,11 +144,33 @@ def all_cards():
     if "user_id" not in session:
         return redirect(url_for("login"))
 
-    user_cards = (Card.query.filter_by(user_id=session["user_id"]).order_by(Card.id.asc()).all())
-    return render_template("cards.html", cards=user_cards)
+    user_id = session["user_id"]
+
+    user_cards = (
+        Card.query
+        .filter_by(user_id=user_id)
+        .order_by(Card.id.asc())
+        .all()
+    )
+
+    user_sets = (
+        CardSet.query
+        .filter_by(user_id=user_id)
+        .order_by(CardSet.id.asc())
+        .all()
+    )
+
+    return render_template(
+        "cards.html",
+        cards=user_cards,
+        card_sets=user_sets
+    )
 
 @app.route("/create-card", methods=["GET", "POST"])
 def create_card():
+    if "user_id" not in session:
+        return redirect(url_for("login"))
+
     if request.method == "POST":
         question = request.form.get("question", "").strip()
         answer = request.form.get("answer", "").strip()
@@ -139,13 +203,18 @@ def delete_card(card_id):
 
 @app.route("/select_option", methods=["GET", "POST"])
 def select_option():
+    if "user_id" not in session:
+        return redirect(url_for("login"))
+
     if request.method == "POST":
         return redirect(url_for("cards"))
+
+    return redirect(url_for("cards"))
 
 @app.route("/") 
 def home():  
     if "user_id" not in session:
-        redirect(url_for("login"))
+        return redirect(url_for("login"))
             
     return render_template("cards_dashboard.html")
 
