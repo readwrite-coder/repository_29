@@ -8,34 +8,109 @@
 
 	<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
-<!--------------------->
+<!------------>
 <body>
-	<nav class="navbar">
-		<div class="nav-container">
-			<a class="logo" href="{{ url_for('all_cards') }}" >[ my_cards ]    </a>
-			<div class="nav-links">
-				{% if session.get("user_id") %} 
-					<a href= "{{ url_for('home') }}">HOME</a>
-					<a href= "{{ url_for('all_cards') }}">CARDS</a>
-					<a href= "{{ url_for('logout') }}">LOGOUT</a>
-				{% else %}
-					<a href= "{{ url_for('login') }}">LOGIN</a>
-					<a href= "{{ url_for('register') }}">REGISTER</a>
-				{% endif %}
-			</div>
+<nav class="topbar">
+	<div class="topbar-left">
+		<button 
+	     	    type="button"
+		    class="menu-toggle"
+		    id="menu-toggle"
+		    >
+			<span></span>
+			<span></span>
+			<span></span>
+		</button>
+
+		<a class="brand" href="{{ url_for('home') }}" >
+			<span class="brand-icon">
+				<span class="brand-symbol"> + </span>
+			</span>
+			<span class="brand-name">Recall</span>
+		</a>
+
+	</div>
+
+	{% if session.get("user_id") %} 
+		<div class="topbar-user">
+			<span class="user-dot"></span>
+				{{ session.get("user", "Student") }}
 		</div>
-	</nav>
 
-	<main class="thic-breast">
+	{% else %}
+		<a class="topbar-login" 
+			href= "{{ url_for('login') }}"
+			>LOGIN</a>
+	{% endif %}
+</nav>
 
-		{% block content %}
+<div class="sidebar-overlay" id="sidebar-overlay" hidden></div>
+<aside class="sidebar" id="sidebar" aria-label="Main navigation" aria-hidden="true">
+	<div class="sidebar-heading">
+		<span class="sidebar-label">
+			Your Workspace
+		</span>
+		<button
+			type="button"
+			id="sidebar-close"
+			class="sidebar-close"
+			aria-label="Close navigation menu">
+			&times;
+		</button>
+	</div>
 
+	{% if session.get("user_id") %}
+		<a class="sidebar-link" href="{{ url_for('home') }}">
+			<span class="sidebar-icon"> </span>
+				Dashboard</a>
 
+		<a class="sidebar-link" href="{{ url_for('all_cards') }}">
+			<span class="sidebar-icon"> </span>
+				My Flashcards</a>
 
-		{% endblock %}
-	
-	</main>
+		<a class="sidebar-link" href="{{ url_for('my_sets') }}">
+			<span class="sidebar-icon"> </span>
+				My Sets</a>
+
+		<div class="sidebar-divider"></div>
+		<span class="sidebar-label">CREATE SOMETHING</span>
+
+		<a class="sidebar-link" href="{{ url_for('create_card') }}">
+			<span class="sidebar-icon"> </span>
+				Create Flashcard</a>
+
+		<a class="sidebar-link" href="{{ url_for('create_set') }}">
+			<span class="sidebar-icon"> </span>
+				Create Set</a>
+		
+		<div class="sidebar-spacer"></div>
+		<div class="sidebar-divider"></div>
+
+		<a class="sidebar-link logout-link"
+			href="{{ url_for('logout') }}">
+			<span class="sidebar-icon"> </span>
+				Log Out</a>
+	{% else %}
+		<a class="sidebar-link" href="{{ url_for('home') }}">
+			<span class="sidebar-icon"> </span>
+				Log in</a>
+
+		<a class="sidebar-link" href="{{ url_for('all_cards') }}">
+			<span class="sidebar-icon"> </span>
+				Create Account</a>
+
+	{% endif %}
+
+	<div class="sidebar-footer">
+		<span class="brand-mini">R</span>
+		<span>Made for your next big idea </span>
+	</div>
+</aside>
+
+<div class="main">
+	{% block content %}
+	{% endblock %}
+</div>
 
 </body>	
-<!-------------------------###########################--------------------------->
 </html>
