@@ -1,271 +1,182 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-	<title>{% block title %}[ my_flash_card ]{% endblock %}</title>
+<title>{% block title %}My Cards{% endblock %}</title>
 
-	<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+<meta name="theme-color" content="#101b33">
+
+<link
+rel="stylesheet"
+href="{{ url_for('static', filename='css/style.css') }}"
+>
 </head>
-<!------------>
-<body>
 
-<nav class="topbar">
+<body class="app-body">
 
-    <div class="topbar-left">
+<!-- Top navigation -->
+<nav class="topbar" aria-label="Top navigation">
 
-        <button
+<div class="topbar-left">
 
-            type="button"
+<button
+type="button"
+class="menu-toggle"
+id="menu-toggle"
+aria-label="Open navigation menu"
+aria-controls="sidebar"
+aria-expanded="false"
+>
+<span></span>
+<span></span>
+<span></span>
+</button>
 
-            class="menu-toggle"
+<a class="brand" href="{{ url_for('home') }}">
+<span class="brand-icon" aria-hidden="true">
+<span class="brand-symbol">✦</span>
+</span>
+<span class="brand-name">My <span>Cards</span></span>
+</a>
 
-            id="menu-toggle"
+</div>
 
-            aria-label="Open navigation menu"
+<div class="topbar-right">
+{% if session.get("user_id") %}
 
-            aria-controls="sidebar"
+<div class="topbar-user">
+<span class="user-dot"></span>
+<span>{{ session.get("user", "Student") }}</span>
+</div>
 
-            aria-expanded="false"
+{% else %}
 
-        >
+<a class="topbar-login"
+href="{{ url_for('login') }}">
+Log in
+</a>
 
-            <span></span>
-
-            <span></span>
-
-            <span></span>
-
-        </button>
-
-        <a class="brand" href="{{ url_for('home') }}">
-
-            <span class="brand-icon">
-
-                <span class="brand-symbol">+</span>
-
-            </span>
-
-            <span class="brand-name">Christ</span>
-
-        </a>
-
-    </div>
-
-    {% if session.get("user_id") %}
-
-        <div class="topbar-user">
-
-            <span class="user-dot"></span>
-
-            {{ session.get("user", "Student") }}
-
-        </div>
-
-    {% else %}
-
-        <a class="topbar-login" href="{{ url_for('login') }}">Log in</a>
-
-    {% endif %}
+{% endif %}
+</div>
 
 </nav>
 
-<div class="sidebar-overlay" id="sidebar-overlay" hidden></div>
 
-<aside class="sidebar" id="sidebar" aria-label="Main navigation" aria-hidden="true">
+<!-- Mobile sidebar backdrop -->
+<div
+class="sidebar-overlay"
+id="sidebar-overlay"
+hidden
+></div>
 
-    <div class="sidebar-heading">
 
-        <span class="sidebar-label">YOUR WORKSPACE</span>
+<!-- Main sidebar -->
+<aside
+class="sidebar"
+id="sidebar"
+aria-label="Main navigation"
+aria-hidden="true"
+>
 
-        <button type="button" id="sidebar-close" class="sidebar-close"
+<div class="sidebar-heading">
+<span class="sidebar-label">YOUR WORKSPACE</span>
 
-                aria-label="Close navigation menu">
-
-            &times;
-
-        </button>
-
-    </div>
-
-    {% if session.get("user_id") %}
-
-        <a class="sidebar-link" href="{{ url_for('home') }}">
-
-            <span class="sidebar-icon">⌂</span> Dashboard
-
-        </a>
-
-        <a class="sidebar-link" href="{{ url_for('all_cards') }}">
-
-            <span class="sidebar-icon">▤</span> My Flashcards
-
-        </a>
-
-        <a class="sidebar-link" href="{{ url_for('my_sets') }}">
-
-            <span class="sidebar-icon">▦</span> My Sets
-
-        </a>
-
-        <div class="sidebar-divider"></div>
-
-        <span class="sidebar-label">CREATE SOMETHING</span>
-
-        <a class="sidebar-link" href="{{ url_for('create_card') }}">
-
-            <span class="sidebar-icon">＋</span> Create Flashcard
-
-        </a>
-
-        <a class="sidebar-link" href="{{ url_for('create_set') }}">
-
-            <span class="sidebar-icon">＋</span> Create Set
-
-        </a>
-
-        <div class="sidebar-spacer"></div>
-
-        <div class="sidebar-divider"></div>
-
-        <a class="sidebar-link logout-link" href="{{ url_for('logout') }}">
-
-            <span class="sidebar-icon">↪</span> Log Out
-
-        </a>
-
-    {% else %}
-
-        <a class="sidebar-link" href="{{ url_for('login') }}">
-
-            <span class="sidebar-icon">↪</span> Log In
-
-        </a>
-
-        <a class="sidebar-link" href="{{ url_for('register') }}">
-
-            <span class="sidebar-icon">＋</span> Create Account
-
-        </a>
-
-    {% endif %}
-
-    <div class="sidebar-footer">
-
-        <span class="brand-mini">R</span>
-
-        <span>Made for your next big idea.</span>
-
-    </div>
-
-</aside>
-
-<!--
-<nav class="topbar">
-	<div class="topbar-left">
-		<button 
-	     	    type="button"
-		    class="menu-toggle"
-		    id="menu-toggle"
-		    >
-			<span></span>
-			<span></span>
-			<span></span>
-		</button>
-
-		<a class="brand" href="{{ url_for('home') }}" >
-			<span class="brand-icon">
-				<span class="brand-symbol"> + </span>
-			</span>
-			<span class="brand-name">Recall</span>
-		</a>
-
-	</div>
-
-	{% if session.get("user_id") %} 
-		<div class="topbar-user">
-			<span class="user-dot"></span>
-				{{ session.get("user", "Student") }}
-		</div>
-
-	{% else %}
-		<a class="topbar-login" 
-			href= "{{ url_for('login') }}"
-			>LOGIN</a>
-	{% endif %}
-</nav>
-
-<div class="sidebar-overlay" id="sidebar-overlay" hidden></div>
-<aside class="sidebar" id="sidebar" aria-label="Main navigation" aria-hidden="true">
-	<div class="sidebar-heading">
-		<span class="sidebar-label">
-			Your Workspace
-		</span>
-		<button
-			type="button"
-			id="sidebar-close"
-			class="sidebar-close"
-			aria-label="Close navigation menu">
-			&times;
-		</button>
-	</div>
-
-	{% if session.get("user_id") %}
-		<a class="sidebar-link" href="{{ url_for('home') }}">
-			<span class="sidebar-icon"> </span>
-				Dashboard</a>
-
-		<a class="sidebar-link" href="{{ url_for('all_cards') }}">
-			<span class="sidebar-icon"> </span>
-				My Flashcards</a>
-
-		<a class="sidebar-link" href="{{ url_for('my_sets') }}">
-			<span class="sidebar-icon"> </span>
-				My Sets</a>
-
-		<div class="sidebar-divider"></div>
-		<span class="sidebar-label">CREATE SOMETHING</span>
-
-		<a class="sidebar-link" href="{{ url_for('create_card') }}">
-			<span class="sidebar-icon"> </span>
-				Create Flashcard</a>
-
-		<a class="sidebar-link" href="{{ url_for('create_set') }}">
-			<span class="sidebar-icon"> </span>
-				Create Set</a>
-		
-		<div class="sidebar-spacer"></div>
-		<div class="sidebar-divider"></div>
-
-		<a class="sidebar-link logout-link"
-			href="{{ url_for('logout') }}">
-			<span class="sidebar-icon"> </span>
-				Log Out</a>
-	{% else %}
-		<a class="sidebar-link" href="{{ url_for('home') }}">
-			<span class="sidebar-icon"> </span>
-				Log in</a>
-
-		<a class="sidebar-link" href="{{ url_for('all_cards') }}">
-			<span class="sidebar-icon"> </span>
-				Create Account</a>
-
-	{% endif %}
-
-	<div class="sidebar-footer">
-		<span class="brand-mini">R</span>
-		<span>Made for your next big idea </span>
-	</div>
-</aside>
--->
-<div class="main">
-	{% block content %}
-	{% endblock %}
+<button
+type="button"
+id="sidebar-close"
+class="sidebar-close"
+aria-label="Close navigation menu"
+>
+&times;
+</button>
 </div>
 
 
-</body>	
+{% if session.get("user_id") %}
+
+<a class="sidebar-link"
+href="{{ url_for('home') }}">
+<span class="sidebar-icon" aria-hidden="true">⌂</span>
+<span>Dashboard</span>
+</a>
+
+<a class="sidebar-link"
+href="{{ url_for('all_cards') }}">
+<span class="sidebar-icon" aria-hidden="true">▤</span>
+<span>My Flashcards</span>
+</a>
+
+<a class="sidebar-link"
+href="{{ url_for('my_sets') }}">
+<span class="sidebar-icon" aria-hidden="true">▦</span>
+<span>My Sets</span>
+</a>
+
+
+<div class="sidebar-divider"></div>
+
+<span class="sidebar-label">CREATE SOMETHING</span>
+
+
+<a class="sidebar-link"
+href="{{ url_for('create_card') }}">
+<span class="sidebar-icon" aria-hidden="true">＋</span>
+<span>Create Flashcard</span>
+</a>
+
+<a class="sidebar-link"
+href="{{ url_for('create_set') }}">
+<span class="sidebar-icon" aria-hidden="true">＋</span>
+<span>Create Set</span>
+</a>
+
+
+<div class="sidebar-spacer"></div>
+
+<div class="sidebar-divider"></div>
+
+<a class="sidebar-link logout-link"
+href="{{ url_for('logout') }}">
+<span class="sidebar-icon" aria-hidden="true">↪</span>
+<span>Log Out</span>
+</a>
+
+{% else %}
+
+<a class="sidebar-link"
+href="{{ url_for('login') }}">
+<span class="sidebar-icon" aria-hidden="true">↪</span>
+<span>Log In</span>
+</a>
+
+<a class="sidebar-link"
+href="{{ url_for('register') }}">
+<span class="sidebar-icon" aria-hidden="true">＋</span>
+<span>Create Account</span>
+</a>
+
+{% endif %}
+
+
+<div class="sidebar-footer">
+<span class="brand-mini">M</span>
+<span>Learn. Organize. Succeed.</span>
+</div>
+
+</aside>
+
+
+<!-- Page content -->
+<main class="main" id="main-content">
+{% block content %}
+{% endblock %}
+</main>
+
+
+<!-- Keep existing JavaScript functionality -->
 <script src="{{ url_for('static', filename='js/cards.js') }}"></script>
 
+</body>
 </html>
