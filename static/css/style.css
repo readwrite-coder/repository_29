@@ -1,4 +1,8 @@
-/* GLOBAL STYLES 
+/*
+ *
+ *
+ *
+ * GLOBAL STYLES 
 :root {
 	--primary: #635bff;
 	--primary-dark: #4f46e5;
@@ -8,7 +12,7 @@
 	--muted: #64748b;
 	--border: #e2e8f0;
 }
-* {
+{
 	box-sizing: border-box;
 }
 body {
@@ -18,9 +22,11 @@ body {
 	color: var(--text);
 	line-height: 1.6;
 }
-/*--------------------LOGO-----------------------------
-
--------------- NAVIGATION BAR ------------------ */
+*/
+/*
+ *
+ *
+ * -------------- NAVIGATION BAR ------------------ */
 .topbar {
 	height: 76px;
 	background: #ffffff;
@@ -45,15 +51,20 @@ body {
 .brand {
 	gap: 10px;
 	color: #211b49;
-	text-decoration:none;
+	text-decoration: none;
 }
 .brand-icon {
 	width: 39px;
 	height: 39px;
 	display: grid;
 	place-items: center;
-	background: linear-gradient(135deg, #8174ff, #5b45dc);	
-	box-shadow: 0 4px 10px rgba(99, 91, 255, 0.2);
+	background: linear-gradient(
+		135deg, 
+		#8174ff, 
+		#5b45dc
+	);	
+	box-shadow: 0 4px 10px rgba(
+		99, 91, 255, 0.2);
 }
 .brand-symbol {
 	color: white;
@@ -109,8 +120,10 @@ body {
 	text-decoration: none;
 	font-weight: 700;
 }
-/* Navigation bar DONE  */
 
+
+/* Navigation bar DONE  */
+/*##########______SIDE-BAR______############*/
 
 .sidebar {
 	position: fixed;
@@ -129,8 +142,88 @@ body {
 	transition: transform 0.25s ease, visibility 0.25s ease;
 	overflow-y: auto;
 }
+.sidebar.open{
+	transform: translateX(0);
+	visibility: visible;
+}
+.sidebar-heading {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-botton: 25px;
+}
+.sidebar-label {
+	padding: 0 12px;
+	color: #9892b2;
+	font-size: 11px;
+	font-weight: 800;
+	letter-spacing: 1.3px;
+}
+.sidebar-close {
+	width: 34px;
+	height: 34px;
+	border: none;
+	border-radius:
+}
+.sidebar-link {
+	display: flex;
+	align-items: center;
+	gap: 13px;
+	margin: 3px 0;
+	padding: 12px;
+	border-radius: 10px;
+	color: #514d68;
+	text-decoration: none;
+	font-size: 14px;
+	font-weight: 600;
+	transition: background 0.2s ease, color 0.2s ease;
+}
+.sidebar-link:hover {
+	background: #f1efff;
+	color: #5b45dc;
+}
+.sidebar-icon {
+	width: 25px;
+	display: inline-flex;
+	justify-content: center;
+	color: #7566dc;
+	font-size: 21px;
+}
+.sidebar-divider {
+	height: 1px;
+	margin: 18px 4px;
+	background: #eeecf5;
+}
+.sidebar-spacer {
+	flex: 1;
+	min-height: 35px;
+}
+.logout-link:hover {
+	background: #fff1f2;
+	color: #be123c;
+}
+.sidebar-footer {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	padding: 18px 8px 5px;
+	color: #9892b2;
+	font-size: 11px;
+}
+.brand-mini {
 
-/*   */
+}
+.sidebar-overlay {
+	position: fixed;
+	inset: 0;
+	z-index: 1100;
+	background: rgba(21, 18, 43, 0.38);
+	backdrop-filter: blur(2px);
+}
+body.menu-open {
+	overflow: hidden;
+}
+/*---------------------------------------------- */
 .login-box,
 .register-box {
 	text-align: left;
@@ -208,7 +301,7 @@ body {
 .register-box a:hover {
 	text-decoration: underline;
 }
-/**** NICE ****/
+/****----------- NICE------------- ****/
 
 
 .cards-page{
@@ -345,3 +438,32 @@ body {
 	color: white;
 
 }
+
+
+/* ___________ MOBILE __________ */
+@media (max-width: 480px) {
+	.topbar {
+		height: 66px;
+		padding: 0 14px;
+	}
+	.topbar-left{
+		gap: 13px;
+	}
+	.brand-name {
+		font-size: 22px;
+	}
+	.topbar-user {
+		max-width: 115px;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+}
+@media (prefers-reduced-motion: reduce) {
+	.sidebar,
+	.menu-toggle span {
+		transition: none;
+	}
+}
+
+
