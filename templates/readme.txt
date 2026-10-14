@@ -1,7 +1,7 @@
 ReadMe\
 
 base.html             create_card.html  readme.txt           *set_detail.html
-*cards_dashboard.html  create_set.html   register.html        *sets.html
+*__dashboard__.html  create_set.html   register.html        *sets.html
 *cards.html            login.html        search_results.html
 
 [ * ] cards_dashboard.html///THIS IS THE STARTING PAGE AFTER LOG-IN////////////////////////////////////////////////////////////////////////////////////////////
