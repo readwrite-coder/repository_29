@@ -35,7 +35,7 @@ body {
 	align-items: center;
 	justify-content: space-between;
 	gap: 20px;
-	box-shadow: 0 4px 3px rgba(0, 0, 0.12);
+	box-shadow: 0 4px 3px rgba(0, 0, 0, 0.12);
 	position: sticky;
 	top: 0;
 	z-index: 1000;
@@ -224,6 +224,14 @@ body.menu-open {
 	overflow: hidden;
 }
 /*---------------------------------------------- */
+.error-message {
+	color: #b91c1c;
+	background: #fee2e2;
+	border: 1px solid #fca5a5;
+	border-radius: 8px;
+	padding: 10px 14px;
+	margin: 12px 0;
+}
 .login-box,
 .register-box {
 	text-align: left;
@@ -419,6 +427,13 @@ body.menu-open {
 
 .dashboard-button:hover {
 	background: #ddd6fe;
+}
+.card-search {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 12px;
+	margin-top: 24px;
 }
 
 .remove-set-button {

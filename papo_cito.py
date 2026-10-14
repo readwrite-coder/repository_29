@@ -163,6 +163,31 @@ def view_set(set_id):
         card_set=card_set,
         cards=card_set.cards
     )
+@app.route("/cards/search")
+def search_cards():
+    if "user_id" not in session:
+        return redirect(url_for('login'))
+
+    query = request.args.get("q", "").strip()
+
+    results = []
+
+    if query:
+        pattern = f"%{query}%"
+        
+        results = Card.query.filter(
+            Card.user_id == session["user_id"],
+            or_(
+                Card.question.ilike(pattern),
+                Card.answer.ilike(pattern)
+            )
+        ).order_by(Card.id.asc()).all()
+        
+    return render_template(
+        "search_results.html",
+        cards=results,
+        query=query
+    )
 @app.route("/cards")                                    
 def cards():
     if "user_id" not in session:
@@ -258,12 +283,18 @@ def register():
         _word = request.form.get("password", "")               
         
         if not _word or not _name:
-            return render_template("register.html") 
+            return render_template(
+                    "register.html",
+                    error="Please enter both a username and password."
+                ) 
                                                                                 
         existing_user = User.query.filter_by(username=_name).first()       
                                                                                 
         if existing_user:                                                       
-            return render_template("register.html")   
+            return render_template(
+                    "register.html",
+                    error="That username is already taken."
+                )   
 
         _word_hash = generate_password_hash(_word)    
                                                                         

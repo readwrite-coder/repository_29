@@ -3,7 +3,9 @@
 <div class="cards-page">
 	<h1>Search Results</h1>
 	
-	<form action="{{ url_for('search_cards') }}" method="GET">
+	<form 
+		action="{{ url_for('search_cards') }}" 
+		method="GET">
 		<input name="q" value="{{ query }}"
 			placeholder="Search questions and answers">
 		<button type="submit">Search</button>

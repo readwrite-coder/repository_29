@@ -4,8 +4,8 @@
 
 <div class="cards-page">
 	
-	<h1>[ {{ session["user"] }} ]</h1>
-	<p>user id : [ {{ session["user_id"] }} ]</p>
+	<h1>My Flashcards</h1>
+	<p>What would you like to do?</p>
 
 	<div class="dashboard-actions">
 		
@@ -15,14 +15,19 @@
 
 	</div>
 	
-	<form >
-		<label>Search my cards</label>
+	<form 
+		action="{{ url_for('search_cards') }}"
+		method="GET"
+		class="card-search"
+	>
+		<label for="q">Search all my cards</label>
 		<input
 			type="search"
 			id="q"
 			name="q"
-			placeholder="Search questions and answers..."
+			placeholder="Free  questions and answers..."
 		>
+
 		<button type="submit" class="remove-set-button">Search</button>
 	</form>
 </div>

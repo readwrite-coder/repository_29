@@ -1,25 +1,42 @@
 	
 	{% extends "base.html" %}
+	{% block title %}Register | My Flash Cards{% endblock %}
 
 	{% block content %}
-	
 	<div class="register-box">
-
 		<h1>Create Account</h1>
 	
-		<form method="POST" action="/register">
+		{% if error %}
+			<p class="error-message">{{ error }}</p>
+		{% endif %}
 
-			<label>Username:</label>
-			<input type="text" name="username" required>
-			<br><br>
-			<label>Password:</label>
-			<input type="password" name="password" required>
-			<br><br>
+		<form method="POST" action="{{ url_for('register') }}">
+
+			<label for "username">Username:</label>
+			<input 
+				type="text"
+				id="username"
+				name="username"
+				autocomplete="username"
+				required
+			>
+			
+			<label for="password">Password:</label>
+			<input 
+				type="password"
+				id="password"
+				name="password" 
+				autocomplete="new-password"
+				required
+			>
 
 			<button type="submit">Register</button>
 		</form>
-		<br>
-		<a href="/login">Already have an account? Login</a>
+		
+		<p>
+			Alread have an account?
+			<a href="{{ url_for('login') }}">Login</a>
+		</p>
 	</div>
 
 	{% endblock %}

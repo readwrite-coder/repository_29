@@ -21,6 +21,7 @@
 			<option value="NONE">None</option>
 			<option value="SELECT">Select</option>
 			<option value="ALL">Select All</option>
+			<option value="delete">Delete</option>
 		</select>
 
 		<p id="selection-message" hidden>
@@ -28,8 +29,11 @@
 		</p>
 
 	<div class="cards-grid">
+		
 		{% for card in cards %}
+		
 		<div class="card-item">
+			
 			<label class="card-select" hidden>
 			<input
 				type="checkbox"
@@ -40,7 +44,22 @@
 				Select Card
 			</label>
 
+			
+
+		
+
 			<div class="flashcard" onclick="flipCard(this)">
+			<form 
+			       	action="{{ url_for('delete_card', card_id=card.id) }}"
+				method="POST"
+				onsubmit="return confirm('Are you sure you want to delete this card?');"
+				>
+					
+				<button type="submit" class="delete-button">
+					Delete Card
+				</button>
+			</form>
+	
 				<div class="flashcard-inner">
 					<div class="flashcard-front">
 						<h3>Question</h3>
