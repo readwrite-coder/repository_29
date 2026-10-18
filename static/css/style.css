@@ -1,21 +1,219 @@
 .app-body {
-	border: 15px dotted red;
-	background: hotpink;
-}
-.topbar {
-	border: 11px dotted red;
-	height: 100px;
-	/*background: linear-gradient(0, maroon, red, orange, yellow);*/
-	background: #FFB6C1;
-	border-radius: 100;
-
+	padding: 25px;
+	border: 6px dotted black;
+	background: red;
+	height: 100%;
 }
 .app-body:hover {
-    border: 15px dotted blue;
+    border: 6px dotted green;
+    background: yellow;
+}
+.topbar {
+	padding: 25px;
+	border: 8px dotted green;
+	height: auto;
+	/*background: linear-gradient(0, maroon, red, orange, yellow);*/
+	background: pink;
+	border-radius: 100;
 }
 .topbar:hover {
-	border: 11px dotted blue;
+	border: 8px dotted black;
+	background: white;
 }
+.brand-name {
+        border: 5px dotted blue;
+		font-size: 48px;
+		letter-spacing: 0px;
+}
+.brand-name:hover {
+    border: 5px dotted black;
+	background: pink;
+}
+.brand {
+    border: 5px dotted blue;
+	gap: 15px;
+	color: black;
+	text-decoration: none;
+}
+.brand:hover {
+    border: 5px dotted white;
+    background: white;
+}
+.topbar-right{
+    border: 17px dotted blue;
+    padding-top: 40px;
+    width: 50%;
+}
+.topbar-right:hover {
+    border:17px dotted black;
+    background: black;
+}
+.topbar-user {
+    color: red;
+    border: 4px dotted yellow;
+    background: white;
+    gap: 19px;
+    font-size: 24px;
+	font-weight: 600;
+	display: flex;
+	align-items: center;
+}
+.topbar-user:hover {
+	border: 4px dotted blue;
+    background: pink;
+}
+.topbar-login {
+    border: 6px dotted green;
+	background: blue;
+	text-decoration: underline;
+	align-items: center;
+}
+.topbar-login:hover {
+    border: 6px dotted white;
+    background: red;
+}
+.topbar-left {
+    width: 280px;
+	box-sizing: border-box;
+	border: 17px dotted blue;
+}
+.topbar-left:hover {
+    border:17px dotted black;
+    background: black;
+}
+.cards-page {
+    padding: 25px;
+    border: 8px solid white;
+	max-width: 1000px;
+	margin: 20px auto 50px;
+
+}
+.cards-page:hover {
+	border: 8px dotted black;
+	background: red;
+}
+/*.topbar-left,.brand {
+	border: 6px dotted red;
+	display: flex;
+	align-items: center;
+
+}*/
+
+
+
+
+
+
+
+
+
+
+.menu-toggle {
+    border: 3px dotted blue;
+    /*width: 43px; height: 43px;*/ height: 75; width: 75; padding: 10px; display: flex;
+    flex-direction: column; align-items: center; justify-content: center; gap: 5px;
+    background: orange;
+    border-radius: 12px;
+    cursor: pointer; transition: background 0.2s ease,
+    border-color 0.2s ease; }
+
+
+
+
+.menu-toggle span {
+    border: 2px dotted blue;
+    width: 50px; /*height: 2px;*/
+    height: 7px; display: block;
+    /*background: #352d62*/
+    background: yellow;
+    border-radius: 100px;
+    transition: transform 0.2s ease;
+}
+.menu-toggle:hover {
+    background: 3px dotted red;
+}
+.brand:hover {
+    border: 4px dotted red;
+}
+
+
+
+
+
+
+
+.user-dot {
+    border: 2px dotted blue;
+	height: 20px;
+	width: 20px;
+	flex-shrink: 0;
+	background: yellow;
+	border-radius: 50%;
+}
+.user-dot:hover {
+	border: 2px dotted red;
+}
+
+				.brand-symbol {
+					color: pink;
+					font-size: 30px;
+					}.brand-symbol:hover {
+						background: gold }
+.brand-icon {
+		border: 2px solid red;
+		width: 42px;
+		height: 42px;
+		display: grid;
+		place-items: center;
+		border-radius: 13px;
+		background: linear-gradient(135deg, #8174ff, #5b45dc);
+		box-shadow: 0 5px 12px rgba(99, 91, 255, 0.24);
+	}
+.brand-icon:hover {
+    border: 2px solid black;
+	background: maroon;
+
+}
+
+
+.dashboard-actions {
+	    border: 5px solid black;
+				display: grid;
+				grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+				gap: 18px;
+				margin: 30px 0;
+
+	}
+			.dashboard-button {
+				display: block;
+				padding: 25px;
+				border-radius: var(--radius-md);
+				color: #373078; font-weight: 700; text-align: center;
+				background: white; border: 1px solid #e4e0ff; box-shadow: var(--shadow-sm);
+				text-decoration: none;
+				transition: transform 0.2s, box-shadow 0.2s, background 0.2s; }
+
+			.dashboard-button:hover {
+				background: var(--primary-light);
+				transform: translateY(-3px);
+				box-shadow: var(--shadow-md); }
+			.card-search { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-top: 24px; }
+
+			.card-search input,
+			.card-search select,
+			.card-search textarea
+				{
+					max-width: 100%;
+					padding: 11px 13px;
+					border: 1px solid var(--border);
+					border-radius: 10px;
+					background: white; color: var(--text);
+				}
+
+
+			.card-search input:focus, .card-search select:focus, .card-search textarea:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(99, 91, 255, 0.12); }
+			.remove-set-button { margin-top: 12px; padding: 9px 14px; border: 1px solid #fecaca; border-radius: 9px; background: white; color: var(--danger); font-weight: 600; cursor: pointer; transition: background 0.2s ease, color 0.2s ease; }
+			.remove-set-button:hover { background: var(--danger); color: white; }
 /* =========================================
 	LOGIN AND REGISTRATION
 ========================================= */
@@ -167,10 +365,6 @@
 .flashcard:hover .flashcard-back {
 	box-shadow: 0 16px 34px rgba(79, 70, 229, 0.17);
 }
-
-
-
-
 /*
 
 /* =========================================
@@ -222,86 +416,11 @@
 			}
 */
 
-		.cards-page {
-				border: 6px solid red;
-				max-width: 1000px;
-				margin: 20px auto 50px;
-				padding-top: 0px;
-				padding-bottom: 0px;
-			}
-		.cards-page:hover {
-			border: 8px solid black;
-			background: red;
-		}
-
-			.topbar-left,.brand {
-				display: flex;
-				align-items: center; }
 
 
-			.topbar-left {
-				gap: 200px;
-				}.topbar-left:hover {
-					background: green; }
 
-			.brand {
-				gap: 15px;
-				color: black;
 
-				text-decoration: none;
-				transition: background 0.15s ease;
-				}.brand:hover {
-					color: red; background:green; }
 
-				.brand-icon {
-					width: 42px;
-					height: 42px;
-					display: grid;
-					place-items: center;
-					border-radius: 13px;
-					background: linear-gradient(135deg, #8174ff, #5b45dc);
-					box-shadow: 0 5px 12px rgba(99, 91, 255, 0.24);
-					}.brand-icon:hover {
-						background: maroon; }
-				.brand-symbol {
-					color: pink;
-					font-size: 30px;
-					}.brand-symbol:hover {
-						background: gold }
-				.brand-name {
-					font-size: 48px;
-					letter-spacing: 0px;
-					}.brand-name:hover {
-						text-decoration:underline;
-						background: pink }
-
-			.menu-toggle { /*width: 43px; height: 43px;*/ height: 75; width: 75; padding: 10px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; background: orange; border: 1px solid var(--border); border-radius: 12px; cursor: pointer; transition: background 0.2s ease, border-color 0.2s ease; }
-			.menu-toggle span { /*width: 20px;*/ width: 50px; /*height: 2px;*/ height: 7px; display: block; /*background: #352d62;*/ background: purple; /*border-radius: 4px;*/ border-radius: 100px; transition: transform 0.2s ease; }
-			.menu-toggle:hover { /*background: var(--primary-light);*/ /*border-color: #c4b5fd;*/ border-color: red; background: magenta; }
-			.topbar-user {
-				display: flex;
-				align-items: center;
-				gap: 9px; /*color: #4b4667;*/
-				color: red; /*font-size: 14px;*/
-				font-size: 24px;
-				font-weight: 600; }
-				.topbar-user:hover {
-					color: green; background: pink;
-					text-decoration:underline}
-			.user-dot {
-				height: 20px;
-				width: 20px;
-				flex-shrink: 0;
-				background: green;
-				border-radius: 50%; }
-				.user-dot:hover {
-					background: brown;
-					text-decoration:underline}
-			.topbar-login {
-				color: blue;
-				text-decoration: underline; }
-				.topbar-login:hover {
-					color: var(--primary-dark); }
 			/* =========================================
 			SIDEBAR AND OVERLAY
 			========================================= */
@@ -336,41 +455,7 @@
 			body.menu-open { overflow: hidden; }
 
 
-			.dashboard-actions {
-				display: grid;
-				grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-				gap: 18px;
-				margin: 30px 0; }
-			.dashboard-button {
-				display: block;
-				padding: 25px;
-				border-radius: var(--radius-md);
-				color: #373078; font-weight: 700; text-align: center;
-				background: white; border: 1px solid #e4e0ff; box-shadow: var(--shadow-sm);
-				text-decoration: none;
-				transition: transform 0.2s, box-shadow 0.2s, background 0.2s; }
 
-			.dashboard-button:hover {
-				background: var(--primary-light);
-				transform: translateY(-3px);
-				box-shadow: var(--shadow-md); }
-			.card-search { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-top: 24px; }
-
-			.card-search input,
-			.card-search select,
-			.card-search textarea
-				{
-					max-width: 100%;
-					padding: 11px 13px;
-					border: 1px solid var(--border);
-					border-radius: 10px;
-					background: white; color: var(--text);
-				}
-
-
-			.card-search input:focus, .card-search select:focus, .card-search textarea:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(99, 91, 255, 0.12); }
-			.remove-set-button { margin-top: 12px; padding: 9px 14px; border: 1px solid #fecaca; border-radius: 9px; background: white; color: var(--danger); font-weight: 600; cursor: pointer; transition: background 0.2s ease, color 0.2s ease; }
-			.remove-set-button:hover { background: var(--danger); color: white; }
 			/* =========================================
 			CARDS PAGE
 			========================================= */
