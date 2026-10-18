@@ -1,7 +1,13 @@
 
+
+instance/users.db
+
+.virtualenvs/
+.venv/
 venv/
-*.sh
 
+*.py[cod]
 
+__pycache__
 
 

@@ -1,35 +1,19 @@
 {% extends "base.html" %}
-
 {% block content %}
 
 <div class="cards-page">
-	
-	<!--h1>Let's Create search</h1-->
-
 	<div class="dashboard-actions">
-		<a class="dashboard-button" 
-			href="{{ url_for('all_cards') }}">Show all my Cards</a>
-		<!--a class="dashboard-button" 
-			href="{{ url_for('create_set') }}">Create Set</a-->
-		<a class="dashboard-button" 
-			href="{{ url_for('my_sets') }}">View My Sets</a>
+		<a class="dashboard-button" href="{{ url_for('all_cards') }}">Show all my Cards</a>
+		<a class="dashboard-button" href="{{ url_for('my_sets') }}">View My Sets</a>
+		<a class="dashboard-button" href="{{ url_for('open_calender') }}">Open Calender</a>
 	</div>
-	
-	<form action="{{ url_for('search_cards') }}"
-		method="GET"
-		class="card-search"
-			>
-		<label for="q">Search cards:</label>
-		<input
-			type="search"
-			id="q"
-			name="q"
-			placeholder="Search questions and answers..."
-		>
-			<button type="submit" class="remove-set-button">
-				Search</button>
-		</form>
-
+	<form class="card-search" action="{{ url_for('search_cards') }}" method="GET">
+		<label for="q">Browser Menu:</label>
+		<input type="search" id="q" name="q" placeholder="Search q and a...">
+			<button class="remove-set-button" type="submit">
+				Eat
+			</button>
+	</form>
 </div>
 
 {% endblock %}

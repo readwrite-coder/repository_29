@@ -1,182 +1,130 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>{% block title %}My Cards{% endblock %}</title>
-
-<meta name="theme-color" content="#101b33">
-
-<link
-rel="stylesheet"
-href="{{ url_for('static', filename='css/style.css') }}"
->
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>{% block title %}My Cards{% endblock %}</title>
+	<meta name="theme-color" content="#101b33">
+	<link rel="stylesheet"href="{{ url_for('static', filename='css/style.css') }}">
 </head>
-
 <body class="app-body">
 
-<!-- Top navigation -->
-<nav class="topbar" aria-label="Top navigation">
+	<!-- Top navigation -->
+		<nav class="topbar" aria-label="Top navigation">
+		<div class="topbar-left">
+			<button type="button" class="menu-toggle" id="menu-toggle"
+				aria-label="Open navigation menu" aria-controls="sidebar"
+				aria-expanded="false">
+				<span></span>
+				<span></span>
+				<span></span>
+			</button>
+			<a class="brand" href="{{ url_for('home') }}">
+				<span class="brand-icon" aria-hidden="true">
+					<span class="brand-symbol"> ✦ </span>
+				</span>
+				<span class="brand-name">My
+					<span>Cards</span>
+				</span>
+			</a>
+		</div>
+		<div class="topbar-right">
+			{% if session.get("user_id") %}
+				<div class="topbar-user">
+					<span class="user-dot"></span>
+					<span>{{ session.get("user", "Student") }}</span>
+				</div>
+			{% else %} <a class="topbar-login"href="{{ url_for('login') }}">Log in</a>
+			{% endif %}
+		</div>
+		</nav>
+	<!-- END Top navigation -->
+	<!-- Mobile sidebar backdrop -->
 
-<div class="topbar-left">
+		<div class="sidebar-overlay" id="sidebar-overlay" hidden > </div>
 
-<button
-type="button"
-class="menu-toggle"
-id="menu-toggle"
-aria-label="Open navigation menu"
-aria-controls="sidebar"
-aria-expanded="false"
->
-<span></span>
-<span></span>
-<span></span>
-</button>
+		<!-- Main sidebar -->
+			<aside class="sidebar" id="sidebar" aria-label="Main navigation" aria-hidden="true" >
 
-<a class="brand" href="{{ url_for('home') }}">
-<span class="brand-icon" aria-hidden="true">
-<span class="brand-symbol">✦</span>
-</span>
-<span class="brand-name">My <span>Cards</span></span>
-</a>
+			<div class="sidebar-heading">
+				<span class="sidebar-label">Simply Tree</span>
+				<button type="button" id="sidebar-close" class="sidebar-close"
+					aria-label="Close navigation menu">&times;
+				</button>
+			</div>
 
-</div>
+			{% if session.get("user_id") %}
 
-<div class="topbar-right">
-{% if session.get("user_id") %}
+			<a class="sidebar-link"
+				href="{{ url_for('home') }}">
+				<span class="sidebar-icon" aria-hidden="true">⌂</span>
+				<span>Dashboard</span>
+			</a>
+			<a class="sidebar-link"
+				href="{{ url_for('all_cards') }}">
+				<span class="sidebar-icon" aria-hidden="true">▤</span>
+				<span>My Flashcards</span>
+			</a>
+		<a class="sidebar-link"
+			href="{{ url_for('my_sets') }}">
+			<span class="sidebar-icon" aria-hidden="true">▦</span>
+			<span>My Sets</span>
+		</a>
+		<a class="sidebar-link"
+			href="{{ url_for('my_sets') }}">
+			<span class="sidebar-icon" aria-hidden="true">▦</span>
+			<span>Calender</span>
+		</a>
 
-<div class="topbar-user">
-<span class="user-dot"></span>
-<span>{{ session.get("user", "Student") }}</span>
-</div>
-
-{% else %}
-
-<a class="topbar-login"
-href="{{ url_for('login') }}">
-Log in
-</a>
-
-{% endif %}
-</div>
-
-</nav>
-
-
-<!-- Mobile sidebar backdrop -->
-<div
-class="sidebar-overlay"
-id="sidebar-overlay"
-hidden
-></div>
-
-
-<!-- Main sidebar -->
-<aside
-class="sidebar"
-id="sidebar"
-aria-label="Main navigation"
-aria-hidden="true"
->
-
-<div class="sidebar-heading">
-<span class="sidebar-label">YOUR WORKSPACE</span>
-
-<button
-type="button"
-id="sidebar-close"
-class="sidebar-close"
-aria-label="Close navigation menu"
->
-&times;
-</button>
-</div>
+		<div class="sidebar-divider"></div>
+		<span class="sidebar-label">CREATE SOMETHING</span>
 
 
-{% if session.get("user_id") %}
+		<div class="sidebar-spacer"></div>
+		<div class="sidebar-divider"></div>
 
-<a class="sidebar-link"
-href="{{ url_for('home') }}">
-<span class="sidebar-icon" aria-hidden="true">⌂</span>
-<span>Dashboard</span>
-</a>
+		<a class="sidebar-link logout-link"
+			href="{{ url_for('logout') }}">
+			<span class="sidebar-icon" aria-hidden="true">↪</span>
+			<span>Log Out</span>
+		</a>
 
-<a class="sidebar-link"
-href="{{ url_for('all_cards') }}">
-<span class="sidebar-icon" aria-hidden="true">▤</span>
-<span>My Flashcards</span>
-</a>
+		{% else %}
 
-<a class="sidebar-link"
-href="{{ url_for('my_sets') }}">
-<span class="sidebar-icon" aria-hidden="true">▦</span>
-<span>My Sets</span>
-</a>
+			<a class="sidebar-link"
+				href="{{ url_for('login') }}">
+				<span class="sidebar-icon" aria-hidden="true">↪</span>
+				<span>Log In</span></a>
 
+			<a class="sidebar-link"
+				href="{{ url_for('register') }}">
+				<span class="sidebar-icon" aria-hidden="true">＋</span>
+				<span>Create Account</span>
+			</a>
 
-<div class="sidebar-divider"></div>
+		{% endif %}
 
-<span class="sidebar-label">CREATE SOMETHING</span>
+			<div class="sidebar-footer">
+				<span class="brand-mini">M</span>
+				<span>Learn. Organize. Succeed.</span>
+			</div>
 
-
-<a class="sidebar-link"
-href="{{ url_for('create_card') }}">
-<span class="sidebar-icon" aria-hidden="true">＋</span>
-<span>Create Flashcard</span>
-</a>
-
-<a class="sidebar-link"
-href="{{ url_for('create_set') }}">
-<span class="sidebar-icon" aria-hidden="true">＋</span>
-<span>Create Set</span>
-</a>
+	</aside>
 
 
-<div class="sidebar-spacer"></div>
+	<!-- Page content -->
 
-<div class="sidebar-divider"></div>
+		<main class="main" id="main-content">
+			{% block content %}
 
-<a class="sidebar-link logout-link"
-href="{{ url_for('logout') }}">
-<span class="sidebar-icon" aria-hidden="true">↪</span>
-<span>Log Out</span>
-</a>
-
-{% else %}
-
-<a class="sidebar-link"
-href="{{ url_for('login') }}">
-<span class="sidebar-icon" aria-hidden="true">↪</span>
-<span>Log In</span>
-</a>
-
-<a class="sidebar-link"
-href="{{ url_for('register') }}">
-<span class="sidebar-icon" aria-hidden="true">＋</span>
-<span>Create Account</span>
-</a>
-
-{% endif %}
+			{% endblock %}
+		</main>
 
 
-<div class="sidebar-footer">
-<span class="brand-mini">M</span>
-<span>Learn. Organize. Succeed.</span>
-</div>
+	<!-- Keep existing JavaScript functionality -->
 
-</aside>
-
-
-<!-- Page content -->
-<main class="main" id="main-content">
-{% block content %}
-{% endblock %}
-</main>
-
-
-<!-- Keep existing JavaScript functionality -->
-<script src="{{ url_for('static', filename='js/cards.js') }}"></script>
+		<script src="{{ url_for('static', filename='js/cards.js') }}"></script>
 
 </body>
 </html>

@@ -6,9 +6,7 @@
 	<p><a href="{{ url_for('create_card') }}">
 			+ Create a Flashcard     </a></p>
 
-	<form id="card-selection-form" method="POST"
-		action="{{ url_for('add_cards_to_set') }}">
-
+	<form id="card-selection-form" method="POST" action="{{ url_for('add_cards_to_set') }}">
 		<label for="selection-mode">Select cards:</label>
 		<select id="selection-mode" name="selection_mode">
 			<option value="NONE">None</option>
@@ -16,29 +14,31 @@
 			<option value="ALL">Select All</option>
 			<option value="delete">Delete</option>
 		</select>
-
 		<p id="selection-message" hidden>
-			Choose the cards you want to add to a set.</p>
+			Choose the cards you want to add to a set.
+		</p>
 
 		<div class="cards-grid">
+
 		{% for card in cards %}
+
 		<div class="card-item">
 			<label class="card-select" hidden>
-			<input
-				type="checkbox"
-				class="card-checkbox"
-				name="card_ids"
-				value="{{ card.id }}"
-			>
-				Select Card</label>
+				<input
+					type="checkbox"
+					class="card-checkbox"
+					name="card_ids"
+					value="{{ card.id }}"
+				>
+				Select Card
+			</label>
 
 			<div class="flashcard" onclick="flipCard(this)">
 				<div class="flashcard-inner">
 					<div class="flashcard-front">
 						<h3>Question</h3>
 						<p>{{ card.question }}</p>
-						<small>Click to reveal answer
-						</small>
+						<small>Click to reveal answer</small>
 					</div>
 					<div class="flashcard-back">
 						<h3>Answer</h3>
@@ -47,6 +47,7 @@
 					</div>
 				</div>
 			</div>
+
 		</div>
 		{% else %}
 			<p>You haven't created any flashcards yet.</p>
@@ -54,9 +55,8 @@
 		<br><br>
 		</div>
 
-		<div id="add-to-set-controls" hidden>
-			<br>
-			<br>
+		<div id="add-to-set-controls" hidden><br><br>
+
 			<label for="set-id">Choose a set:</label>
 			<select id="set-id" name="set_id" required>
 				<option value="">-- Choose a set --</option>
@@ -67,12 +67,24 @@
 				{% endfor %}
 			</select>
 
-			<button type="submit" id="confirm-selection" 
+			<button type="submit" id="confirm-selection"
 				class="remove-set-button">
 				Add Selected Cards to Set
 			</button>
 		</div>
-	
+		<div id="delete-controls" hidden>
+			<button
+				type="submit"
+				id="delete-selected-button"
+				class="remove-set-button"
+				formaction="{{ url_for('delete_selected_cards') }}"
+				formmethod="POST"
+				formnovalidate
+				>
+				Delete Selected Cards
+			</button>
+		</div>
+
 	</form>
 </div>
 

@@ -1,10 +1,12 @@
 {% extends "base.html" %}
 {% block content %}
+
 <div class="cards-page">
+
 	<h1>Search Results</h1>
-	
-	<form 
-		action="{{ url_for('search_cards') }}" 
+
+	<form
+		action="{{ url_for('search_cards') }}"
 		method="GET">
 		<input name="q" value="{{ query }}"
 			placeholder="Search questions and answers">
@@ -25,7 +27,8 @@
 	{% else %}
 		<p>Enter a search term to find your cards.</p>
 	{% endif %}
+		<a href="{{ url_for('home') }}">Back to Dashboard</a>
 
-	<a href="{{ url_for('cards') }}">Back to Dashboard</a>
 </div>
+
 {% endblock %}
