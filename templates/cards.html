@@ -1,62 +1,88 @@
 {% extends "base.html" %}
 
 {% block content %}
+
 <div class="cards-page">
+	<p>
+		<a href="{{ url_for('create_card') }}">
+			+ Create a FlashCard
+		</a>
+	</p>
 
-	<p><a href="{{ url_for('create_card') }}">
-			+ Create a Flashcard     </a></p>
+	<form method="GET"
+	      action="{{ request.path }}"
+	      class="cards-toolbar">
+		<label for "sort">Sort by:</label>
+		<select id="sort" name="sort">
+			<option value="newest">
+				Most Recent {% if sort == "newest" %}
+				applied{% endif %} 
+			</option>
+			<option value="oldest">
+				Oldest {% if sort == "oldest" %}
+				applied{% endif %} 
+			</option>
+		</select>
+		<label></label>
+		<select id="per_page" name="per_page">
+			{% for size in [10, 25, 50] %}
+			<option value = "{{ size }}">
+				{% if per_page == size %}selected {% endif %}{{ size }}
+			</option>
+			{% endfor %}
+		</select>
 
-	<form id="card-selection-form" method="POST" action="{{ url_for('add_cards_to_set') }}">
+		<button type="submit">Apply</button>
+	</form>
+	<p>
+		Showing [{{ cards_page.first or 0 }}-{{ cards_page.last or 0 }}] of {{ cards_page.total }} cards.
+	</p>
+
+
+	<form id="card-selection-form" 
+	      method="POST" 
+	      action="{{ url_for('add_cards_to_set') }}">
+		
 		<label for="selection-mode">Select cards:</label>
 		<select id="selection-mode" name="selection_mode">
 			<option value="NONE">None</option>
 			<option value="SELECT">Select</option>
 			<option value="ALL">Select All</option>
+			
 			<option value="delete">Delete</option>
 		</select>
+		
 		<p id="selection-message" hidden>
 			Choose the cards you want to add to a set.
 		</p>
 
 		<div class="cards-grid">
-
 		{% for card in cards %}
-
-		<div class="card-item">
+			<div class="card-item">
 			<label class="card-select" hidden>
-				<input
-					type="checkbox"
-					class="card-checkbox"
-					name="card_ids"
-					value="{{ card.id }}"
-				>
+			<input
+			type="checkbox"
+			
+			class="card-checkbox"
+			name="card_ids"
+			value="{{ card.id }}">
 				Select Card
 			</label>
-
 			<div class="flashcard" onclick="flipCard(this)">
 				<div class="flashcard-inner">
 					<div class="flashcard-front">
-						<h3>Question</h3>
-						<p>{{ card.question }}</p>
-						<small>Click to reveal answer</small>
-					</div>
+						<h3>Question</h3><p>{{ card.question }}</p><small>Click to reveal answer</small></div>
 					<div class="flashcard-back">
-						<h3>Answer</h3>
-						<p>{{ card.answer }}</p>
-						<small>Click to return</small>
-					</div>
+						<h3>Answer</h3><p>{{ card.answer }}</p><small>Click to return</small></div>
 				</div>
 			</div>
-
-		</div>
-		{% else %}
+			</div>
+			{% else %}
 			<p>You haven't created any flashcards yet.</p>
-		{% endfor %}
-		<br><br>
+		{% endfor %}<br><br>
 		</div>
 
 		<div id="add-to-set-controls" hidden><br><br>
-
 			<label for="set-id">Choose a set:</label>
 			<select id="set-id" name="set_id" required>
 				<option value="">-- Choose a set --</option>
@@ -66,26 +92,86 @@
 				</option>
 				{% endfor %}
 			</select>
-
-			<button type="submit" id="confirm-selection"
+			<button type="submit" 
+				id="confirm-selection"
 				class="remove-set-button">
-				Add Selected Cards to Set
-			</button>
-		</div>
+				Add Selected Cards to Set</button></div>
 		<div id="delete-controls" hidden>
-			<button
-				type="submit"
+			<button type="submit"
 				id="delete-selected-button"
 				class="remove-set-button"
-				formaction="{{ url_for('delete_selected_cards') }}"
+				formaction=
+					"{{ url_for('delete_selected_cards') }}"
 				formmethod="POST"
-				formnovalidate
-				>
-				Delete Selected Cards
-			</button>
-		</div>
-
+				formnovalidate>
+				Delete Selected Cards</button></div>
 	</form>
-</div>
 
+	{% if cards_page.pages > 1 %}
+
+<nav class="pagination" aria-label="Card pages">
+
+    {% if cards_page.has_prev %}
+
+    <a href="{{ url_for('all_cards',
+
+                page=cards_page.prev_num,
+
+                sort=sort, per_page=per_page) }}">
+
+        &laquo; Previous
+
+    </a>
+
+    {% endif %}
+
+    {% for page_num in cards_page.iter_pages() %}
+
+        {% if page_num %}
+
+            {% if page_num == cards_page.page %}
+
+                <strong aria-current="page">{{ page_num }}</strong>
+
+            {% else %}
+
+                <a href="{{ url_for('all_cards',
+
+                            page=page_num,
+
+                            sort=sort, per_page=per_page) }}">
+
+                    {{ page_num }}
+
+                </a>
+
+            {% endif %}
+
+        {% else %}
+
+            <span>...</span>
+
+        {% endif %}
+
+    {% endfor %}
+
+    {% if cards_page.has_next %}
+
+    <a href="{{ url_for('all_cards',
+
+                page=cards_page.next_num,
+
+                sort=sort, per_page=per_page) }}">
+
+        Next &raquo;
+
+    </a>
+
+    {% endif %}
+
+</nav>
+
+{% endif %}
+
+</div>
 {% endblock %}

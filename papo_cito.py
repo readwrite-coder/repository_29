@@ -197,23 +197,51 @@ def create_card():
 def all_cards():
     if "user_id" not in session:
         return redirect(url_for("login"))
+    
     user_id = session["user_id"]
-    user_cards = (
-        Card.query
-        .filter_by(user_id=user_id)
-        .order_by(Card.id.asc())
-        .all()
+
+    sort = request.args.get("sort", "newest")
+    if sort not in ("newest","oldest"):
+        sort = "newest"
+    
+    #validate the page size
+    allowed_size = (10, 25, 50)
+    try:
+        per_page = int(request.args.get("per_page", 10))
+    except (TypeError, ValueError):
+        per_page = 10
+    if per_page not in allowed_size:
+        per_page = 10
+
+    query = Card.query.filter_by(user_id=user_id)
+    #use card IDs as a temporary proxy
+    if sort == "oldest":
+        query = query.order_by(Card.id.asc())
+    else:
+        query = query.order_by(Card.id.desc())
+
+    try:
+        page = max(1, int(request.args.get("page", 1)))
+    except (TypeError, ValueError):
+        page = 1
+
+    cards_page = query.paginate(
+        page=page,
+        per_page=per_page,
+        error_out=False
     )
-    user_sets = (
-        CardSet.query
-        .filter_by(user_id=user_id)
-        .order_by(CardSet.id.asc())
-        .all()
-    )
+    card_sets = CardSet.query.filter_by(
+         user_id=session["user_id"]
+    ).all()
+
     return render_template(
         "cards.html",
-        cards=user_cards,
-        card_sets=user_sets
+        cards=cards_page.items,
+        cards_page=cards_page,
+        card_sets=card_sets,
+        sort=sort,
+        per_page=per_page
+        
     )
 ###################################################################################
 @app.route("/register", methods=["GET", "POST"])

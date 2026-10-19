@@ -1,9 +1,80 @@
+.cards-toolbar {
+	border: 3px solid orange;
+	background: pink;
+	border-radius:15px;
+	padding: 15px;
+	display: flex;
+flex-wrap: wrap;
+align-items: center;
+gap: 10px;
+margin: 20px 0;
+}
+
+.cards-toolbar select,
+.cards-toolbar button {
+padding: 8px 12px;
+}
+
+.pagination {
+display: flex;
+flex-wrap: wrap;
+align-items: center;
+justify-content: center;
+gap: 10px;
+margin: 30px 0;
+}
+
+.pagination a,
+.pagination strong {
+padding: 8px 12px;
+border: 1px solid #ccc;
+border-radius: 6px;
+text-decoration: none;
+}
+.cards-page {
+    	padding: 25px;
+	border: 3px solid red;
+	background: pink;
+	max-width: 1000px;
+	margin: 20px auto 50px;
+	border-radius: 18px;
+}
+.cards-page:hover  {
+	border: 3px dotted green;
+}
+.cards-page p{
+	border: 3px solid black;
+	background: orange;
+	color: black;
+	padding: 10px;
+	border-radius: 15px;
+}
+.cards-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+	gap: 14px;
+	margin: 18px;
+	background: green;
+	border-radius: 40px;
+	padding: 8px;
+	
+}
+.card-item {
+	border: 8px solid orange;
+	border-radius: 25px;
+	display: flex;
+	flex-direction: column;
+
+	min-width: 150px;
+	max-width: 480px;
+	background: red;
+	padding: 8px;
+}
 .card-search {
     box-sizing: border-box;
     border: 2px solid red;
     border-radius: 15px;
     display: flex;
-
     gap: 30px;
     margin-top: 14px;
     background:orange;
@@ -38,16 +109,16 @@
 .remove-set-button:hover {
     background: var(--danger); color: white; }
 .dashboard-button {
-				display: block;
-				padding: 25px;
-				color: orange;
-				font-weight: 700; text-align: center;
-				background: white;
-				border: 3px solid purple;
-				border-radius:15px;
-				box-shadow: var(--shadow-sm);
-				text-decoration: none;
-				transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+	display: block;
+	padding: 25px;
+	color: orange;
+	font-weight: 700; text-align: center;
+	background: white;
+	border: 3px solid purple;
+	border-radius:15px;
+	box-shadow: var(--shadow-sm);
+	text-decoration: none;
+	transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
 }
 .dashboard-button:hover {
 	background: yellow;
@@ -63,16 +134,9 @@
 	margin: 30px 0;
 	background: green;
 	padding: 25px;
-
 }
-.cards-page {
-    padding: 25px;
-    border: 3px solid purple;
-    background: pink;
-	max-width: 1000px;
-	margin: 20px auto 50px;
-	border-radius: 18px;
-}
+.card-select { font-size: 14px; color: var(--text); }
+.card-checkbox { width: 18px; height: 18px; accent-color: var(--primary); cursor: pointer; }
 .app-body {
 	padding: 25px;
 	border: 16px dotted orange;
@@ -81,17 +145,15 @@
 	border-radius: 45px;
 }
 .topbar {
-    /*display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(30px, 1fr));*/
 	display: flex;
-    align-items:center;
-    justify-content: space-between;
-    width: 100%;
-    margin: 0 auto;
-    box-sizing: border-box;
+    	align-items:center;
+    	justify-content: space-between;
+    	width: 100%;
+    	margin: 0 auto;
+    	box-sizing: border-box;
 	border: 2.5px solid blue;
 	height: auto;
-    padding: 10px;
+    	padding: 10px;
 	border-radius:30px;
 	background: pink;
 	height:auto;
@@ -109,7 +171,6 @@
     width: auto;
     background:pink;
     border-radius:25px;
-
 }
 .topbar-right:hover {
     border:none;
@@ -129,7 +190,6 @@
 	height:auto;
 	width: auto;
 	border-radius:25px;
-
 }
 .menu-toggle {
     border: 1.5px solid red;
@@ -147,11 +207,9 @@
 }
 .menu-toggle span {
     border: 1px solid blue;
-    width: 7px; /*height: 2px;*/
-
+    width: 7px; 
     height: 7px;
     display: block;
-    /*background: #352d62*/
     background: yellow;
     border-radius: 10px;
     transition: transform 0.2s ease;
@@ -164,7 +222,6 @@
     flex-direction: row;
     align-items:center;
     padding:8px;
-
     padding-bottom:3.5px;
     height:auto;
     width:auto;
@@ -176,14 +233,14 @@
 	background:orange;
 }
 .brand-icon {
-		border: 4.5px dotted yellow;
-		width: 42px;
-		height: 42px;
-		display: grid;
-		place-items: center;
-		border-radius: 29px;
-		background: red;
-		box-shadow: 0 5px 12px rgba(99, 91, 255, 0.24);
+	border: 4.5px dotted yellow;
+	width: 42px;
+	height: 42px;
+	display: grid;
+	place-items: center;
+	border-radius: 29px;
+	background: red;
+	box-shadow: 0 5px 12px rgba(99, 91, 255, 0.24);
 }
 .brand-icon:hover {
     border: auto;
@@ -194,12 +251,12 @@
 	font-size: 30px;
 }
 .brand-symbol:hover {
-		background: auto;
+	background: auto;
 }
 .brand-name {
         border: none;
-		font-size: 48px;
-		letter-spacing: 0px;
+	font-size: 48px;
+	letter-spacing: 0px;
 }
 .topbar-user {
     color: red;
@@ -301,47 +358,65 @@
 			.login-box a, .register-box a { color: var(--primary); font-weight: 600; text-decoration: none; }
 			.login-box a:hover, .register-box a:hover { text-decoration: underline; }
 			.error-message { color: #b91c1c; background: #fee2e2; border: 1px solid #fca5a5; border-radius: 10px; padding: 10px 14px; margin: 12px 0; }
-
-
-
-.cards-page h1 {
-			/*color: black; margin-bottom: 12px;
-			 * font-size: clamp(26px, 4vw, 36px);
-			 * line-height: 1.2; letter
-			 * -spacing: -1px;*/ }
+/*############################################################*/
+.cards-page {
+    	padding: 25px;
+	border: 3px dotted blue;
+	background: pink;
+	max-width: 1000px;
+	margin: 20px auto 50px;
+	border-radius: 18px;
+}
+.cards-page:hover  {
+	background:white;
+}
+.cards-page p{
+	border: 3px solid black;
+	background: orange;
+	color: black;
+	padding: 10px;
+	border-radius: 15px;
+}
 .cards-grid {
 	display: grid;
 	grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-	gap: 4px;
-	margin-top: 28px;
+	gap: 14px;
+	margin: 18px;
 	background: green;
-	border-radius: 140px;
+	border-radius: 24px;
+	padding: 8px;
 }
 .card-item {
-	border: 4px solid orange;
+	border: 5px solid black;
+	border-radius: 25px;
 	display: flex;
 	flex-direction: column;
-	gap: 1px;
 	min-width: 150px;
 	max-width: 480px;
-	background: pink;
+	background: red;
+	padding: 18px;
 }
-.card-select { font-size: 14px; color: var(--text); }
-.card-checkbox { width: 18px; height: 18px; accent-color: var(--primary); cursor: pointer; }
-
 .flashcard {
-	border: 3px solid purple;
+	border: 3px solid green;
+	background: white;	
+	border-radius: 20px;
 	height: 360px;
 	perspective: 100px;
 	cursor: pointer;
-
-	color:gray;
+	padding: 17px;
+	color:black;
 }
-
+.flashcard.hover {
+	border: 8px solid white;
+}
 .flashcard-inner {
-	position: relative;
+	border: 5px solid blue;
+	background: pink;
+	border-radius: 20px;
+	position: inline;
 	width: 100%;
-	height: 100%; transition: transform 0.6s;
+	height: 100%; 
+	transition: transform 0.6s;
 	transform-style: preserve-3d;
 }
 /* IMPORTANT: this selector makes the card flip */
@@ -352,22 +427,31 @@
 .flashcard-back {
 	border: 3px solid red;
 	position: absolute;
-	inset: 0; padding: 26px; border-radius: var(--radius-md); display: flex;
+	inset: 0; 
+	padding: 26px; 
+	border-radius: var(--radius-md); 
+	display: flex;
 	flex-direction: column;
 	justify-content: center;
-	align-items: center; text-align: center;
-	backface-visibility: hidden; -webkit-backface-visibility: hidden;
+	align-items: center; 
+	text-align: center;
+	backface-visibility: hidden; 
+	-webkit-backface-visibility: hidden;
 	box-shadow: var(--shadow-md);
-	overflow-wrap: anywhere; overflow-y: auto;
+	overflow-wrap: anywhere; 
+	overflow-y: auto;
 }
 .flashcard-front {
-	background: linear-gradient(145deg, #ffffff, #f0efff);
-	color: #373078;
-	border: 1px solid #e4e0ff;
+	color: red;
+	background:yellow;
+	border: 3px solid black;
+	border-radius: 15px;
 }
 .flashcard-back {
-	background: linear-gradient(145deg, #6f63ff, #4f46e5);
-	color: white;
+	background: orange;
+	color: black;
+	border: 3px solid black;
+	border-radius: 15px;
 	transform: rotateY(180deg);
 }
 .flashcard h3 {
@@ -389,65 +473,59 @@
 .flashcard:hover .flashcard-back {
 	box-shadow: 0 16px 34px rgba(79, 70, 229, 0.17);
 }
-/*
+
 
 /* =========================================
-		MY CARDS — GLOBAL DESIGN SYSTEM
-		========================================= */
-		:root {
-			/* --primary: #635bff;
-			 * --primary-dark: #4f46e5;
-			 * --primary-light: #f0efff;
-			 * --background: #f6f7fb;
-			 * --surface: #ffffff;
-			 * --text: #1e293b;
-			 * --muted: #64748b;
-			 * --border: #e5e7eb;
-			 * --success: #16a34a;
-			 * --danger: #dc2626;
-			 * --radius-sm: 10px;
-			 * --radius-md: 16px;
-			 * --radius-lg: 22px;
-			 * --shadow-sm: 0 4px 12px rgba(30, 41, 59, 0.05);
-			 * --shadow-md: 0 12px 30px rgba(30, 41, 59, 0.08);
-			 * * */
-		/* }
+	MY CARDS — GLOBAL DESIGN SYSTEM
+========================================= */
+/*:root {
+	 * --primary: #635bff;
+	 * --primary-dark: #4f46e5;
+	 * --primary-light: #f0efff;
+	 * --background: #f6f7fb;
+	 * --surface: #ffffff;
+	 * --text: #1e293b;
+	 * --muted: #64748b;
+	 * --border: #e5e7eb;
+	 * --success: #16a34a;
+	 * --danger: #dc2626;
+	 * --radius-sm: 10px;
+	 * --radius-md: 16px;
+	 * --radius-lg: 22px;
+	 * --shadow-sm: 0 4px 12px rgba(30, 41, 59, 0.05);
+	 * --shadow-md: 0 12px 30px rgba(30, 41, 59, 0.08);
+	 
+ }
 
-			*,
-			*::before,
-			*::after {
-				box-sizing: border-box;
+	*,
+	*::before,
+	*::after {
+		box-sizing: border-box;
 
-			body {
-				margin: 0;
-				font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-				background: var(--background);
-				color: var(--text);
-				line-height: 1.6; line-height: 1.6;
-				webkit-font-smoothing: antialiased;
-			}
+	body {
+		margin: 0;
+		font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+		background: var(--background);
+		color: var(--text);
+		line-height: 1.6; line-height: 1.6;
+		webkit-font-smoothing: antialiased;
+	}
 
-			a {
-				transition: color 0.2s ease;
-			}
+	a {
+		transition: color 0.2s ease;
+	}
 
-			.main {
-				width: 100%;
-				min-height: calc(100vh - 76px);
-				color: green;
-				border-radius: 1;
-				background: linear-gradient(0deg, orange, gray);
-			}
+	.main {
+		width: 100%;
+		min-height: calc(100vh - 76px);
+		color: green;
+		border-radius: 1;
+		background: linear-gradient(0deg, orange, gray);
+	}
 */
-
-
-
-
-
-
-			/* =========================================
-			SIDEBAR AND OVERLAY
-			========================================= */
+/* =========================================
+	SIDEBAR AND OVERLAY
+========================================= */
 			.sidebar { position: fixed; inset: 0 auto 0 0; z-index: 1200; width: 285px; max-width: 85vw; padding: 24px 18px; display: flex; flex-direction: column; background: var(--surface); border-right: 1px solid var(--border); box-shadow: 12px 0 40px rgba(31, 25, 72, 0.10); transform: translateX(-110%); visibility: hidden; transition: transform 0.25s ease, visibility 0.25s ease; overflow-y: auto; }
 			.sidebar.open { transform: translateX(0); visibility: visible; }
 			.sidebar-heading { display: flex; align-items: center; justify-content: space-between; margin-bottom: 25px; }
@@ -478,38 +556,94 @@
 			.sidebar-overlay { position: fixed; inset: 0; z-index: 1100; background: rgba(21, 18, 43, 0.42); backdrop-filter: blur(3px); }
 			body.menu-open { overflow: hidden; }
 
-
-
-
-
 			.create-button { display: inline-block; padding: 12px 18px; border: none; border-radius: 11px; background: var(--primary); color: white; text-decoration: none; font-weight: 700; transition: background 0.2s, transform 0.2s; }
-
 			.create-button:hover { background: yellow; color: white; transform: translateY(-1px); }
 
-			/* =========================================
-			CARD SELECTION AND SEARCH
-			========================================= */
+/* =========================================
+MOBILE RESPONSIVENESS
+========================================= */
+@media (max-width: 768px) {
+	.main { 
+		padding: 18px; }
+	.topbar { 
+		padding: 0 18px; }
+	.cards-page { 
+		margin-top: 10px; 
+		padding: 8px; 
+	}
+	.cards-grid {
+		grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+		gap: 18px;
+	}
+	.login-box,
+	.register-box { 
+		margin: 30px auto; 
+		padding: 28px; }
+}
+@media (max-width: 480px) {
+	.topbar { 
+		height: 66px; 
+		padding: 0 12px; 
+	}
+	.main { 
+		min-height: calc(100vh - 66px); 
+		padding: 14px; 
+	}
+	.topbar-left { 
+		gap: 11px; 
+	}
+	.brand { 
+		gap: 8px; 
+	}
+	.brand-icon { 
+		width: 36px; 
+		height: 36px; 
+		border-radius: 10px; 
+	}
+	.brand-name { 
+		font-size: 20px; 
+	}	
+	.topbar-user { 
+		max-width: 110px; overflow: hidden; 
+		text-overflow: ellipsis; white-space: nowrap; 
+		font-size: 12px; 
+	} 
+	.menu-toggle { 
+		width: 39px; 
+		height: 39px; 
+	} 
+	.cards-grid { 
+		grid-template-columns: 1fr; 
+	} 
+	.flashcard { 
+		height: 320px; 
+	} 
+	.login-box,
+	.register-box{ 
+		padding: 24px 20px; 
+		margin: 24px auto; border-radius: 17px; 
+	} 
+	.dashboard-actions { 
+		grid-template-columns: 1fr;
+	 } 
+ }
 
-			/* =========================================
-			MOBILE RESPONSIVENESS
-			========================================= */
-			@media (max-width: 768px) {
-				.main { padding: 18px; }
-				.topbar { padding: 0 18px; }
-				.cards-page { margin-top: 10px; padding: 8px; }
-				.cards-grid { grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 18px; }
-				.login-box, .register-box { margin: 30px auto; padding: 28px; } }
-			@media (max-width: 480px) {
-				.topbar { height: 66px; padding: 0 12px; }
-				.main { min-height: calc(100vh - 66px); padding: 14px; }
-				.topbar-left { gap: 11px; }
-				.brand { gap: 8px; }
-				.brand-icon { width: 36px; height: 36px; border-radius: 10px; }
-				.brand-name { font-size: 20px; }
-				.topbar-user { max-width: 110px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 12px; } .menu-toggle { width: 39px; height: 39px; } .cards-grid { grid-template-columns: 1fr; } .flashcard { height: 320px; } .login-box,.register-box{ padding: 24px 20px; margin: 24px auto; border-radius: 17px; } .dashboard-actions { grid-template-columns: 1fr; } }
+/* =========================================
+ ACCESSIBILITY
+========================================= */
+:focus-visible { 
+	outline: 3px solid rgba(99, 91, 255, 0.6); 
+	outline-offset: 3px; }
+@media (prefers-reduced-motion: reduce) { 
+	*, *::before, *::after { 
+		scroll-behavior: auto !important; 
+		transition-duration: 0.01ms !important; 
+		animation-duration: 0.01ms !important; 
+		animation-iteration-count: 1 !important; 
+	} 	
+}
 
-			/* =========================================
-			ACCESSIBILITY
-			========================================= */
-			:focus-visible { outline: 3px solid rgba(99, 91, 255, 0.6); outline-offset: 3px; }
-			@media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; } }
+
+
+
+
