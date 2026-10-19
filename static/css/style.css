@@ -1,66 +1,234 @@
+.card-search {
+    box-sizing: border-box;
+    border: 2px solid red;
+    border-radius: 15px;
+    display: flex;
+
+    gap: 30px;
+    margin-top: 14px;
+    background:orange;
+    width: fit-content;
+    padding: 10px;
+    align-items: center;
+    justify-content: center;
+}
+.card-search input,
+.card-search select,
+.card-search textarea
+{
+	max-width: 100%;
+	padding: 11px 13px;
+	border: 1px solid green;
+	border-radius: 10px;
+	background: white;
+	color: var(--text);
+}
+.card-search input:focus,
+.card-search select:focus,
+.card-search textarea:focus {
+    outline: none; border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(99, 91, 255, 0.12);
+
+}
+.remove-set-button {
+	margin-top: 12px;
+	padding: 9px 14px;
+	border: 1px solid #fecaca;
+	border-radius: 9px; background: white; color: var(--danger); font-weight: 600; cursor: pointer; transition: background 0.2s ease, color 0.2s ease; }
+.remove-set-button:hover {
+    background: var(--danger); color: white; }
+.dashboard-button {
+				display: block;
+				padding: 25px;
+				color: orange;
+				font-weight: 700; text-align: center;
+				background: white;
+				border: 3px solid purple;
+				border-radius:15px;
+				box-shadow: var(--shadow-sm);
+				text-decoration: none;
+				transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+}
+.dashboard-button:hover {
+	background: yellow;
+	transform: translateY(-3px);
+	box-shadow: var(--shadow-md);
+}
+.dashboard-actions {
+	border: 5px solid black;
+	border-radius:15px;
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+	gap: 18px;
+	margin: 30px 0;
+	background: green;
+	padding: 25px;
+
+}
+.cards-page {
+    padding: 25px;
+    border: 3px solid purple;
+    background: pink;
+	max-width: 1000px;
+	margin: 20px auto 50px;
+	border-radius: 18px;
+}
 .app-body {
 	padding: 25px;
-	border: 6px dotted black;
-	background: red;
+	border: 16px dotted orange;
+	background: gray;
 	height: 100%;
-}
-.app-body:hover {
-    border: 6px dotted green;
-    background: yellow;
+	border-radius: 45px;
 }
 .topbar {
-	padding: 25px;
-	border: 8px dotted green;
+    /*display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(30px, 1fr));*/
+	display: flex;
+    align-items:center;
+    justify-content: space-between;
+    width: 100%;
+    margin: 0 auto;
+    box-sizing: border-box;
+	border: 2.5px solid blue;
 	height: auto;
-	/*background: linear-gradient(0, maroon, red, orange, yellow);*/
+    padding: 10px;
+	border-radius:30px;
 	background: pink;
-	border-radius: 100;
+	height:auto;
 }
 .topbar:hover {
-	border: 8px dotted black;
-	background: white;
+	border: auto;
+	background: auto;
+}
+.topbar-right{
+    display: flex;
+    flex-direction: row;
+    border: 2.5px solid purple;
+    padding: 10px;
+    align-items: center;
+    width: auto;
+    background:pink;
+    border-radius:25px;
+
+}
+.topbar-right:hover {
+    border:none;
+    background: auto;
+}
+.topbar-left {
+    background:pink;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: left;
+    gap: 9px;
+	box-sizing: border-box;
+	border: 2.5px solid purple;
+
+	padding: 9px;
+	height:auto;
+	width: auto;
+	border-radius:25px;
+
+}
+.menu-toggle {
+    border: 1.5px solid red;
+    /*width: 43px; height: 43px;*/
+    height: 95;
+    width: 75;
+    padding: 10px; display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; gap: 5px;
+    background: orange;
+    border-radius: 12px;
+    cursor: pointer; transition: background 0.2s ease,
+    border-color 0.2s ease;
+}
+.menu-toggle span {
+    border: 1px solid blue;
+    width: 7px; /*height: 2px;*/
+
+    height: 7px;
+    display: block;
+    /*background: #352d62*/
+    background: yellow;
+    border-radius: 10px;
+    transition: transform 0.2s ease;
+}
+.menu-toggle:hover {
+    background: 3px dotted red;
+}
+.brand {
+    display: flex;
+    flex-direction: row;
+    align-items:center;
+    padding:8px;
+
+    padding-bottom:3.5px;
+    height:auto;
+    width:auto;
+    border: 1.5px solid red;
+    border-radius:15px;
+	gap: 15px;
+	color: blue;
+	text-decoration: none;
+	background:orange;
+}
+.brand-icon {
+		border: 4.5px dotted yellow;
+		width: 42px;
+		height: 42px;
+		display: grid;
+		place-items: center;
+		border-radius: 29px;
+		background: red;
+		box-shadow: 0 5px 12px rgba(99, 91, 255, 0.24);
+}
+.brand-icon:hover {
+    border: auto;
+	background: auto;
+}
+.brand-symbol {
+	color: white;
+	font-size: 30px;
+}
+.brand-symbol:hover {
+		background: auto;
 }
 .brand-name {
-        border: 5px dotted blue;
+        border: none;
 		font-size: 48px;
 		letter-spacing: 0px;
 }
-.brand-name:hover {
-    border: 5px dotted black;
-	background: pink;
-}
-.brand {
-    border: 5px dotted blue;
-	gap: 15px;
-	color: black;
-	text-decoration: none;
-}
-.brand:hover {
-    border: 5px dotted white;
-    background: white;
-}
-.topbar-right{
-    border: 17px dotted blue;
-    padding-top: 40px;
-    width: 50%;
-}
-.topbar-right:hover {
-    border:17px dotted black;
-    background: black;
-}
 .topbar-user {
     color: red;
-    border: 4px dotted yellow;
+    border: 3px solid yellow;
     background: white;
     gap: 19px;
     font-size: 24px;
 	font-weight: 600;
 	display: flex;
 	align-items: center;
+	padding:5px;
+	cursor: pointer;
+	border-radius:15px;
 }
 .topbar-user:hover {
-	border: 4px dotted blue;
-    background: pink;
+	border: 2px green;
+    background: yellow;
+}
+.user-dot {
+    border: 1px solid blue;
+	height: 20px;
+	width: 20px;
+	flex-shrink: 0;
+	background: yellow;
+	border-radius: 50%;
+}
+.user-dot:hover {
+	border: 2px solid white;
+	background:green;
 }
 .topbar-login {
     border: 6px dotted green;
@@ -72,148 +240,6 @@
     border: 6px dotted white;
     background: red;
 }
-.topbar-left {
-    width: 280px;
-	box-sizing: border-box;
-	border: 17px dotted blue;
-}
-.topbar-left:hover {
-    border:17px dotted black;
-    background: black;
-}
-.cards-page {
-    padding: 25px;
-    border: 8px solid white;
-	max-width: 1000px;
-	margin: 20px auto 50px;
-
-}
-.cards-page:hover {
-	border: 8px dotted black;
-	background: red;
-}
-/*.topbar-left,.brand {
-	border: 6px dotted red;
-	display: flex;
-	align-items: center;
-
-}*/
-
-
-
-
-
-
-
-
-
-
-.menu-toggle {
-    border: 3px dotted blue;
-    /*width: 43px; height: 43px;*/ height: 75; width: 75; padding: 10px; display: flex;
-    flex-direction: column; align-items: center; justify-content: center; gap: 5px;
-    background: orange;
-    border-radius: 12px;
-    cursor: pointer; transition: background 0.2s ease,
-    border-color 0.2s ease; }
-
-
-
-
-.menu-toggle span {
-    border: 2px dotted blue;
-    width: 50px; /*height: 2px;*/
-    height: 7px; display: block;
-    /*background: #352d62*/
-    background: yellow;
-    border-radius: 100px;
-    transition: transform 0.2s ease;
-}
-.menu-toggle:hover {
-    background: 3px dotted red;
-}
-.brand:hover {
-    border: 4px dotted red;
-}
-
-
-
-
-
-
-
-.user-dot {
-    border: 2px dotted blue;
-	height: 20px;
-	width: 20px;
-	flex-shrink: 0;
-	background: yellow;
-	border-radius: 50%;
-}
-.user-dot:hover {
-	border: 2px dotted red;
-}
-
-				.brand-symbol {
-					color: pink;
-					font-size: 30px;
-					}.brand-symbol:hover {
-						background: gold }
-.brand-icon {
-		border: 2px solid red;
-		width: 42px;
-		height: 42px;
-		display: grid;
-		place-items: center;
-		border-radius: 13px;
-		background: linear-gradient(135deg, #8174ff, #5b45dc);
-		box-shadow: 0 5px 12px rgba(99, 91, 255, 0.24);
-	}
-.brand-icon:hover {
-    border: 2px solid black;
-	background: maroon;
-
-}
-
-
-.dashboard-actions {
-	    border: 5px solid black;
-				display: grid;
-				grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-				gap: 18px;
-				margin: 30px 0;
-
-	}
-			.dashboard-button {
-				display: block;
-				padding: 25px;
-				border-radius: var(--radius-md);
-				color: #373078; font-weight: 700; text-align: center;
-				background: white; border: 1px solid #e4e0ff; box-shadow: var(--shadow-sm);
-				text-decoration: none;
-				transition: transform 0.2s, box-shadow 0.2s, background 0.2s; }
-
-			.dashboard-button:hover {
-				background: var(--primary-light);
-				transform: translateY(-3px);
-				box-shadow: var(--shadow-md); }
-			.card-search { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-top: 24px; }
-
-			.card-search input,
-			.card-search select,
-			.card-search textarea
-				{
-					max-width: 100%;
-					padding: 11px 13px;
-					border: 1px solid var(--border);
-					border-radius: 10px;
-					background: white; color: var(--text);
-				}
-
-
-			.card-search input:focus, .card-search select:focus, .card-search textarea:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(99, 91, 255, 0.12); }
-			.remove-set-button { margin-top: 12px; padding: 9px 14px; border: 1px solid #fecaca; border-radius: 9px; background: white; color: var(--danger); font-weight: 600; cursor: pointer; transition: background 0.2s ease, color 0.2s ease; }
-			.remove-set-button:hover { background: var(--danger); color: white; }
 /* =========================================
 	LOGIN AND REGISTRATION
 ========================================= */
@@ -268,8 +294,6 @@
     outline: none;
     transition: border-color 0.2s, box-shadow 0.2s;
 }
-
-
 
 			.login-box input:focus, .login-box textarea:focus, .register-box input:focus { border-color: var(--primary); box-shadow: 0 0 0 4px rgba(99, 91, 255, 0.13); background: white; }
 			.login-box button, .register-box button { width: 100%; margin-top: 24px; padding: 13px 18px; border: none; border-radius: 12px; cursor: pointer; color: white; background: linear-gradient(135deg, #756bff, #5748e8); box-shadow: 0 5px 12px rgba(99, 91, 255, 0.18); font-size: 15px; font-weight: 700; transition: background 0.2s, transform 0.2s, box-shadow 0.2s; }
@@ -456,17 +480,11 @@
 
 
 
-			/* =========================================
-			CARDS PAGE
-			========================================= */
 
-		/* =========================================
-			BUTTONS AND DASHBOARD ACTIONS
-			========================================= */
 
 			.create-button { display: inline-block; padding: 12px 18px; border: none; border-radius: 11px; background: var(--primary); color: white; text-decoration: none; font-weight: 700; transition: background 0.2s, transform 0.2s; }
 
-			.create-button:hover { background: var(--primary-dark); color: white; transform: translateY(-1px); }
+			.create-button:hover { background: yellow; color: white; transform: translateY(-1px); }
 
 			/* =========================================
 			CARD SELECTION AND SEARCH
