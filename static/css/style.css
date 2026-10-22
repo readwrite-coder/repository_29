@@ -31,10 +31,12 @@ border: 1px solid #ccc;
 border-radius: 6px;
 text-decoration: none;
 }
+
 .cards-page {
-    	padding: 25px;
+
+    padding: 25px;
 	border: 3px solid red;
-	background: pink;
+	    background: pink;
 	max-width: 1000px;
 	margin: 20px auto 50px;
 	border-radius: 18px;
@@ -49,15 +51,16 @@ text-decoration: none;
 	padding: 10px;
 	border-radius: 15px;
 }
+
 .cards-grid {
 	display: grid;
 	grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
 	gap: 14px;
-	margin: 18px;
-	background: green;
+	margin: 0px;
+	background: red;
 	border-radius: 40px;
-	padding: 8px;
-	
+	padding:0px;
+
 }
 .card-item {
 	border: 8px solid orange;
@@ -138,11 +141,9 @@ text-decoration: none;
 .card-select { font-size: 14px; color: var(--text); }
 .card-checkbox { width: 18px; height: 18px; accent-color: var(--primary); cursor: pointer; }
 .app-body {
-	padding: 25px;
-	border: 16px dotted orange;
+	padding: 0px;
 	background: gray;
 	height: 100%;
-	border-radius: 45px;
 }
 .topbar {
 	display: flex;
@@ -207,7 +208,7 @@ text-decoration: none;
 }
 .menu-toggle span {
     border: 1px solid blue;
-    width: 7px; 
+    width: 7px;
     height: 7px;
     display: block;
     background: yellow;
@@ -360,62 +361,64 @@ text-decoration: none;
 			.error-message { color: #b91c1c; background: #fee2e2; border: 1px solid #fca5a5; border-radius: 10px; padding: 10px 14px; margin: 12px 0; }
 /*############################################################*/
 .cards-page {
-    	padding: 25px;
-	border: 3px dotted blue;
+
 	background: pink;
-	max-width: 1000px;
-	margin: 20px auto 50px;
 	border-radius: 18px;
+	box-sizing:border-box;
+	width: 100%;
+	max-width: none;
+	margin: 20px 0 50px;
+	padding: 25px;
 }
-.cards-page:hover  {
-	background:white;
-}
+
 .cards-page p{
 	border: 3px solid black;
 	background: orange;
 	color: black;
 	padding: 10px;
 	border-radius: 15px;
+
 }
 .cards-grid {
 	display: grid;
 	grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-	gap: 14px;
-	margin: 18px;
-	background: green;
+	gap: 4px;
+	margin: 18px 0;
+
 	border-radius: 24px;
-	padding: 8px;
+	box-sizing: border-box;
+	background: green;
+	padding: 1px;
 }
 .card-item {
-	border: 5px solid black;
+	border: 2.5px solid black;
 	border-radius: 25px;
 	display: flex;
 	flex-direction: column;
 	min-width: 150px;
 	max-width: 480px;
-	background: red;
-	padding: 18px;
+	background: white;
+	padding: 1px;
 }
 .flashcard {
-	border: 3px solid green;
-	background: white;	
+	border: 2.5px solid white;
 	border-radius: 20px;
 	height: 360px;
 	perspective: 100px;
 	cursor: pointer;
-	padding: 17px;
+	padding: 0px;
 	color:black;
 }
 .flashcard.hover {
 	border: 8px solid white;
 }
 .flashcard-inner {
-	border: 5px solid blue;
+
 	background: pink;
 	border-radius: 20px;
 	position: inline;
 	width: 100%;
-	height: 100%; 
+	height: 100%;
 	transition: transform 0.6s;
 	transform-style: preserve-3d;
 }
@@ -427,18 +430,18 @@ text-decoration: none;
 .flashcard-back {
 	border: 3px solid red;
 	position: absolute;
-	inset: 0; 
-	padding: 26px; 
-	border-radius: var(--radius-md); 
+	inset: 0;
+	padding: 1px;
+	border-radius: var(--radius-md);
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
-	align-items: center; 
+	align-items: center;
 	text-align: center;
-	backface-visibility: hidden; 
+	backface-visibility: hidden;
 	-webkit-backface-visibility: hidden;
 	box-shadow: var(--shadow-md);
-	overflow-wrap: anywhere; 
+	overflow-wrap: anywhere;
 	overflow-y: auto;
 }
 .flashcard-front {
@@ -494,7 +497,7 @@ text-decoration: none;
 	 * --radius-lg: 22px;
 	 * --shadow-sm: 0 4px 12px rgba(30, 41, 59, 0.05);
 	 * --shadow-md: 0 12px 30px rgba(30, 41, 59, 0.08);
-	 
+
  }
 
 	*,
@@ -563,84 +566,84 @@ text-decoration: none;
 MOBILE RESPONSIVENESS
 ========================================= */
 @media (max-width: 768px) {
-	.main { 
-		padding: 18px; }
-	.topbar { 
+	.main {
+		padding: 0px; }
+	.topbar {
 		padding: 0 18px; }
-	.cards-page { 
-		margin-top: 10px; 
-		padding: 8px; 
+	.cards-page {
+		margin-top: 10px;
+		padding: 0px;
 	}
 	.cards-grid {
 		grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
-		gap: 18px;
+		gap: 8px;
 	}
 	.login-box,
-	.register-box { 
-		margin: 30px auto; 
+	.register-box {
+		margin: 30px auto;
 		padding: 28px; }
 }
 @media (max-width: 480px) {
-	.topbar { 
-		height: 66px; 
-		padding: 0 12px; 
+	.topbar {
+		height: 66px;
+		padding: 0 12px;
 	}
-	.main { 
-		min-height: calc(100vh - 66px); 
-		padding: 14px; 
+	.main {
+		min-height: calc(100vh - 66px);
+		padding: 0px;
 	}
-	.topbar-left { 
-		gap: 11px; 
+	.topbar-left {
+		gap: 6px;
 	}
-	.brand { 
-		gap: 8px; 
+	.brand {
+		gap: 8px;
 	}
-	.brand-icon { 
-		width: 36px; 
-		height: 36px; 
-		border-radius: 10px; 
+	.brand-icon {
+		width: 36px;
+		height: 36px;
+		border-radius: 10px;
 	}
-	.brand-name { 
-		font-size: 20px; 
-	}	
-	.topbar-user { 
-		max-width: 110px; overflow: hidden; 
-		text-overflow: ellipsis; white-space: nowrap; 
-		font-size: 12px; 
-	} 
-	.menu-toggle { 
-		width: 39px; 
-		height: 39px; 
-	} 
-	.cards-grid { 
-		grid-template-columns: 1fr; 
-	} 
-	.flashcard { 
-		height: 320px; 
-	} 
-	.login-box,
-	.register-box{ 
-		padding: 24px 20px; 
-		margin: 24px auto; border-radius: 17px; 
-	} 
-	.dashboard-actions { 
+	.brand-name {
+		font-size: 20px;
+	}
+	.topbar-user {
+		max-width: 110px; overflow: hidden;
+		text-overflow: ellipsis; white-space: nowrap;
+		font-size: 12px;
+	}
+	.menu-toggle {
+		width: 39px;
+		height: 39px;
+	}
+	.cards-grid {
 		grid-template-columns: 1fr;
-	 } 
+	}
+	.flashcard {
+		height: 320px;
+	}
+	.login-box,
+	.register-box{
+		padding: 24px 20px;
+		margin: 24px auto; border-radius: 17px;
+	}
+	.dashboard-actions {
+		grid-template-columns: 1fr;
+	 }
  }
 
 /* =========================================
  ACCESSIBILITY
 ========================================= */
-:focus-visible { 
-	outline: 3px solid rgba(99, 91, 255, 0.6); 
+:focus-visible {
+	outline: 3px solid rgba(99, 91, 255, 0.6);
 	outline-offset: 3px; }
-@media (prefers-reduced-motion: reduce) { 
-	*, *::before, *::after { 
-		scroll-behavior: auto !important; 
-		transition-duration: 0.01ms !important; 
-		animation-duration: 0.01ms !important; 
-		animation-iteration-count: 1 !important; 
-	} 	
+@media (prefers-reduced-motion: reduce) {
+	*, *::before, *::after {
+		scroll-behavior: auto !important;
+		transition-duration: 0.01ms !important;
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+	}
 }
 
 
