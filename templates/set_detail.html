@@ -3,6 +3,57 @@
 {% block title %}{{ card_set.name }} | My Flash Cards{% endblock %}
 
 {% block content %}
+	
+	<nav aria-label="Breadcrumb">
+		<a href="{{ url_for('my_sets') }}">My Sets</a>
+
+		{% for ancestor in ancestors %}
+		&rsaquo;
+		<a href="{{ url_for('view_set', set_id=ancestor.id) }}">
+		{{ ancestor.name }}
+		</a>
+		{% endfor %}
+
+		&rsaquo;
+		<span aria-current="page">{{ card_set.name }}</span>
+	</nav>
+
+	<h2>Subsets</h2>
+
+	{% if children %}
+		<ul>
+		{% for child in children %}
+		<li>
+		<a href="{{ url_for('view_set', set_id=child.id) }}">
+		{{ child.name }}
+		</a>
+		<span>({{ child.cards|length }} direct cards)</span>
+		</li>
+		{% endfor %}
+		</ul>
+		{% else %}
+		<p>No subsets yet.</p>
+	{% endif %}
+
+	<h3>Create a Subset</h3>
+
+	<form
+		method="POST"
+		action="{{ url_for('create_child_set', set_id=card_set.id) }}"
+		>
+		<label for="child-set-name">Subset name</label>
+
+		<input
+		type="text"
+		id="child-set-name"
+		name="name"
+		maxlength="100"
+		placeholder="e.g. Flask Routing"
+		required
+		>
+
+		<button type="submit">Create Subset</button>
+	</form>
 
 	<div class="cards-page">
 
