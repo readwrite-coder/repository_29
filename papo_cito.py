@@ -378,6 +378,46 @@ def create_card():
             db.session.commit()
         return redirect(url_for("all_cards"))
     return render_template("create_card.html")
+
+@app.route("/sets/<int:set_id>/create-card", methods=["GET", "POST"])
+def create_card_in_set(set_id):
+    if "user_id" not in session:
+        return redirect(url_for("login"))
+
+    user_id = session["user_id"]
+
+    # Make sure this set belongs to the logged-in user.
+    card_set = CardSet.query.filter_by(
+        id=set_id,
+        user_id=user_id
+    ).first_or_404()
+
+    if request.method == "POST":
+        question = request.form.get("question", "").strip()
+        answer = request.form.get("answer", "").strip()
+
+        if question and answer:
+            card = Card(
+                question=question,
+                answer=answer,
+                user_id=user_id
+            )
+
+            # Associate the new card with this specific set.
+            card_set.cards.append(card)
+
+            db.session.add(card)
+            db.session.commit()
+
+            return redirect(
+                url_for("view_set", set_id=card_set.id)
+            )
+
+    return render_template(
+        "create_card.html",
+        card_set=card_set
+    )
+
 ##############################################
 @app.route("/logout")
 def logout():

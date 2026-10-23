@@ -2,11 +2,16 @@
 	{% extends "base.html" %}
 
 	{% block content %}
-
+	
+	{% if card_set is defined and card_set %}
+		<h2>Add a Card to {{ card_set.name }}</h2>
+	{% else %}
+		<h2>Create a Card</h2>
+	{% endif %}
 	<div class="login-box">
 		<h2>Create a Flashcard</h2>
 
-		<form method="POST" action ="{{ url_for('create_card') }}">
+		<form method="POST">
 			<label for="question">Question</label>
 			<input
 					type="text"
