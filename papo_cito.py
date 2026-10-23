@@ -15,6 +15,7 @@ card_set_cards = db.Table (
     db.Column("card_id", db.Integer, db.ForeignKey("cards.id"), primary_key=True),
     db.Column("set_id", db.Integer, db.ForeignKey("card_sets.id"), primary_key=True)
 )
+
 class User(db.Model):
     __tablename__ = "pot_users"
     id = db.Column(db.Integer, primary_key=True)
@@ -22,18 +23,52 @@ class User(db.Model):
     password_hash = db.Column(db.String(255), nullable=False)
     cards = db.relationship("Card", backref="owner")
     card_sets = db.relationship("CardSet", backref="owner")
+
 class Card(db.Model):
     __tablename__ = "cards"
     id = db.Column(db.Integer, primary_key=True)
     question = db.Column(db.String(200))
     answer = db.Column(db.Text)
     user_id = db.Column(db.Integer, db.ForeignKey("pot_users.id"), nullable=False)
+
 class CardSet(db.Model):
     __tablename__ = "card_sets"
+
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey("pot_users.id"), nullable=False)
-    cards = db.relationship("Card", secondary=card_set_cards, backref=db.backref("sets", lazy="select"))
+    user_id = db.Column(
+    db.Integer,
+    db.ForeignKey("pot_users.id"),
+    nullable=False
+    )
+
+    # NEW: A set can optionally belong to another set.
+    parent_id = db.Column(
+    db.Integer,
+    db.ForeignKey("card_sets.id"),
+    nullable=True
+    )
+
+    # Existing relationship: cards can belong to multiple sets.
+    cards = db.relationship(
+    "Card",
+    secondary=card_set_cards,
+    backref=db.backref("sets", lazy="select")
+    )
+
+    # NEW: Access this set's parent.
+    parent = db.relationship(
+    "CardSet",
+    remote_side=[id],
+    back_populates="children"
+    )
+
+    # NEW: Access this set's immediate children.
+    children = db.relationship(
+    "CardSet",
+    back_populates="parent"
+    )
+
 ###################################################################################
 with app.app_context():
     db.create_all()
@@ -134,47 +169,98 @@ def all_cards():
 def view_set(set_id):
     if "user_id" not in session:
         return redirect(url_for("login"))
+    
+    user_id = session["user_id"]
+
+    # Only allow access to sets owned by the login user
     card_set = CardSet.query.filter_by(
-        id=set_id,
-        user_id=session["user_id"]
+            id=set_id,
+            user_id=user_id
     ).first_or_404()
+    #Show only this set's immediate children.
+    children = CardSet.query.filter_by(
+            parent_id=card_set.id,
+            user_id=user_id
+    ).order_by(CardSet.name.asc()).all()
+    
+    #Build the breadcrumb trail from the current set to the root.
+    ancestors = []
+    current = card_set.parent
+
+    while current is not None:
+        ancestors.append(current)
+        current = current.parent
+
+    #reverse so the oldest ancestor appears fist.
+    ancestors.reverse()
+
     return render_template(
-        "set_detail.html",
-        card_set=card_set,
-        cards=card_set.cards
+            "set_detail.html",
+            card_set=card_set,
+            cards=card_set.cards,
+            children=children,
+            ancestors=ancestors
+            )
+
+@app.route("/sets/<int:set_id>/create-child", methods=["POST"])
+def create_child_set(set_id):
+    if "user_id" not in session:
+        return redirect(url_for("login"))
+
+    user_id = session["user_id"]
+
+    # Confirm the parent belongs to the current user.
+    parent_set = CardSet.query.filter_by(
+        id=set_id,
+        user_id=user_id
+    ).first_or_404()
+
+    name = request.form.get("name", "").strip()
+
+    if not name:
+        return redirect(url_for("view_set", set_id=set_id))
+
+    child_set = CardSet(
+        name=name,
+        user_id=user_id,
+        parent_id=parent_set.id
     )
+
+    db.session.add(child_set)
+    db.session.commit()
+
+    return redirect(url_for("view_set", set_id=parent_set.id))
 
 @app.route("/sets")
 def my_sets():
     if "user_id" not in session:
         return redirect(url_for("login"))
+    
     user_id = session["user_id"]
     sort = request.args.get("sort", "newest")
-    if sort not in ("newest","oldest"):
-        sort = "newest"
-    #validate the page size
-    allowed_size = ( 5, 10, 25, 50)
-    try:
-        per_page = int(request.args.get("per_page", 5))
-    except (TypeError, ValueError):
-        per_page = 5
-    if per_page not in allowed_size:
-        per_page = 5
+    per_page = request.args.get("per_page", 10, type=int)
 
-    query = CardSet.query.filter_by(user_id=user_id)
-    #use card IDs as a temporary proxy
+    #Only show top-level sets.
+    card_sets_query = CardSet.query.filter_by(
+                user_id = user_id,
+                parent_id = None
+            )
+
     if sort == "oldest":
-        query = query.order_by(CardSet.id.asc())
+        card_sets_query = card_sets_query.order_by(
+                                                CardSet.id.asc()
+                                            )
     else:
-        query = query.order_by(CardSet.id.desc())
+        card_sets_query = card_sets_query.order_by(
+                    CardSet.id.desc()
+                )
 
-    try:
-        page = max(1, int(request.args.get("page", 1)))
-    except (TypeError, ValueError):
-        page = 1
+    # Restrict page size to supported values.
+    if per_page not in (5, 10, 25, 50):
+        per_page = 10
 
-    cards_page = query.paginate(
-        page=page,
+    cards_page = card_sets_query.paginate(
+        page=request.args.get("page", 1, type=int),
         per_page=per_page,
         error_out=False
     )
