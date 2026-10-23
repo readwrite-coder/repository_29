@@ -46,19 +46,25 @@
 
 	{% for set in card_sets %}
 		<p>
+			<label>
+				<input
+				type="checkbox"
+				name="set_ids"
+				value="{{ set.id }}"
+				form="bulk-move-form"
+				>
+				Select
+			</label>
 
-		<a href="{{ url_for("view_set", set_id=set.id) }}">
-			Set# {{ set.id }} :	
-			{{ set.name }}
-			
-		</a>
+			<a href="{{ url_for('view_set', set_id=set.id) }}">
+				Set# {{ set.id }} : {{ set.name }}
+			</a>
 			-- [{{ set.cards|length }} cards]
-
 		</p>
 	{% else %}
 		<p>You haven't created any sets yet.</p>
-	{% endfor %}
-	
+	{% endfor %}	
+
 
 	<br>
 	<p>
@@ -67,7 +73,7 @@
 	<form method="GET"
 	      action="{{ url_for('my_sets') }}"
 	      class="cards-toolbar">
-		<label for "sort">Sort by:</label>
+		<label for="sort">Sort by:</label>
 		<select id="sort" name="sort">
 			<option value="newest">
 				{% if sort == "newest" %}selected{% endif %}
@@ -132,56 +138,36 @@
 <form method="POST" action="{{ url_for('bulk_move_sets') }}" id="bulk-move-form">
 
 	<div class="bulk-move-controls">
-	<h3>Organize sets</h3>
+		<h3>Organize sets</h3>
 
-	<label for="destination">Move selected sets to:</label>
+		<label for="destination">Move selected sets to:</label>
 
-	<select name="destination" id="destination" required>
-	<option value="">Choose a destination</option>
-	<option value="root">Root level (no parent)</option>
+		<select name="destination" id="destination" required>
+			<option value="">Choose a destination</option>
+			<option value="root">Root level (no parent)</option>
 
-	{% for destination_set in all_sets %}
-	<option value="{{ destination_set.id }}">
-	{{ destination_set.name }}
-	</option>
-	{% endfor %}
+			{% for destination_set in all_sets %}
+				<option value="{{ destination_set.id }}">
+					{{ destination_set.name }}
+				</option>
+			{% endfor %}
 
-	<option value="new">Create a new parent set</option>
-	</select>
+			<option value="new">Create a new parent set</option>
+		</select>
 
-	<div id="new-parent-fields" hidden>
-	<label for="new_parent_name">New parent name:</label>
-	<input
-	type="text"
-	name="new_parent_name"
-	id="new_parent_name"
-	maxlength="100"
-	placeholder="e.g. Infrastructure"
-	>
+		<div id="new-parent-fields" hidden>
+			<label for="new_parent_name">New parent name:</label>
+			<input
+				type="text"
+				name="new_parent_name"
+				id="new_parent_name"
+				maxlength="100"
+				placeholder="e.g. Infrastructure"
+			>
+		</div>
+
+		<button type="submit">Move selected sets</button>
 	</div>
-
-	<button type="submit">Move selected sets</button>
-	</div>
-
-	<hr>
-
-	{% for card_set in sets %}
-	<div class="set-item">
-	<label>
-	<input
-	type="checkbox"
-	name="set_ids"
-	value="{{ card_set.id }}"
-	>
-	Select
-	</label>
-
-	<a href="{{ url_for('view_set', set_id=card_set.id) }}">
-	{{ card_set.name }}
-	</a>
-	</div>
-	{% endfor %}
-
 </form>
 
 <script>

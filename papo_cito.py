@@ -1,5 +1,5 @@
 ##################################################################################
-from flask import Flask, request, render_template, session, redirect, url_for
+from flask import Flask, request, render_template, session, redirect, url_for, abort
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import or_
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -265,9 +265,15 @@ def my_sets():
         error_out=False
     )
     card_sets = cards_page.items
+    all_sets = CardSet.query.filter_by(
+            user_id=session["user_id"]
+            ).order_by(CardSet.name.asc()).all()
+
     return render_template(
-        "sets.html", sort=sort, per_page=per_page,
-        cards_page=cards_page, card_sets = card_sets
+        "sets.html", 
+        sort=sort, per_page=per_page,
+        cards_page=cards_page, card_sets = card_sets,
+         all_sets=all_sets
         
     )
 @app.route("/sets/<int:set_id>/remove-card/<int:card_id>", methods=["POST"])
@@ -321,7 +327,110 @@ def add_cards_to_set():
     # 6. Save the relationship in the database
     db.session.commit()
     return redirect(url_for("my_sets"))
+@app.route("/sets/bulk-move", methods=["POST"])
+def bulk_move_sets():
+    if "user_id" not in session:
+        return redirect(url_for("login"))
 
+    user_id = session["user_id"]
+
+    # Read the selected set IDs from the form.
+    selected_ids = request.form.getlist("set_ids", type=int)
+    destination = request.form.get("destination", "").strip()
+
+    # Remove duplicate IDs while preserving order.
+    selected_ids = list(dict.fromkeys(selected_ids))
+
+    if not selected_ids:
+        return redirect(url_for("my_sets"))
+
+    # Only allow sets owned by the logged-in user.
+    selected_sets = CardSet.query.filter(
+        CardSet.user_id == user_id,
+        CardSet.id.in_(selected_ids)
+    ).all()
+
+    # Reject the request if any submitted set is not owned by this user.
+    if len(selected_sets) != len(selected_ids):
+        abort(403)
+
+    # Prevent moving a set into itself or into one of its descendants.
+    selected_set_ids = {s.id for s in selected_sets}
+
+    def descendant_ids(set_id):
+        found = set()
+        pending = [set_id]
+
+        while pending:
+            current_id = pending.pop()
+
+            children = CardSet.query.filter_by(
+                parent_id=current_id,
+                user_id=user_id
+            ).all()
+
+
+            for child in children:
+                if child.id not in found:
+                    found.add(child.id)
+                    pending.append(child.id)
+
+        return found
+
+    # Determine the destination parent.
+    if destination == "new":
+        new_parent_name = request.form.get(
+            "new_parent_name", ""
+        ).strip()
+
+        if not new_parent_name:
+            return "Please enter a name for the new parent set.", 400
+
+        # Create the new parent at the root level.
+        new_parent = CardSet(
+            name=new_parent_name,
+            user_id=user_id,
+            parent_id=None
+        )
+        db.session.add(new_parent)
+        db.session.flush()
+
+        destination_id = new_parent.id
+
+    elif destination == "root":
+        destination_id = None
+
+    else:
+        try:
+            destination_id = int(destination)
+        except (TypeError, ValueError):
+            abort(400)
+
+    # The destination must belong to the current user.
+    destination_set = CardSet.query.filter_by(
+        id=destination_id,
+        user_id=user_id
+    ).first_or_404()
+
+    # A selected set cannot be its own destination.
+    if destination_id in selected_set_ids:
+        abort(400, description="A set cannot be moved into itself.")
+
+    # A destination cannot be inside any selected set's subtree.
+    for selected_set in selected_sets:
+        if destination_id in descendant_ids(selected_set.id):
+            abort(
+                400,
+                description="A set cannot be moved into its own descendant."
+            )
+
+    # Reparent every selected set.
+    for selected_set in selected_sets:
+        selected_set.parent_id = destination_id
+
+    db.session.commit()
+
+    return redirect(url_for("my_sets"))
 #card_set_cards = db.Table (
 #    "card_set_cards",
 #    db.Column("card_id", db.Integer, db.ForeignKey("cards.id"), primary_key=True),
