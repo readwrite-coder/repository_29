@@ -153,7 +153,7 @@ def my_sets():
     if sort not in ("newest","oldest"):
         sort = "newest"
     #validate the page size
-    allowed_size = (1, 5, 10, 25, 50)
+    allowed_size = ( 5, 10, 25, 50)
     try:
         per_page = int(request.args.get("per_page", 5))
     except (TypeError, ValueError):
@@ -178,9 +178,7 @@ def my_sets():
         per_page=per_page,
         error_out=False
     )
-    card_sets = CardSet.query.filter_by(
-         user_id=session["user_id"]
-    ).all()
+    card_sets = cards_page.items
     return render_template(
         "sets.html", sort=sort, per_page=per_page,
         cards_page=cards_page, card_sets = card_sets
