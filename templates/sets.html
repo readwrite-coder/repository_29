@@ -1,30 +1,131 @@
 {% extends "base.html" %}
-
-{% block title %}My Sets | My Flash Cards{% endblock %}
-
 {% block content %}
+<div class="cards-page">	
 
-<div class="cards-page">
-	<h1>My Sets</h1>
-	<a class="create-button"
-	   href="{{ url_for('create_set') }}">
-		+ Create a Set
-	</a>
+	<p>
+		<a class="create-button" href="{{ url_for('create_set') }}">
+			+ Create a Set
+		</a>
+	</p>
 
-	{% for card_set in sets %}
+	{% if cards_page.pages >= 1 %}
+	<nav class="pagination" aria-label="Card pages">
+	
+		{% if cards_page.has_prev %}
+    			<a href="{{ url_for('my_sets', page=cards_page.prev_num, sort=sort, per_page=per_page) }}">
+			&laquo; Previous </a>
+    		{% endif %}
+
+		{% for page_num in cards_page.iter_pages() %}
+			{% if page_num %}
+
+				{% if page_num == cards_page.page %}
+
+                			<strong aria-current="page">{{ page_num }}</strong>
+
+            			{% else %}
+                			<a href="{{ url_for('all_cards', 
+						page=page_num, sort=sort, per_page=per_page) }}">
+                   			 {{ page_num }}
+                			</a>
+            			{% endif %}
+
+        		{% else %}
+            			<span>...</span>
+        		{% endif %}
+    		{% endfor %}
+
+    		{% if cards_page.has_next %}
+    			<a href="{{ url_for('my_sets', 
+				page=cards_page.next_num, sort=sort, per_page=per_page) }}">
+       				Next &raquo;
+    			</a>
+    		{% endif %}
+	</nav>
+	{% endif %}
+
+	{% for set in card_sets %}
 		<p>
 
-		<a href="{{ url_for("view_set", set_id=card_set.id) }}">
-				{{ card_set.name }}
+		<a href="{{ url_for("view_set", set_id=set.id) }}">
+				{{ set.name }}
 			
 		</a>
-			-- [{{ card_set.cards|length }} cards]
+			-- [{{ set.cards|length }} cards]
 
 		</p>
 	{% else %}
 		<p>You haven't created any sets yet.</p>
 	{% endfor %}
+	
+
+	<br>
+	<p>
+		Showing [{{ cards_page.first or 0 }}-{{ cards_page.last or 0 }}] of {{ cards_page.total }} total Sets.
+	</p>
+	<form method="GET"
+	      action="{{ request.path }}"
+	      class="cards-toolbar">
+		<label for "sort">Sort by:</label>
+		<select id="sort" name="sort">
+			<option value="newest">
+				Most Recent {% if sort == "newest" %} applied{% endif %} 
+			</option>
+			<option value="oldest">
+				Oldest {% if sort == "oldest" %}applied{% endif %} 
+			</option>
+		</select>
+
+		<label></label>
+		<select id="per_page" name="per_page">
+			{% for size in [5, 10, 25, 50] %}
+				<option value = "{{ size }}">
+				{% if per_page == size %}
+					selected 
+				{% endif %}
+					{{ size }}
+				</option>
+			{% endfor %}
+		</select>
+		<button type="submit">Apply</button>
+	</form>
+
+	{% if cards_page.pages >= 1 %}
+	<nav class="pagination" aria-label="Card pages">
+	
+		{% if cards_page.has_prev %}
+    			<a href="{{ url_for('my_sets', page=cards_page.prev_num, sort=sort, per_page=per_page) }}">
+			&laquo; Previous </a>
+    		{% endif %}
+
+		{% for page_num in cards_page.iter_pages() %}
+			{% if page_num %}
+
+				{% if page_num == cards_page.page %}
+
+                			<strong aria-current="page">{{ page_num }}</strong>
+
+            			{% else %}
+                			<a href="{{ url_for('all_cards', 
+						page=page_num, sort=sort, per_page=per_page) }}">
+                   			 {{ page_num }}
+                			</a>
+            			{% endif %}
+
+        		{% else %}
+            			<span>...</span>
+        		{% endif %}
+    		{% endfor %}
+
+    		{% if cards_page.has_next %}
+    			<a href="{{ url_for('my_sets', 
+				page=cards_page.next_num, sort=sort, per_page=per_page) }}">
+       				Next &raquo;
+    			</a>
+    		{% endif %}
+	</nav>
+	{% endif %}	
+
 
 </div>
-
 {% endblock %}
