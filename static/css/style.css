@@ -1,652 +1,804 @@
-.cards-toolbar {
-	border: 3px solid orange;
-	background: pink;
-	border-radius:15px;
-	padding: 15px;
-	display: flex;
-flex-wrap: wrap;
+/* ========================================
+1. DESIGN FOUNDATION
+======================================== */
+
+:root {
+--primary: #5146d8;
+--primary-dark: #4035bd;
+--primary-light: #eeedff;
+
+--background: #f5f6fa;
+--surface: #ffffff;
+
+--text: #1e293b;
+--muted: #64748b;
+--border: #e2e8f0;
+
+--success: #15803d;
+--danger: #dc2626;
+
+--radius-sm: 8px;
+--radius-md: 12px;
+--radius-lg: 18px;
+
+--shadow-sm: 0 2px 8px rgb(15 23 42 / 5%);
+--shadow-md: 0 8px 24px rgb(15 23 42 / 8%);
+}
+
+*,
+*::before,
+*::after {
+box-sizing: border-box;
+}
+
+html {
+min-height: 100%;
+-webkit-text-size-adjust: 100%;
+}
+
+body {
+margin: 0;
+font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+Roboto, sans-serif;
+font-size: 16px;
+line-height: 1.5;
+color: var(--text);
+background: var(--background);
+-webkit-font-smoothing: antialiased;
+}
+
+button,
+input,
+select,
+textarea {
+font: inherit;
+}
+
+button,
+select {
+cursor: pointer;
+}
+
+a {
+color: var(--primary);
+text-decoration: none;
+}
+
+a:hover {
+color: var(--primary-dark);
+}
+
+button,
+a,
+input,
+select,
+textarea {
+-webkit-tap-highlight-color: transparent;
+}
+
+:focus-visible {
+outline: 3px solid rgb(81 70 216 / 35%);
+outline-offset: 3px;
+}
+
+
+/* ========================================
+2. TOP NAVIGATION
+======================================== */
+.topbar {
+position: sticky;
+top: 0;
+z-index: 1000;
+
+display: flex;
 align-items: center;
-gap: 10px;
+justify-content: space-between;
+gap: 12px;
+
+min-height: 64px;
+padding: 8px 16px;
+
+background: var(--surface);
+border-bottom: 1px solid var(--border);
+}
+
+.topbar-left,
+.topbar-right,
+.brand {
+display: flex;
+align-items: center;
+}
+
+.topbar-left {
+min-width: 0;
+gap: 12px;
+}
+
+.topbar-right {
+flex-shrink: 0;
+}
+
+.menu-toggle {
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+gap: 5px;
+
+width: 44px;
+height: 44px;
+padding: 10px;
+
+color: var(--text);
+background: var(--surface);
+border: 1px solid var(--border);
+border-radius: var(--radius-md);
+}
+
+.menu-toggle span {
+display: block;
+width: 19px;
+height: 2px;
+border-radius: 2px;
+background: currentColor;
+}
+
+.menu-toggle:hover {
+background: var(--background);
+}
+
+.brand {
+min-width: 0;
+gap: 9px;
+color: var(--text);
+font-weight: 750;
+}
+
+.brand:hover {
+color: var(--text);
+}
+
+.brand-icon {
+display: grid;
+place-items: center;
+flex-shrink: 0;
+
+width: 36px;
+height: 36px;
+
+color: white;
+background: var(--primary);
+border-radius: 11px;
+}
+
+.brand-symbol {
+font-size: 22px;
+}
+
+.brand-name {
+font-size: 19px;
+letter-spacing: -0.4px;
+}
+
+.topbar-user {
+max-width: 130px;
+overflow: hidden;
+text-overflow: ellipsis;
+white-space: nowrap;
+
+color: var(--muted);
+font-size: 14px;
+}
+
+.topbar-login {
+display: inline-flex;
+align-items: center;
+justify-content: center;
+
+min-height: 44px;
+padding: 0 14px;
+
+color: var(--primary);
+font-weight: 650;
+}
+
+
+/* ========================================
+3. MAIN CONTENT
+======================================== */
+
+.main {
+width: 100%;
+min-height: calc(100vh - 64px);
+min-height: calc(100dvh - 64px);
+padding: 20px 16px;
+}
+
+.main > * {
+min-width: 0;
+}
+
+.cards-page,
+.login-box,
+.register-box {
+width: 100%;
+max-width: 760px;
+margin: 0 auto 24px;
+}
+
+.cards-page {
+padding: 20px;
+background: var(--surface);
+border: 1px solid var(--border);
+border-radius: var(--radius-lg);
+box-shadow: var(--shadow-sm);
+}
+
+.cards-page p {
+overflow-wrap: anywhere;
+}
+
+
+/* ========================================
+4. BUTTONS AND FORM CONTROLS
+======================================== */
+
+.create-button,
+.dashboard-button,
+.cards-toolbar button,
+.cards-toolbar select,
+.card-search button,
+.card-search select,
+.card-search input,
+.card-search textarea,
+input:not([type="checkbox"]):not([type="radio"]),
+select,
+textarea {
+max-width: 100%;
+}
+
+.create-button,
+.login-box button,
+.register-box button,
+.dashboard-button {
+display: inline-flex;
+align-items: center;
+justify-content: center;
+
+min-height: 44px;
+padding: 11px 16px;
+
+border: 0;
+border-radius: var(--radius-md);
+
+font-weight: 650;
+text-align: center;
+cursor: pointer;
+}
+
+.create-button,
+.login-box button,
+.register-box button {
+color: white;
+background: var(--primary);
+}
+
+.create-button:hover,
+.login-box button:hover,
+.register-box button:hover {
+color: white;
+background: var(--primary-dark);
+}
+
+input:not([type="checkbox"]):not([type="radio"]),
+select,
+textarea {
+min-height: 44px;
+padding: 10px 12px;
+
+color: var(--text);
+background: var(--surface);
+border: 1px solid #cbd5e1;
+border-radius: var(--radius-sm);
+}
+
+textarea {
+width: 100%;
+resize: vertical;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+border-color: var(--primary);
+outline: 2px solid rgb(81 70 216 / 15%);
+outline-offset: 1px;
+}
+
+
+/* ========================================
+5. LOGIN AND REGISTRATION
+======================================== */
+
+.login-box,
+.register-box {
+max-width: 420px;
+margin-top: 24px;
+padding: 24px;
+
+background: var(--surface);
+border: 1px solid var(--border);
+border-radius: var(--radius-lg);
+box-shadow: var(--shadow-sm);
+}
+
+.login-box h1,
+.login-box h2,
+.register-box h1,
+.register-box h2 {
+margin: 0 0 20px;
+font-size: 26px;
+line-height: 1.25;
+text-align: center;
+letter-spacing: -0.5px;
+}
+
+.login-box label,
+.register-box label {
+display: block;
+margin: 16px 0 6px;
+font-size: 14px;
+font-weight: 650;
+}
+
+.login-box input,
+.login-box textarea,
+.register-box input {
+display: block;
+width: 100%;
+min-width: 0;
+}
+
+.login-box button,
+.register-box button {
+width: 100%;
+margin-top: 20px;
+}
+
+.login-box a,
+.register-box a {
+font-weight: 600;
+}
+
+.error-message {
+margin: 12px 0;
+padding: 12px;
+
+color: #991b1b;
+background: #fef2f2;
+border: 1px solid #fecaca;
+border-radius: var(--radius-sm);
+}
+
+
+/* ========================================
+6. DASHBOARD
+======================================== */
+
+.dashboard-actions {
+display: grid;
+grid-template-columns: repeat(2, minmax(0, 1fr));
+gap: 12px;
 margin: 20px 0;
 }
 
-.cards-toolbar select,
-.cards-toolbar button {
-padding: 8px 12px;
+.dashboard-button {
+min-height: 90px;
+padding: 18px;
+
+color: var(--text);
+background: var(--surface);
+border: 1px solid var(--border);
+box-shadow: var(--shadow-sm);
 }
+
+.dashboard-button:hover {
+color: var(--primary);
+background: var(--primary-light);
+}
+
+
+/* ========================================
+7. FLASHCARD GRID
+======================================== */
+
+.cards-grid {
+display: grid;
+grid-template-columns: repeat(2, minmax(0, 1fr));
+gap: 14px;
+margin: 16px 0;
+}
+
+.card-item {
+display: flex;
+flex-direction: column;
+min-width: 0;
+padding: 8px;
+
+background: var(--surface);
+border: 1px solid var(--border);
+border-radius: var(--radius-lg);
+box-shadow: var(--shadow-sm);
+}
+
+.flashcard {
+position: relative;
+width: 100%;
+height: 300px;
+
+perspective: 1000px;
+cursor: pointer;
+-webkit-tap-highlight-color: transparent;
+}
+
+.flashcard-inner {
+position: relative;
+width: 100%;
+height: 100%;
+
+border-radius: var(--radius-md);
+transform-style: preserve-3d;
+transition: transform 0.45s ease;
+}
+
+/* Preserve the existing card-flip behavior. */
+.flashcard.flipped .flashcard-inner {
+transform: rotateY(180deg);
+}
+
+.flashcard-front,
+.flashcard-back {
+position: absolute;
+inset: 0;
+
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+
+padding: 20px;
+overflow-y: auto;
+overflow-wrap: anywhere;
+text-align: center;
+
+border: 1px solid var(--border);
+border-radius: var(--radius-md);
+
+backface-visibility: hidden;
+-webkit-backface-visibility: hidden;
+}
+
+.flashcard-front {
+background: var(--surface);
+color: var(--text);
+}
+
+.flashcard-back {
+background: var(--primary-light);
+color: var(--text);
+transform: rotateY(180deg);
+}
+
+.flashcard h3 {
+margin: 0;
+font-size: 20px;
+line-height: 1.45;
+}
+
+.flashcard p {
+white-space: pre-wrap;
+overflow-wrap: anywhere;
+}
+
+.flashcard small {
+margin-top: 14px;
+color: var(--muted);
+}
+
+
+/* ========================================
+8. CARD SEARCH AND TOOLBAR
+======================================== */
+
+.cards-toolbar,
+.card-search {
+display: flex;
+flex-wrap: wrap;
+align-items: center;
+gap: 10px;
+margin: 16px 0;
+}
+
+.cards-toolbar {
+padding: 12px;
+background: var(--surface);
+border: 1px solid var(--border);
+border-radius: var(--radius-md);
+}
+
+.cards-toolbar button,
+.cards-toolbar select {
+min-height: 44px;
+}
+
+.card-search {
+width: 100%;
+padding: 12px;
+background: var(--surface);
+border: 1px solid var(--border);
+border-radius: var(--radius-md);
+}
+
+.card-search input,
+.card-search select,
+.card-search textarea {
+flex: 1 1 160px;
+min-width: 0;
+}
+
+.card-select {
+color: var(--text);
+font-size: 14px;
+}
+
+.card-checkbox {
+width: 20px;
+height: 20px;
+accent-color: var(--primary);
+cursor: pointer;
+}
+
+
+/* ========================================
+9. PAGINATION
+======================================== */
 
 .pagination {
 display: flex;
 flex-wrap: wrap;
 align-items: center;
 justify-content: center;
-gap: 10px;
-margin: 30px 0;
+gap: 8px;
+margin: 24px 0;
 }
 
 .pagination a,
 .pagination strong {
+display: inline-flex;
+align-items: center;
+justify-content: center;
+
+min-width: 44px;
+min-height: 44px;
 padding: 8px 12px;
-border: 1px solid #ccc;
-border-radius: 6px;
-text-decoration: none;
+
+border: 1px solid var(--border);
+border-radius: var(--radius-sm);
+background: var(--surface);
+}
+
+.pagination strong {
+color: white;
+background: var(--primary);
+border-color: var(--primary);
+}
+
+
+/* ========================================
+10. REMOVE CARD FROM SET
+======================================== */
+
+.remove-set-button {
+min-height: 44px;
+margin-top: 12px;
+padding: 10px 14px;
+
+color: var(--danger);
+background: var(--surface);
+border: 1px solid #fecaca;
+border-radius: var(--radius-sm);
+font-weight: 600;
+}
+
+.remove-set-button:hover {
+color: white;
+background: var(--danger);
+}
+
+
+/* ========================================
+11. SIDEBAR
+======================================== */
+
+.sidebar {
+position: fixed;
+inset: 0 auto 0 0;
+z-index: 1200;
+
+display: flex;
+flex-direction: column;
+gap: 4px;
+
+width: 280px;
+max-width: 85vw;
+padding: 20px 16px;
+
+overflow-y: auto;
+background: var(--surface);
+border-right: 1px solid var(--border);
+box-shadow: var(--shadow-md);
+
+transform: translateX(-100%);
+visibility: hidden;
+transition: transform 0.22s ease, visibility 0.22s ease;
+}
+
+.sidebar.open {
+transform: translateX(0);
+visibility: visible;
+}
+
+.sidebar-heading {
+display: flex;
+align-items: center;
+justify-content: space-between;
+gap: 12px;
+margin-bottom: 16px;
+}
+
+.sidebar-label {
+padding: 0 8px;
+color: var(--muted);
+font-size: 12px;
+font-weight: 750;
+letter-spacing: 1px;
+}
+
+.sidebar-close {
+width: 44px;
+height: 44px;
+color: var(--text);
+background: var(--surface);
+border: 1px solid var(--border);
+border-radius: var(--radius-sm);
+font-size: 24px;
+}
+
+.sidebar-link {
+display: flex;
+align-items: center;
+gap: 12px;
+
+min-height: 48px;
+margin: 2px 0;
+padding: 12px;
+
+color: var(--text);
+border-radius: var(--radius-sm);
+font-size: 16px;
+font-weight: 550;
+}
+
+.sidebar-link:hover {
+color: var(--primary);
+background: var(--primary-light);
+}
+
+.sidebar-icon {
+display: inline-flex;
+align-items: center;
+justify-content: center;
+width: 24px;
+flex-shrink: 0;
+color: var(--primary);
+font-size: 20px;
+}
+
+.sidebar-divider {
+height: 1px;
+margin: 12px 4px;
+background: var(--border);
+}
+
+.sidebar-spacer {
+flex: 1;
+min-height: 16px;
+}
+
+.logout-link:hover {
+color: var(--danger);
+background: #fef2f2;
+}
+
+.sidebar-footer {
+padding: 16px 8px 4px;
+color: var(--muted);
+font-size: 12px;
+border-top: 1px solid var(--border);
+}
+
+.sidebar-overlay {
+position: fixed;
+inset: 0;
+z-index: 1100;
+background: rgb(15 23 42 / 40%);
+}
+
+body.menu-open {
+overflow: hidden;
+}
+
+
+/* ========================================
+12. RESPONSIVE LAYOUT
+======================================== */
+
+@media (max-width: 600px) {
+.main {
+padding: 14px 12px;
 }
 
 .cards-page {
-
-    padding: 25px;
-	border: 3px solid red;
-	    background: pink;
-	max-width: 1000px;
-	margin: 20px auto 50px;
-	border-radius: 18px;
-}
-.cards-page:hover  {
-	border: 3px dotted green;
-}
-.cards-page p{
-	border: 3px solid black;
-	background: orange;
-	color: black;
-	padding: 10px;
-	border-radius: 15px;
+padding: 14px;
+border-radius: var(--radius-md);
 }
 
 .cards-grid {
-	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-	gap: 14px;
-	margin: 0px;
-	background: red;
-	border-radius: 40px;
-	padding:0px;
+grid-template-columns: minmax(0, 1fr);
+gap: 12px;
+}
 
+.flashcard {
+height: 280px;
 }
-.card-item {
-	border: 8px solid orange;
-	border-radius: 25px;
-	display: flex;
-	flex-direction: column;
 
-	min-width: 150px;
-	max-width: 480px;
-	background: red;
-	padding: 8px;
-}
-.card-search {
-    box-sizing: border-box;
-    border: 2px solid red;
-    border-radius: 15px;
-    display: flex;
-    gap: 30px;
-    margin-top: 14px;
-    background:orange;
-    width: fit-content;
-    padding: 10px;
-    align-items: center;
-    justify-content: center;
-}
-.card-search input,
-.card-search select,
-.card-search textarea
-{
-	max-width: 100%;
-	padding: 11px 13px;
-	border: 1px solid green;
-	border-radius: 10px;
-	background: white;
-	color: var(--text);
-}
-.card-search input:focus,
-.card-search select:focus,
-.card-search textarea:focus {
-    outline: none; border-color: var(--primary);
-    box-shadow: 0 0 0 3px rgba(99, 91, 255, 0.12);
-
-}
-.remove-set-button {
-	margin-top: 12px;
-	padding: 9px 14px;
-	border: 1px solid #fecaca;
-	border-radius: 9px; background: white; color: var(--danger); font-weight: 600; cursor: pointer; transition: background 0.2s ease, color 0.2s ease; }
-.remove-set-button:hover {
-    background: var(--danger); color: white; }
-.dashboard-button {
-	display: block;
-	padding: 25px;
-	color: orange;
-	font-weight: 700; text-align: center;
-	background: white;
-	border: 3px solid purple;
-	border-radius:15px;
-	box-shadow: var(--shadow-sm);
-	text-decoration: none;
-	transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
-}
-.dashboard-button:hover {
-	background: yellow;
-	transform: translateY(-3px);
-	box-shadow: var(--shadow-md);
-}
 .dashboard-actions {
-	border: 5px solid black;
-	border-radius:15px;
-	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-	gap: 18px;
-	margin: 30px 0;
-	background: green;
-	padding: 25px;
+grid-template-columns: minmax(0, 1fr);
 }
-.card-select { font-size: 14px; color: var(--text); }
-.card-checkbox { width: 18px; height: 18px; accent-color: var(--primary); cursor: pointer; }
-.app-body {
-	padding: 0px;
-	background: gray;
-	height: 100%;
-}
-.topbar {
-	display: flex;
-    	align-items:center;
-    	justify-content: space-between;
-    	width: 100%;
-    	margin: 0 auto;
-    	box-sizing: border-box;
-	border: 2.5px solid blue;
-	height: auto;
-    	padding: 10px;
-	border-radius:30px;
-	background: pink;
-	height:auto;
-}
-.topbar:hover {
-	border: auto;
-	background: auto;
-}
-.topbar-right{
-    display: flex;
-    flex-direction: row;
-    border: 2.5px solid purple;
-    padding: 10px;
-    align-items: center;
-    width: auto;
-    background:pink;
-    border-radius:25px;
-}
-.topbar-right:hover {
-    border:none;
-    background: auto;
-}
-.topbar-left {
-    background:pink;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: left;
-    gap: 9px;
-	box-sizing: border-box;
-	border: 2.5px solid purple;
 
-	padding: 9px;
-	height:auto;
-	width: auto;
-	border-radius:25px;
-}
-.menu-toggle {
-    border: 1.5px solid red;
-    /*width: 43px; height: 43px;*/
-    height: 95;
-    width: 75;
-    padding: 10px; display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center; gap: 5px;
-    background: orange;
-    border-radius: 12px;
-    cursor: pointer; transition: background 0.2s ease,
-    border-color 0.2s ease;
-}
-.menu-toggle span {
-    border: 1px solid blue;
-    width: 7px;
-    height: 7px;
-    display: block;
-    background: yellow;
-    border-radius: 10px;
-    transition: transform 0.2s ease;
-}
-.menu-toggle:hover {
-    background: 3px dotted red;
-}
-.brand {
-    display: flex;
-    flex-direction: row;
-    align-items:center;
-    padding:8px;
-    padding-bottom:3.5px;
-    height:auto;
-    width:auto;
-    border: 1.5px solid red;
-    border-radius:15px;
-	gap: 15px;
-	color: blue;
-	text-decoration: none;
-	background:orange;
-}
-.brand-icon {
-	border: 4.5px dotted yellow;
-	width: 42px;
-	height: 42px;
-	display: grid;
-	place-items: center;
-	border-radius: 29px;
-	background: red;
-	box-shadow: 0 5px 12px rgba(99, 91, 255, 0.24);
-}
-.brand-icon:hover {
-    border: auto;
-	background: auto;
-}
-.brand-symbol {
-	color: white;
-	font-size: 30px;
-}
-.brand-symbol:hover {
-	background: auto;
-}
-.brand-name {
-        border: none;
-	font-size: 48px;
-	letter-spacing: 0px;
-}
-.topbar-user {
-    color: red;
-    border: 3px solid yellow;
-    background: white;
-    gap: 19px;
-    font-size: 24px;
-	font-weight: 600;
-	display: flex;
-	align-items: center;
-	padding:5px;
-	cursor: pointer;
-	border-radius:15px;
-}
-.topbar-user:hover {
-	border: 2px green;
-    background: yellow;
-}
-.user-dot {
-    border: 1px solid blue;
-	height: 20px;
-	width: 20px;
-	flex-shrink: 0;
-	background: yellow;
-	border-radius: 50%;
-}
-.user-dot:hover {
-	border: 2px solid white;
-	background:green;
-}
-.topbar-login {
-    border: 6px dotted green;
-	background: blue;
-	text-decoration: underline;
-	align-items: center;
-}
-.topbar-login:hover {
-    border: 6px dotted white;
-    background: red;
-}
-/* =========================================
-	LOGIN AND REGISTRATION
-========================================= */
 .login-box,
 .register-box {
-
-    border: 4px solid blue;
-    width: fixed;
-    max-width: 440px;
-    margin: 56px auto;
-    padding: 36px;
-    border-radius: 25px;
-
-    box-shadow: var(--shadow-md);
-    background: linear-gradient(0, yellow, orange);
-}
-.login-box h1, .login-box h2,
-.register-box h1, .register-box h2 {
-
-    border: 3px dotted  blue;
-    background: yellow;
-
-    margin: 10px;
-    letter-spacing: -0.7px;
-    text-align: center;
-    color: blue;
-    border-radius: 25px;
-    font-size: 28px;
-    font-weight: 750;
-}
-.login-box label,
-.register-box label {
-    color: blue;
-    font-size: 14px;
-    font-weight: 600;
-
-    display: block;
-    margin: 18px 0 7px;
-}
-.login-box input,
-.login-box textarea,
-.register-box input {
-    display: block;
-    box-sizing: border-box;
-    width: 100%;
-    max-width: 100%;
-    padding: 10px;
-    border: 1.5px dotted red;
-    background: pink;
-    border-radius: 10px;
-    color: green;
-    outline: none;
-    transition: border-color 0.2s, box-shadow 0.2s;
+margin-top: 12px;
+padding: 22px 18px;
 }
 
-			.login-box input:focus, .login-box textarea:focus, .register-box input:focus { border-color: var(--primary); box-shadow: 0 0 0 4px rgba(99, 91, 255, 0.13); background: white; }
-			.login-box button, .register-box button { width: 100%; margin-top: 24px; padding: 13px 18px; border: none; border-radius: 12px; cursor: pointer; color: white; background: linear-gradient(135deg, #756bff, #5748e8); box-shadow: 0 5px 12px rgba(99, 91, 255, 0.18); font-size: 15px; font-weight: 700; transition: background 0.2s, transform 0.2s, box-shadow 0.2s; }
-			.login-box button:hover, .register-box button:hover { background: linear-gradient(135deg, #5d52ef, #4338ca); transform: translateY(-1px); box-shadow: 0 8px 16px rgba(99, 91, 255, 0.24); }
-			.login-box a, .register-box a { color: var(--primary); font-weight: 600; text-decoration: none; }
-			.login-box a:hover, .register-box a:hover { text-decoration: underline; }
-			.error-message { color: #b91c1c; background: #fee2e2; border: 1px solid #fca5a5; border-radius: 10px; padding: 10px 14px; margin: 12px 0; }
-/*############################################################*/
-.cards-page {
-
-	background: pink;
-	border-radius: 18px;
-	box-sizing:border-box;
-	width: 100%;
-	max-width: none;
-	margin: 20px 0 50px;
-	padding: 25px;
+.cards-toolbar,
+.card-search {
+align-items: stretch;
 }
 
-.cards-page p{
-	border: 3px solid black;
-	background: orange;
-	color: black;
-	padding: 10px;
-	border-radius: 15px;
-
+.cards-toolbar select,
+.cards-toolbar button,
+.card-search input,
+.card-search select,
+.card-search button {
+width: 100%;
 }
-.cards-grid {
-	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-	gap: 4px;
-	margin: 18px 0;
-
-	border-radius: 24px;
-	box-sizing: border-box;
-	background: green;
-	padding: 1px;
-}
-.card-item {
-	border: 2.5px solid black;
-	border-radius: 25px;
-	display: flex;
-	flex-direction: column;
-	min-width: 150px;
-	max-width: 480px;
-	background: white;
-	padding: 1px;
-}
-.flashcard {
-	border: 2.5px solid white;
-	border-radius: 20px;
-	height: 360px;
-	perspective: 100px;
-	cursor: pointer;
-	padding: 0px;
-	color:black;
-}
-.flashcard.hover {
-	border: 8px solid white;
-}
-.flashcard-inner {
-
-	background: pink;
-	border-radius: 20px;
-	position: inline;
-	width: 100%;
-	height: 100%;
-	transition: transform 0.6s;
-	transform-style: preserve-3d;
-}
-/* IMPORTANT: this selector makes the card flip */
-.flashcard.flipped .flashcard-inner {
-	transform: rotateY(180deg);
-}
-.flashcard-front,
-.flashcard-back {
-	border: 3px solid red;
-	position: absolute;
-	inset: 0;
-	padding: 1px;
-	border-radius: var(--radius-md);
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	text-align: center;
-	backface-visibility: hidden;
-	-webkit-backface-visibility: hidden;
-	box-shadow: var(--shadow-md);
-	overflow-wrap: anywhere;
-	overflow-y: auto;
-}
-.flashcard-front {
-	color: red;
-	background:yellow;
-	border: 3px solid black;
-	border-radius: 15px;
-}
-.flashcard-back {
-	background: orange;
-	color: black;
-	border: 3px solid black;
-	border-radius: 15px;
-	transform: rotateY(180deg);
-}
-.flashcard h3 {
-	margin-top: 0;
-	font-size: 20px;
-	line-height: 1.5;
 }
 
-.flashcard p {
-	white-space: pre-wrap;
-	overflow-wrap: anywhere;
+@media (min-width: 900px) {
+.main {
+padding: 28px 24px;
 }
-.flashcard small {
-	margin-top: 14px;
-	opacity: 0.75;
 }
 
-.flashcard:hover .flashcard-front,
-.flashcard:hover .flashcard-back {
-	box-shadow: 0 16px 34px rgba(79, 70, 229, 0.17);
-}
-
-
-/* =========================================
-	MY CARDS — GLOBAL DESIGN SYSTEM
-========================================= */
-/*:root {
-	 * --primary: #635bff;
-	 * --primary-dark: #4f46e5;
-	 * --primary-light: #f0efff;
-	 * --background: #f6f7fb;
-	 * --surface: #ffffff;
-	 * --text: #1e293b;
-	 * --muted: #64748b;
-	 * --border: #e5e7eb;
-	 * --success: #16a34a;
-	 * --danger: #dc2626;
-	 * --radius-sm: 10px;
-	 * --radius-md: 16px;
-	 * --radius-lg: 22px;
-	 * --shadow-sm: 0 4px 12px rgba(30, 41, 59, 0.05);
-	 * --shadow-md: 0 12px 30px rgba(30, 41, 59, 0.08);
-
- }
-
-	*,
-	*::before,
-	*::after {
-		box-sizing: border-box;
-
-	body {
-		margin: 0;
-		font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-		background: var(--background);
-		color: var(--text);
-		line-height: 1.6; line-height: 1.6;
-		webkit-font-smoothing: antialiased;
-	}
-
-	a {
-		transition: color 0.2s ease;
-	}
-
-	.main {
-		width: 100%;
-		min-height: calc(100vh - 76px);
-		color: green;
-		border-radius: 1;
-		background: linear-gradient(0deg, orange, gray);
-	}
-*/
-/* =========================================
-	SIDEBAR AND OVERLAY
-========================================= */
-			.sidebar { position: fixed; inset: 0 auto 0 0; z-index: 1200; width: 285px; max-width: 85vw; padding: 24px 18px; display: flex; flex-direction: column; background: var(--surface); border-right: 1px solid var(--border); box-shadow: 12px 0 40px rgba(31, 25, 72, 0.10); transform: translateX(-110%); visibility: hidden; transition: transform 0.25s ease, visibility 0.25s ease; overflow-y: auto; }
-			.sidebar.open { transform: translateX(0); visibility: visible; }
-			.sidebar-heading { display: flex; align-items: center; justify-content: space-between; margin-bottom: 25px; }
-			.sidebar-label {
-				padding: 0 12px; color: #9892b2;
-				font-size: 25px;
-				font-weight: 800;
-				letter-spacing: 1.3px; }
-			.sidebar-close {
-				width: 36px; height: 36px;
-				display: block;
-				border: 1px solid black;
-				border-radius: 10px;
-				background: green; /*color: var(--muted);*/
-				color: black;
-				font-size: 20px;
-				transition: background 0.15s ease;
-			}.sidebar-close:hover {
-				background: red; color: white; border: 1px solid white;	}
-			.sidebar-link { display: flex; align-items: center; gap: 13px; margin: 3px 0; padding: 12px; border-radius: 11px; /*color: #514d68;*/ color: purple; text-decoration: none; font-size: 24px; font-weight: 600; transition: background 0.2s ease, color 0.2s ease; }
-			.sidebar-link:hover { /*background: var(--primary-light); color: var(--primary-dark);*/ color: red; background: pink; }
-			.sidebar-icon { width: 25px; display: inline-flex; justify-content: center; color: #7566dc; font-size: 21px; }
-			.sidebar-divider { height: 1px; margin: 18px 4px; background: #eeecf5; }
-			.sidebar-spacer { flex: 1; min-height: 35px; }
-			.logout-link:hover { background: #fff1f2; color: #be123c; }
-			.sidebar-footer { display: flex; align-items: center; gap: 10px; padding: 18px 8px 5px; color: #9892b2; font-size: 11px; }
-			.brand-mini { width: 28px; height: 28px; display: grid; place-items: center; border-radius: 9px; background: var(--primary-light); color: var(--primary); font-weight: 800; }
-			.sidebar-overlay { position: fixed; inset: 0; z-index: 1100; background: rgba(21, 18, 43, 0.42); backdrop-filter: blur(3px); }
-			body.menu-open { overflow: hidden; }
-
-			.create-button { display: inline-block; padding: 12px 18px; border: none; border-radius: 11px; background: var(--primary); color: white; text-decoration: none; font-weight: 700; transition: background 0.2s, transform 0.2s; }
-			.create-button:hover { background: yellow; color: white; transform: translateY(-1px); }
-
-/* =========================================
-MOBILE RESPONSIVENESS
-========================================= */
-@media (max-width: 768px) {
-	.main {
-		padding: 0px; }
-	.topbar {
-		padding: 0 18px; }
-	.cards-page {
-		margin-top: 10px;
-		padding: 0px;
-	}
-	.cards-grid {
-		grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
-		gap: 8px;
-	}
-	.login-box,
-	.register-box {
-		margin: 30px auto;
-		padding: 28px; }
-}
-@media (max-width: 480px) {
-	.topbar {
-		height: 66px;
-		padding: 0 12px;
-	}
-	.main {
-		min-height: calc(100vh - 66px);
-		padding: 0px;
-	}
-	.topbar-left {
-		gap: 6px;
-	}
-	.brand {
-		gap: 8px;
-	}
-	.brand-icon {
-		width: 36px;
-		height: 36px;
-		border-radius: 10px;
-	}
-	.brand-name {
-		font-size: 20px;
-	}
-	.topbar-user {
-		max-width: 110px; overflow: hidden;
-		text-overflow: ellipsis; white-space: nowrap;
-		font-size: 12px;
-	}
-	.menu-toggle {
-		width: 39px;
-		height: 39px;
-	}
-	.cards-grid {
-		grid-template-columns: 1fr;
-	}
-	.flashcard {
-		height: 320px;
-	}
-	.login-box,
-	.register-box{
-		padding: 24px 20px;
-		margin: 24px auto; border-radius: 17px;
-	}
-	.dashboard-actions {
-		grid-template-columns: 1fr;
-	 }
- }
-
-/* =========================================
- ACCESSIBILITY
-========================================= */
-:focus-visible {
-	outline: 3px solid rgba(99, 91, 255, 0.6);
-	outline-offset: 3px; }
 @media (prefers-reduced-motion: reduce) {
-	*, *::before, *::after {
-		scroll-behavior: auto !important;
-		transition-duration: 0.01ms !important;
-		animation-duration: 0.01ms !important;
-		animation-iteration-count: 1 !important;
-	}
+*,
+*::before,
+*::after {
+scroll-behavior: auto !important;
+transition-duration: 0.01ms !important;
+animation-duration: 0.01ms !important;
+animation-iteration-count: 1 !important;
 }
-
-
-
-
-
+}

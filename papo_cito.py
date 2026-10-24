@@ -1,8 +1,13 @@
 ##################################################################################
-from flask import Flask, request, render_template, session, redirect, url_for, abort
+from flask import (
+        Flask, request, render_template, session, 
+        redirect, url_for, abort
+    )
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import or_
-from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.security import (
+        generate_password_hash, check_password_hash
+    )
 ##################################################################################
 app = Flask(__name__)                                                           ##
 app.secret_key = "my-secret-key"                                                ##
@@ -237,44 +242,47 @@ def my_sets():
         return redirect(url_for("login"))
     
     user_id = session["user_id"]
+
     sort = request.args.get("sort", "newest")
+    if sort not in ("newest", "oldest"):
+        sort = "newest"
+
     per_page = request.args.get("per_page", 10, type=int)
-
-    #Only show top-level sets.
-    card_sets_query = CardSet.query.filter_by(
-                user_id = user_id,
-                parent_id = None
-            )
-
-    if sort == "oldest":
-        card_sets_query = card_sets_query.order_by(
-                                                CardSet.id.asc()
-                                            )
-    else:
-        card_sets_query = card_sets_query.order_by(
-                    CardSet.id.desc()
-                )
-
-    # Restrict page size to supported values.
     if per_page not in (5, 10, 25, 50):
         per_page = 10
 
-    cards_page = card_sets_query.paginate(
-        page=request.args.get("page", 1, type=int),
+    page = request.args.get("page", 1, type=int)
+    page = max(page or 1, 1)
+
+    #Display only root-level sets in the main listing.
+    query = CardSet.query.filter_by(
+        user_id = user_id,
+        parent_id = None
+    )
+
+    if sort == "oldest":
+        query = query.order_by(CardSet.id.asc())
+    else:
+        query = query.order_by(CardSet.id.desc())
+
+    cards_page = query.paginate(
+        page=page,
         per_page=per_page,
         error_out=False
     )
-    card_sets = cards_page.items
+
+    #All owned sets are available as bulk-move destinations
     all_sets = CardSet.query.filter_by(
-            user_id=session["user_id"]
-            ).order_by(CardSet.name.asc()).all()
+            user_id=user_id
+    ).order_by(CardSet.name.asc()).all()
 
     return render_template(
-        "sets.html", 
-        sort=sort, per_page=per_page,
-        cards_page=cards_page, card_sets = card_sets,
-         all_sets=all_sets
-        
+        "sets.html",
+        card_sets=cards_page.items,
+        cards_page=cards_page, 
+        all_sets=all_sets,
+        sort=sort, 
+        per_page=per_page
     )
 @app.route("/sets/<int:set_id>/remove-card/<int:card_id>", methods=["POST"])
 def remove_card_from_set(set_id, card_id):
@@ -530,8 +538,6 @@ def create_card_in_set(set_id):
 ##############################################
 @app.route("/logout")
 def logout():
-    session.pop("user", None)
-    session.pop("user_id", None)
     session.clear()
     return redirect(url_for("login"))
 @app.route("/login", methods=["GET", "POST"])
