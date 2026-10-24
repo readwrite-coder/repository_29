@@ -802,3 +802,143 @@ animation-duration: 0.01ms !important;
 animation-iteration-count: 1 !important;
 }
 }
+/* Flashcard page heading */
+
+.page-heading {
+display: flex;
+align-items: center;
+justify-content: space-between;
+gap: 16px;
+margin-bottom: 24px;
+}
+
+.page-heading h1 {
+margin: 0;
+font-size: clamp(24px, 5vw, 32px);
+letter-spacing: -0.7px;
+}
+
+.page-heading p {
+margin: 6px 0 0;
+color: var(--muted);
+}
+
+.selection-toolbar,
+.selection-actions {
+display: flex;
+flex-wrap: wrap;
+align-items: center;
+gap: 12px;
+margin: 16px 0;
+}
+
+.selection-toolbar label,
+.selection-actions label,
+.toolbar-field label {
+font-size: 14px;
+font-weight: 650;
+}
+
+.selection-message {
+padding: 12px;
+color: var(--muted);
+background: var(--primary-light);
+border-radius: var(--radius-sm);
+}
+
+.flashcard-label {
+margin-bottom: 16px;
+color: var(--muted);
+font-size: 12px;
+font-weight: 700;
+letter-spacing: 1px;
+}
+
+.flashcard-front h2 {
+margin: 0;
+font-size: 21px;
+line-height: 1.45;
+}
+
+.flashcard-back p {
+margin: 0;
+font-size: 17px;
+line-height: 1.6;
+}
+
+.cards-summary {
+margin: 20px 0 12px;
+color: var(--muted);
+font-size: 14px;
+}
+
+.toolbar-field {
+display: flex;
+flex-direction: column;
+gap: 6px;
+min-width: 140px;
+}
+
+.empty-state {
+padding: 36px 16px;
+text-align: center;
+background: var(--surface);
+border: 1px dashed var(--border);
+border-radius: var(--radius-lg);
+}
+
+.empty-state p {
+color: var(--muted);
+}
+
+.selection-actions[hidden],
+.card-select[hidden],
+.selection-message[hidden] {
+display: none;
+}
+
+@media (max-width: 600px) {
+.page-heading {
+align-items: stretch;
+flex-direction: column;
+}
+
+.page-heading .create-button {
+width: 100%;
+}
+
+.selection-toolbar {
+align-items: stretch;
+flex-direction: column;
+}
+
+.selection-toolbar select,
+.selection-actions select,
+.selection-actions button {
+width: 100%;
+}
+
+.selection-actions {
+align-items: stretch;
+flex-direction: column;
+padding: 14px;
+background: var(--surface);
+border: 1px solid var(--border);
+border-radius: var(--radius-md);
+}
+
+.cards-toolbar {
+align-items: stretch;
+flex-direction: column;
+}
+
+.toolbar-field,
+.cards-toolbar button {
+width: 100%;
+}
+
+.flashcard {
+height: 260px;
+}
+}
+    <!-------------------------------------------------------->
